@@ -14,6 +14,6 @@
 2. "commit" : préparer son envoi avec un petit message git commit -m **"J'ai fait des trucs de malade"**
 3. Enfin envoyer ses modifications sur le serveur : **git push origin master**
 
-#Contributions
+# Contributions
 
 J'ai modifié (Jady)2
