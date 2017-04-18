@@ -28,7 +28,7 @@ user = Table('user', metadata,
     Column('lastname', String(20)),
     Column('username', String(20), nullable=False),
     Column('birthdate', Date),
-    Column('mail', String(60),  nullable=False),
+    Column('mail', String(30),  nullable=False),
     Column('password', String(20), nullable=False),
     Column('picture_link', String(20), nullable=False),
     Column('bio_link', String(20), nullable=False),
@@ -55,7 +55,7 @@ item_type = Table('item_type', metadata,
 
 #if not engine.dialect.has_table(scv2_engine, "notation"):
 notation = Table('notation', metadata,
-	Column('note_id', Integer,primary_key=True, autoincrement=True),
+    Column('note_id', Integer, primary_key=True, autoincrement=True),
     Column('item_id', Integer, ForeignKey("item.item_id"), nullable=False),
     Column('user_id', Integer, ForeignKey("user.user_id"), nullable=False),
     Column('note', Float),
@@ -65,17 +65,65 @@ notation = Table('notation', metadata,
 
 )
 
+vote = Table('vote', metadata,
+    Column('vote_id',Integer, primary_key=True, autoincrement=True),
+    Column('user_id', Integer, ForeignKey("user.user_id"), nullable=False),
+    Column('note_id', Integer, ForeignKey("notation.note_id"), nullable=False),
+    Column('good', Boolean )
+    )
+
+interest = Table('interest', metadata,
+    Column('interest_id', Integer,primary_key=True, autoincrement=True),
+    Column('tag_id', Integer, ForeignKey("tag.tag_id"), nullable=False),
+    Column('user_id', Integer, ForeignKey("user.user_id"), nullable=False),
+    Column('item_id', Integer, ForeignKey("item.item_id"), nullable=False),
+    Column('interested',Boolean)
+
+)
+
+tag = Table('tag', metadata,
+    Column('tag_id', Integer,primary_key=True, autoincrement=True),
+    Column('item_id', Integer, ForeignKey("item.item_id"), nullable=False),
+    Column('tagname', String(20), nullable=False)
+    )
+
+participation = Table('participation', metadata,
+    Column('participant_id', Integer,primary_key=True, autoincrement=True),
+    Column('item_id', Integer, ForeignKey("item.item_id"), nullable=False),
+    Column('participation_nb', Integer, nullable=False)
+    )
+
+participant = Table('participant', metadata,
+    Column('participant_id', Integer, ForeignKey("participation.participant_id")),
+    Column('firstname', String(16), nullable=False),
+    Column('lastname', String(20)),
+    Column('birthdate', Date),
+    Column('picture_link', String(20), nullable=False),
+    Column('bio_link', String(20), nullable=False),
+
+)
+
+distinction = Table('distinction', metadata,
+    Column('participant_id', Integer, ForeignKey("participation.participant_id")),
+    Column('event_id', Integer, ForeignKey("event.event_id")),
+    Column('reward',String(30),nullable=False)
+    )
+
+event = Table('event', metadata,
+    Column('event_id', Integer, primary_key=True, autoincrement=True),
+    Column('event_date', Date, nullable=False),
+    Column('event_name',String(20), nullable=False)
+    )
+
 metadata.create_all()
 
 
 for table in metadata.sorted_tables:
-	print(table)
-	for column in table.c:
-		print(column)
+    print("\n===================================")
+    print("Champs de la table: ",table)
+    print("===================================\n")
+    for column in table.c:
+        print(column)
 
 
-
-# interest = Table('interests',metadata,
-# 	Column('interest_id', ForeignKey('user.user_name'), primary_key=True, autoincrement='ignore_fk'),
-# 	Column('user_name', String(16), nullable=False, ForeignKey('user.user_name')),
 
