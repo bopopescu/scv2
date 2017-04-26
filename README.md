@@ -19,6 +19,16 @@
 Si vous voulez quittez le venv (quelle idée !), tapez simplement : **deactivate**
 # TUTO GIT (MAC et LINUX)
 
+##### Pour ceux qui sont en VM et pour qui ça marche pas MySQL
+Dans le terminal, il faut faire ceci: 
+1. sudo wget https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-2.1.6.tar.gz
+2. gunzip mysql-connector-python-2.1.6.tar.gz
+3. tar xf mysql-connector-python-2.1.6.tar
+4. cd mysql-connector-python-2.1.6
+5. sudo python3 setup.py install
+6. lancer python3 base.py et admirer!
+
+
 ## 1) Initialisation :
 1. Créer un dossier  
 2.  Dans le dossier, initialiser  git : **git init**  
