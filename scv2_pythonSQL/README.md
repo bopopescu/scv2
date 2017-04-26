@@ -1,18 +1,18 @@
-#Utiliser notre DB depuis n'importe quel programme python !
+# Utiliser notre DB depuis n'importe quel programme python !
 
 Il est enfin possible d'utiliser notre database depuis n'importe quel programme python ! 
 
-###Une démo est disponible dans le programme de manip
+### Une démo est disponible dans le programme de manip
 	Allez checker **manipbase.py** pour passer direct aux choses sérieuses !
 
 
-##Pour utiliser la db en python: 
+## Pour utiliser la db en python: 
 
-###1) l'avoir créée sur votre machine déjà une fois
+### l'avoir créée sur votre machine déjà une fois
 	si elle existe déjà, passez à l'étape 2...
    	Si ce n'est pas fait, lancer **initbase.py** (DEPENDANCE **tempinsert.py**)
    
-###2) lancer une engine et un metadata dans son .py
+### lancer une engine et un metadata dans son .py
 
 	Comme montré dans l'exemple !
 	
@@ -22,11 +22,11 @@ Il est enfin possible d'utiliser notre database depuis n'importe quel programme 
 			metadata = MetaData(scv2_engine)
 	
 
-###3) utiliser les fonctions pour importer le contexte de la database dans votre programme.
+### utiliser les fonctions pour importer le contexte de la database dans votre programme.
 
 	Elles sont contenues dans le module **scv2func.py**, il n'y a plus qu'à les utiliser ! 
 	
-#####Comment? voir ci-dessous:
+##### Comment? voir ci-dessous:
 
 	Ce que l'on va appeller le **contexte**, c'est ce qui en python contient la **référence à vos tables**.
 	
@@ -35,16 +35,21 @@ Il est enfin possible d'utiliser notre database depuis n'importe quel programme 
 	Elle renvoie un **dictionnaire** python contenant les tables, objets SQLalchemy.
 	
 	**ex** 
-			context_dic = importContext(engine,metada)
 	
-	Pour accéder à la table user, utiliser:
+```python
+
+	context_dic = importContext(engine,metada)
+	
+	#Pour accéder à la table user, utiliser:
 		
-			context_dic['user']
+	context_dic['user']
+	
+```
 	 
 	
 	
 	
-###4) Créer des fonctions qui manipules nos tables dans n'importe quel module .py !
+### Créer des fonctions qui manipules nos tables dans n'importe quel module .py !
 
 	Ainsi, on peut créer des fonctions qui manipulent des tables et font des requêtes sur celles-ci depuis n'importe quel programme.
 
@@ -56,12 +61,12 @@ Il est enfin possible d'utiliser notre database depuis n'importe quel programme 
 	Pour les fainéants :
 	
 	**ex**
-	
-			select([context_dic['item'].c.title]).where(and_(
-																context_dic['item_type'].c.type_name.like(itemtype),
-																context_dic['item'].c.title.like(startswith_letter)
-															))
-	
-##Voilà ! 
+```python	
+select([context_dic['item'].c.title]).where(and_(
+	                                              context_dic['item_type'].c.type_name.like(itemtype),
+	                                              context_dic['item'].c.title.like(startswith_letter)
+	                                       ))
+```	
+### Voilà ! 
 
 
