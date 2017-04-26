@@ -22,7 +22,7 @@ Si vous voulez quittez le venv (quelle idée !), tapez simplement : **deactivate
 ## 1) Initialisation :
 1. Créer un dossier  
 2.  Dans le dossier, initialiser  git : **git init**  
-3.  Puis faire un clone du répertoire git sur le serveur : **git clone https://github.com/oaioa/web_scv2.git**
+3.  Puis faire un clone du répertoire git sur le serveur : **git clone https://github.com/oaioa/scv2.git**
 
 ## 2) Mettre à jour son dossier local avec les modifications des autres
 ### Toujours faire ça avant de coder !!!
