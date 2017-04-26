@@ -526,14 +526,14 @@ def init_participation(participation_table, connection):
 
 
 		connection.execute(ins,
-								item_id=5,
+								item_id=6,
 								participant_id=13,
 								role='Guitariste'
 								)
 
 
 		connection.execute(ins,
-								item_id=5,
+								item_id=6,
 								participant_id=13,
 								role='Producteur'
 								)

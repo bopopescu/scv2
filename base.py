@@ -26,6 +26,14 @@ def alphaItemSearch(connection,item_table,itemtype_table, letter=None, itemtype=
         t.rollback()
         raise
 
+def getAllParticipants(connection, ITEM):
+
+    rq = select([participant.c.firstname, participant.c.lastname, participation.c.role]).where(and_(item.c.title.like(ITEM), 
+                                                                        and_(participation.c.item_id == item.c.item_id,
+                                                                        participation.c.participant_id == participant.c.participant_id)))
+    return connection.execute(rq)
+
+
 ##################### MAIN ######################
 
 engine = create_engine('mysql+mysqlconnector://scv2:scv2@localhost')
@@ -179,6 +187,8 @@ print('database successfully initialised !\n')
 
 
 #Faisons des requêtes :D
+import string
+
 print ("<><><><><><><> Requêtes et companie ;) <><><><><><><>\n")
 
 conn = scv2_engine.connect()
@@ -189,5 +199,17 @@ for letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
 
     for wows in WOW:
         print("Films de la base de donnée commençant par ",letter," : ",wows)
+
+
+
+s = select([item.c.title])
+
+for titles in conn.execute(s):
+    print('-----------------')
+    print(titles[0])
+    print('-----------------')
+    for data in getAllParticipants(conn,titles[0]):
+        print(data)
+
 
 conn.close()
