@@ -8,7 +8,8 @@ Allez checker **manipbase.py** pour passer direct aux choses sérieuses !
 
 ### Pour utiliser la db en python: 
 
-#### l'avoir créée sur votre machine déjà une fois
+1) l'avoir créée sur votre machine déjà une fois
+
 si elle existe déjà, passez à l'étape 2...
 Si ce n'est pas fait, lancer **initbase.py** (DEPENDANCE **tempinsert.py**)
    
@@ -17,7 +18,7 @@ Si ce n'est pas fait, lancer **initbase.py** (DEPENDANCE **tempinsert.py**)
 Comme montré dans l'exemple !
 
 	
-	**exemple** (quand même)
+**exemple** (quand même)
 	
 	
  ```python
@@ -28,7 +29,7 @@ metadata = MetaData(scv2_engine)
 ```
 	
 
-#### utiliser les fonctions pour importer le contexte de la database dans votre programme.
+2) utiliser les fonctions pour importer le contexte de la database dans votre programme.
 
 Elles sont contenues dans le module **scv2func.py**, il n'y a plus qu'à les utiliser ! 
 	
@@ -41,7 +42,7 @@ la fonction **importContext()** , est à lancer avec les arguments **engine** et
 Elle renvoie un **dictionnaire** python contenant les tables, objets SQLalchemy.
 
 	
-	**exemple** 
+**exemple** 
 	
 ```python
 
@@ -66,7 +67,8 @@ Un exemple de fonctions est disponible en fin du module scv2func.py
 	
 Pour les fainéants :
 	
-	**exemple**
+**exemple**
+
 ```python	
 select([context_dic['item'].c.title]).where(and_(
 	                                              context_dic['item_type'].c.type_name.like(itemtype),
