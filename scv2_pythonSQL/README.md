@@ -15,11 +15,17 @@ Si ce n'est pas fait, lancer **initbase.py** (DEPENDANCE **tempinsert.py**)
 #### lancer une engine et un metadata dans son .py
 
 Comme montré dans l'exemple !
-	
-	**ex** (quand même) 
-			scv2_engine = create_engine('mysql+mysqlconnector://scv2:scv2@localhost/scv2db')
 
-			metadata = MetaData(scv2_engine)
+	
+	**exemple** (quand même)
+	
+	
+ ```python
+scv2_engine = create_engine('mysql+mysqlconnector://scv2:scv2@localhost/scv2db')
+
+metadata = MetaData(scv2_engine)
+
+```
 	
 
 #### utiliser les fonctions pour importer le contexte de la database dans votre programme.
@@ -28,13 +34,14 @@ Elles sont contenues dans le module **scv2func.py**, il n'y a plus qu'à les uti
 	
 ###### Comment? voir ci-dessous:
 
-	Ce que l'on va appeller le **contexte**, c'est ce qui en python contient la **référence à vos tables**.
+Ce que l'on va appeller le **contexte**, c'est ce qui en python contient la **référence à vos tables**.
 	
-	la fonction **importContext()** , est à lancer avec les arguments **engine** et **metadata**.
+la fonction **importContext()** , est à lancer avec les arguments **engine** et **metadata**.
 	
-	Elle renvoie un **dictionnaire** python contenant les tables, objets SQLalchemy.
+Elle renvoie un **dictionnaire** python contenant les tables, objets SQLalchemy.
+
 	
-	**ex** 
+	**exemple** 
 	
 ```python
 
@@ -46,8 +53,7 @@ Elles sont contenues dans le module **scv2func.py**, il n'y a plus qu'à les uti
 	
 ```
 	 
-	
-	
+		
 	
 #### Créer des fonctions qui manipules nos tables dans n'importe quel module .py !
 
@@ -60,7 +66,7 @@ Un exemple de fonctions est disponible en fin du module scv2func.py
 	
 Pour les fainéants :
 	
-	**ex**
+	**exemple**
 ```python	
 select([context_dic['item'].c.title]).where(and_(
 	                                              context_dic['item_type'].c.type_name.like(itemtype),
