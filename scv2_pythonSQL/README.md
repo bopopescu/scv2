@@ -8,12 +8,12 @@ Allez checker **manipbase.py** pour passer direct aux choses sérieuses !
 
 ### Pour utiliser la db en python: 
 
-1) l'avoir créée sur votre machine déjà une fois
+###### l'avoir créée sur votre machine déjà une fois
 
 si elle existe déjà, passez à l'étape 2...
 Si ce n'est pas fait, lancer **initbase.py** (DEPENDANCE **tempinsert.py**)
    
-#### lancer une engine et un metadata dans son .py
+###### lancer une engine et un metadata dans son .py
 
 Comme montré dans l'exemple !
 
@@ -29,11 +29,11 @@ metadata = MetaData(scv2_engine)
 ```
 	
 
-2) utiliser les fonctions pour importer le contexte de la database dans votre programme.
+###### utiliser les fonctions pour importer le contexte de la database dans votre programme.
 
 Elles sont contenues dans le module **scv2func.py**, il n'y a plus qu'à les utiliser ! 
 	
-###### Comment? voir ci-dessous:
+=> Comment? voir ci-dessous:
 
 Ce que l'on va appeller le **contexte**, c'est ce qui en python contient la **référence à vos tables**.
 	
