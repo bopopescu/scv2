@@ -2,6 +2,32 @@ from sqlalchemy import *
 
 from tempinsert import *
 
+from scv2func import alphaItemSearch
+
+
+# useful functions for the SCV2 project.
+
+def alphaItemSearch(connection,item_table,itemtype_table, letter=None, itemtype=None):
+    if letter==None or type==None:
+        return "ERROR: Give type and starting letter : needed to build DB queries.\n"
+
+    t = connection.begin()
+    try:
+        startswith_letter = letter + '%' 
+        s = select([item_table.c.title]).where(and_(
+                                                itemtype_table.c.type_name.like(itemtype),
+                                                item_table.c.title.like(startswith_letter)
+                                             ))
+
+        return connection.execute(s)
+
+        t.commit()
+    except:
+        t.rollback()
+        raise
+
+##################### MAIN ######################
+
 engine = create_engine('mysql+mysqlconnector://scv2:scv2@localhost')
 
 existing_databases = engine.execute("SHOW DATABASES;")
@@ -151,3 +177,17 @@ connec.close()
 
 print('database successfully initialised !\n')
 
+
+#Faisons des requêtes :D
+print ("<><><><><><><> Requêtes et companie ;) <><><><><><><>\n")
+
+conn = scv2_engine.connect()
+
+for letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
+
+    WOW = alphaItemSearch(conn,item,item_type,letter,'Film')
+
+    for wows in WOW:
+        print("Films de la base de donnée commençant par ",letter," : ",wows)
+
+conn.close()
