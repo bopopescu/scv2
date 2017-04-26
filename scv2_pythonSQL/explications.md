@@ -32,5 +32,8 @@ Pour utiliser la db en python:
 	sur les valeurs du dictionnaire ! :)
 	
 	Un exemple de fonctions est disponible en fin du module scv2func.py
+	
+	
+Voilà ! 
 
 
