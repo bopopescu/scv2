@@ -121,17 +121,14 @@ event = Table('event', metadata,
     Column('event_name',String(20), nullable=False)
     )
 
-# for table in metadata.sorted_tables:
-#     print("\n===================================")
-#     print("Suppression de la table: ",table)
-#     print("===================================\n")
-#     if scv2_engine.dialect.has_table(scv2_engine, table):
-#         table.drop()
+# Suppression de la table actuelle, et reconstruction de la table neuve
 
 metadata.drop_all()
 print("\nTables dropped. Let's build'em again :)")
 metadata.create_all()
 
+
+# On print les champs de nos tables et leur nom
 
 for table in metadata.sorted_tables:
     print("\n===================================")
@@ -141,6 +138,8 @@ for table in metadata.sorted_tables:
         print(column)
 
 
+print('Let\'s init the database :)\n')
+
 connec = scv2_engine.connect()
 init_users(user,connec)
 init_item_type(item_type,connec)
@@ -149,3 +148,6 @@ init_participant(participant,connec)
 init_notation(notation,connec)
 init_participation(participation,connec)
 connec.close()
+
+print('database successfully initialised !\n')
+
