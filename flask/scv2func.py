@@ -1,5 +1,60 @@
+
 from sqlalchemy import Table,select,and_
-# useful functions for the SCV2 project.
+from sqlalchemy.orm import mapper
+
+# Useful functions for the SCV2 project.
+
+# Define empty Classes that will be mapped to DB tables:
+
+class User(object):
+    pass
+class Item(object):
+    pass
+class Itemtype(object):
+    pass
+class Notation(object):
+    pass
+class Interest(object):
+    pass
+class Participant(object):
+    pass
+class Participation(object):
+    pass
+class Vote(object):
+    pass
+class Distinction(object):
+    pass
+class Event(object):
+	pass
+
+# Map ALL the Classes !
+
+def mapAll(context_dic):
+	tableNames =[  'user',
+	 			   'item',
+	 			   'item_type',
+	 			   'notation',
+	 			   'interest',
+	 			   'participant',
+	 			   'participation',
+	 			   'vote',
+	 			   'distinction',
+	 			   'event']
+	Classes = 	[ 	User,
+	 				Item,
+	 				Itemtype,
+	 				Notation,
+	 				Interest,
+	 				Participant,
+	 				Participation,
+	 				Vote,
+	 				Distinction,
+	 				Event]
+
+	for table,Class in zip(tableNames,Classes):
+		mapper(Class,context_dic[table] , confirm_deleted_rows=False)
+
+
 
 def importContext(engine, metadata):
 	d = {}
@@ -59,7 +114,28 @@ def importDistinction(engine,metadata):
 def importEvent(engine,metadata):
 	return Table('event', metadata, autoload=True, autoload_with=engine)
 
-# Functions to make queries on database
+
+
+# functions with session queries
+
+def alphaSearch(session,ItemClass,TypeClass,letter, itemtype):
+	
+	#First get the id of the type:
+	ourtype = session.query(TypeClass).filter(TypeClass.type_name.like(itemtype)).one()
+
+	letter+='%'
+
+	return session.query(ItemClass).filter(ItemClass.type_id == ourtype.item_type_id).filter(ItemClass.title.like(letter)).all()
+
+def queryAllParticipantsInfo(session,Item,Participant,Participation,item):
+
+	return session.query(Participant,Participation).\
+						filter(Item.title.like(item)).\
+						filter(Participation.item_id == Item.item_id).\
+						filter(Participation.participant_id == Participant.participant_id).\
+						all()
+
+# functions with Tables select,where, ...
 
 def alphaItemSearch(context_dic, connection, letter=None, itemtype=None):
     if letter==None or type==None:
