@@ -1,0 +1,18 @@
+h1
+{
+	color: blue;
+	font-size: 50px;
+	font-family: sans-serif;
+	text-align: center;
+
+}
+body
+{
+	background-color: #FEAA22;
+	background: url("index.png") fixed 200px 50px no-repeat, url("Background.jpg") fixed no-repeat;
+
+	background-repeat: no-repeat;
+	background-position: 30px 50px;
+
+
+}
