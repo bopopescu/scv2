@@ -3,17 +3,18 @@
 Il est enfin possible d'utiliser notre database depuis n'importe quel programme python ! 
 
 #### Une démo est disponible dans le programme de manip
+
 Allez checker **manipbase.py** pour passer direct aux choses sérieuses !
 
 
 ### Pour utiliser la db en python: 
 
-###### l'avoir créée sur votre machine déjà une fois
+##### l'avoir créée sur votre machine déjà une fois
 
 si elle existe déjà, passez à l'étape 2...
 Si ce n'est pas fait, lancer **initbase.py** (DEPENDANCE **tempinsert.py**)
    
-###### lancer une engine et un metadata dans son .py
+##### 1. lancer une engine et un metadata dans son .py
 
 Comme montré dans l'exemple !
 
@@ -29,7 +30,7 @@ metadata = MetaData(scv2_engine)
 ```
 	
 
-###### utiliser les fonctions pour importer le contexte de la database dans votre programme.
+##### 2. utiliser les fonctions pour importer le contexte de la database dans votre programme.
 
 Elles sont contenues dans le module **scv2func.py**, il n'y a plus qu'à les utiliser ! 
 	
@@ -56,7 +57,7 @@ Elle renvoie un **dictionnaire** python contenant les tables, objets SQLalchemy.
 	 
 		
 	
-#### Créer des fonctions qui manipules nos tables dans n'importe quel module .py !
+#### 3. Créer des fonctions qui manipules nos tables dans n'importe quel module .py !
 
 Ainsi, on peut créer des fonctions qui manipulent des tables et font des requêtes sur celles-ci depuis n'importe quel programme.
 

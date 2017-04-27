@@ -36,9 +36,9 @@ for letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
 s = select([item.c.title])
 
 for titles in conn.execute(s):
-    print('-----------------')
+    print('------------------')
     print(titles[0])
-    print('-----------------')
+    print('------------------')
     for data in getAllParticipants(tables,conn,titles[0]):
         print(data)
 

@@ -59,7 +59,7 @@ def importDistinction(engine,metadata):
 def importEvent(engine,metadata):
 	return Table('event', metadata, autoload=True, autoload_with=engine)
 
-# Functions to query database
+# Functions to make queries on database
 
 def alphaItemSearch(context_dic, connection, letter=None, itemtype=None):
     if letter==None or type==None:
