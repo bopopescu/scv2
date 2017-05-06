@@ -1,6 +1,8 @@
 
-from sqlalchemy import Table,select,and_
+from sqlalchemy import Table,select,and_,func
 from sqlalchemy.orm import mapper
+from datetime import date,datetime,timedelta
+
 
 # Useful functions for the SCV2 project.
 
@@ -115,26 +117,6 @@ def importEvent(engine,metadata):
 	return Table('event', metadata, autoload=True, autoload_with=engine)
 
 
-
-# functions with session queries
-
-def alphaSearch(session,ItemClass,TypeClass,letter, itemtype):
-	
-	#First get the id of the type:
-	ourtype = session.query(TypeClass).filter(TypeClass.type_name.like(itemtype)).one()
-
-	letter+='%'
-
-	return session.query(ItemClass).filter(ItemClass.type_id == ourtype.item_type_id).filter(ItemClass.title.like(letter)).all()
-
-def queryAllParticipantsInfo(session,Item,Participant,Participation,item):
-
-	return session.query(Participant,Participation).\
-						filter(Item.title.like(item)).\
-						filter(Participation.item_id == Item.item_id).\
-						filter(Participation.participant_id == Participant.participant_id).\
-						all()
-
 # functions with Tables select,where, ...
 
 def alphaItemSearch(context_dic, connection, letter=None, itemtype=None):
@@ -166,4 +148,42 @@ def getAllParticipants(context_dic, connection, ITEM):
                                                                         and_(context_dic['participation'].c.item_id == context_dic['item'].c.item_id,
                                                                         	 context_dic['participation'].c.participant_id == context_dic['participant'].c.participant_id)))
     return connection.execute(rq)
+
+
+
+# functions with session queries
+
+def alphaSearch(session,ItemClass,TypeClass,letter, itemtype):
+	
+	#First get the id of the type:
+	ourtype = session.query(TypeClass).filter(TypeClass.type_name.like(itemtype)).one()
+
+	letter+='%'
+
+	return session.query(ItemClass).filter(ItemClass.type_id == ourtype.item_type_id).filter(ItemClass.title.like(letter)).all()
+
+def queryAllParticipantsInfo(session,ItemClass,ParticipantClass,ParticipationClass,item):
+
+	return session.query(ParticipantClass,ParticipationClass).\
+						filter(ItemClass.title.like(item)).\
+						filter(ParticipationClass.item_id == ItemClass.item_id).\
+						filter(ParticipationClass.participant_id == ParticipantClass.participant_id).\
+						all()
+
+
+def getRecentItems(session, ItemClass, TypeClass, delta, itemtype):
+
+
+	ourtype = session.query(TypeClass).filter(TypeClass.type_name.like(itemtype)).one()
+	
+	return session.query(ItemClass).\
+						filter(ItemClass.type_id == ourtype.item_type_id).\
+						filter( (func.now() - ItemClass.release_date) < delta ).\
+						all()
+
+
+
+
+
+
 

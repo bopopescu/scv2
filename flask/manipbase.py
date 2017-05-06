@@ -2,7 +2,7 @@ from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
 from scv2func import *
 import string
-from datetime import date
+from datetime import datetime,timedelta
 
 scv2_engine = create_engine('mysql+mysqlconnector://scv2:scv2@localhost/scv2db')
 
@@ -72,6 +72,17 @@ for letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
 			print('\n')
 
 
+print('test pour les dates ! :)\n')
+
+threshold = timedelta(weeks=40*52) # date(year,month,day)
+
+for itemtype in session.query(Itemtype.type_name):
+	print(itemtype[0])
+	print('==============')
+	for item in getRecentItems(session, Item, Itemtype, threshold, itemtype[0]):
+		print("Item récent (",threshold,'):',item.title, '||', item.release_date)
+
+print('ok')
 
 # REQUETES AVEC SELECT TOUJOURS DISPONIBLES ! 
 

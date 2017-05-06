@@ -35,16 +35,16 @@ user = Table('user', metadata,
     Column('birthdate', Date),
     Column('mail', String(30),  nullable=False),
     Column('password', String(20), nullable=False),
-    Column('picture_link', String(100), nullable=False),
-    Column('bio_link', String(100), nullable=False),
+    Column('picture_link', String(100)),
+    Column('bio_link', String(100))
 
-)
+)   
 
 #if not engine.dialect.has_table(scv2_engine, "item"):
 item = Table('item', metadata,
 	Column('item_id', Integer,primary_key=True, autoincrement=True),
     Column('title', String(35), nullable=False),
-    Column('release_date', Date, nullable=False),
+    Column('release_date', DateTime, nullable=False),
     Column('type_id',Integer, ForeignKey("item_type.item_type_id"), nullable=False),
     Column('image_link', String(100), primary_key=True, nullable=False),
     Column('video_link', String(100), nullable=False),
@@ -113,6 +113,7 @@ participation = Table('participation', metadata,
 
 
 distinction = Table('distinction', metadata,
+    Column('distinction_id', Integer, primary_key=True, autoincrement=True),
     Column('participation_id', Integer, ForeignKey("participation.participation_id")),
     Column('event_id', Integer, ForeignKey("event.event_id")),
     Column('award',String(30),nullable=False)
@@ -120,7 +121,7 @@ distinction = Table('distinction', metadata,
 
 event = Table('event', metadata,
     Column('event_id', Integer, primary_key=True, autoincrement=True),
-    Column('event_date', Date, nullable=False),
+    Column('event_date', DateTime, nullable=False),
     Column('event_name',String(20), nullable=False)
     )
 
