@@ -1,3 +1,15 @@
+# Installer l'application flaskApp
+
+**Au sein d'un environnement virtuel** (très conseillé : voir le tuto dans le dossier supérieur )
+
+* Dans le dossier flaskApp : 
+	pip install --editable .
+* Assigner variables_globales : 
+	export FLASK_APP=flaskApp
+	export FLASK_DEBUG=true
+* De n'importe où :
+	flask run
+
 # Utiliser notre DB depuis n'importe quel programme python !
 
 Il est enfin possible d'utiliser notre database depuis n'importe quel programme python ! 
