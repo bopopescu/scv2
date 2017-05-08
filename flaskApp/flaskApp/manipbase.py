@@ -1,6 +1,7 @@
 from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
-from scv2func import *
+from scv2_initfunc import *
+from scv2_rqstfunc import *
 import string
 from datetime import datetime,timedelta
 
@@ -33,6 +34,15 @@ alfredo.birthdate = date(1978,11,24)
 alfredo.mail = 'fredoIlPomodoro@italia.it'
 alfredo.password = 'unamozzarella'
 
+yoan = User(firstname='Yoan',
+			lastname='boayaso',
+			username='boyoan',
+			birthdate=date(1999,10,11),
+			mail='yoyoanso@yahoo.fr'
+			)
+yoan.password='abc123'
+
+session.add(yoan)
 session.add(alfredo)
 session.add(alfredo)
 print(session.new,'\n')
@@ -41,7 +51,11 @@ session.flush()
 session.commit()
 
 for user in session.query(User):
-	print(user.firstname,user.lastname)
+	print(repr(user)) #use of __repr__ method :) 
+
+
+# A CHANGER: IL EST POSSIBLE D'INSERT PLUSIEURS FOIS LE MEME USER! 
+# This short snippet of code suppresses duplicate Users ...
 
 print("\nIl y a peut-être des doublons ! Supprimons les ?\n")
 
@@ -51,7 +65,13 @@ for user in session.query(User).filter(User.firstname.like('alfredo')).all():
 	if(count > 1):
 		session.delete(user)
 
+for user in session.query(User).filter(User.firstname.like('Yoan')).all():
+	count = session.query(User).filter(User.firstname.like('Yoan')).count()
+	print(count)
+	if(count > 1):
+		session.delete(user)
 
+#FIN DES SUPPRESSIONS DE DOUBLONS !
 
 session.flush()
 session.commit()
@@ -64,9 +84,10 @@ print('\n\nAllons itérer en recherche alphabétique par queries ! :D\n')
 for letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
 	for itemtype in session.query(Itemtype.type_name):
 		for item in alphaSearch(session,Item,Itemtype,letter,itemtype[0]):
+			print('-----------')
 			print("Un(e)",itemtype[0]," commençant par la lettre",letter,"est:", item.title)
 			print("\nCeux qui y ont participé:\n")
-			for participant,participation in queryAllParticipantsInfo(session,Item,Participant,Participation,item.title):
+			for participant,participation in queryAllParticipantsInfo(session,Itemtype,Item,Participant,Participation,item):
 				print(participant.firstname,participant.lastname,"| leur role:",participation.role)
 
 			print('\n')

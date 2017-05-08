@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 
 # use after create_engine and metadata.create_all()
 
@@ -10,7 +10,7 @@ def init_users(users_table,connection):
 								 username='oaioa',
 								 lastname='Viola',
 								 firstname='Thomas',
-								 birthdate=date(1996, 2, 23),
+								 birthdate=datetime(1996, 2, 23),
 								 mail='thomas.viola@hacker.org',
 								 password='iamsuchaboss',
 								 picture_link='home/boss/data/pictures/',
@@ -21,7 +21,7 @@ def init_users(users_table,connection):
 								 username='jadynek',
 								 lastname='Nekena Ramanandray',
 								 firstname='Jady',
-								 birthdate=date(1996, 7, 2),
+								 birthdate=datetime(1996, 7, 2),
 								 mail='jady.nekram@yahoo.fr',
 								 password='jadydaj',
 								 picture_link='C:/MesDocs/scv/pictures/',
@@ -32,7 +32,7 @@ def init_users(users_table,connection):
 								 username='poquii',
 								 lastname='Quentel',
 								 firstname='Paul',
-								 birthdate=date(1996, 4, 13),
+								 birthdate=datetime(1996, 4, 13),
 								 mail='paul.quentel@insa-lyon.fr',
 								 password='ppppqqqq1304',
 								 picture_link='home/pqtel/bin/pictures/',
@@ -43,7 +43,7 @@ def init_users(users_table,connection):
 								 username='arnoarnoarnoarno',
 								 lastname='Veletanlic',
 								 firstname='Arno',
-								 birthdate=date(1996, 12,16),
+								 birthdate=datetime(1996, 12,16),
 								 mail='av@gmail.com',
 								 password='superpasswow123',
 								 picture_link='home/arno-vel/INSA/pictures/',
@@ -54,7 +54,7 @@ def init_users(users_table,connection):
 								 username='dat-guy',
 								 lastname='some',
 								 firstname='dude',
-								 birthdate=date(1912, 12,19),
+								 birthdate=datetime(1912, 12,19),
 								 mail='duder@basicmail.org',
 								 password='dontbehatin',
 								 picture_link='/etc/bin/python/',
@@ -77,7 +77,7 @@ def init_item(items_table, connection):
 
 		connection.execute(ins,
 								 title='babar',
-								 release_date=date(1969,12,30),
+								 release_date=datetime(1969,12,30),
 								 type_id= 1,
 								 image_link='/some/data/for/babar/1',
 								 video_link='/some/data/for/babar/1',
@@ -88,7 +88,7 @@ def init_item(items_table, connection):
 
 		connection.execute(ins,
 								 title='babar',
-								 release_date=date(1969,12,30),
+								 release_date=datetime(1969,12,30),
 								 type_id= 3,
 								 image_link='/some/data/for/babar/3',
 								 video_link='/some/data/for/babar/3',
@@ -99,7 +99,7 @@ def init_item(items_table, connection):
 
 		connection.execute(ins,
 								 title='Archives du Ciné-Club 1970-1999',
-								 release_date=date(2003,1,3),
+								 release_date=datetime(2003,1,3),
 								 type_id= 1,
 								 image_link='/some/data/for/cineclub',
 								 video_link='/some/data/for/cineclub',
@@ -110,7 +110,7 @@ def init_item(items_table, connection):
 
 		connection.execute(ins,
 								 title='Le Fabuleux Destin d\'Amélie Poulain',
-								 release_date=date(2001,1,1),
+								 release_date=datetime(2001,1,1),
 								 type_id= 1,
 								 image_link='/some/data/for/apoulain',
 								 video_link='/some/data/for/apoulain',
@@ -121,7 +121,7 @@ def init_item(items_table, connection):
 
 		connection.execute(ins,
 								 title='Les Amours imaginaires',
-								 release_date=date(2010,1,3),
+								 release_date=datetime(2010,1,3),
 								 type_id= 1,
 								 image_link='/some/data/for/xdolan/lai',
 								 video_link='/some/data/for/cineclub/lai',
@@ -132,7 +132,7 @@ def init_item(items_table, connection):
 
 		connection.execute(ins,
 								 title='Rock Bottom',
-								 release_date=date(1974,7,26),
+								 release_date=datetime(1974,7,26),
 								 type_id= 2,
 								 image_link='/some/data/for/rwyatt/rb',
 								 video_link='/some/data/for/rwyatt/rb',
@@ -307,15 +307,15 @@ def init_participant(participant_table, connection):
 		connection.execute(ins,
 								firstname='babar',
 								lastname='the Elephant',
-								birthdate=date(1931,1,1),
+								birthdate=datetime(1931,1,1),
 								picture_link='/scv2/part/babar',
 								bio_link='/scv2/part/babar')
 
 		connection.execute(ins,
 								firstname='Cécile',
 								lastname='de Brunhoff',
-								birthdate=date(1903,10,16),
-								deathdate=date(2003,4,7),
+								birthdate=datetime(1903,10,16),
+								deathdate=datetime(2003,4,7),
 								picture_link='/scv2/part/babar/c',
 								bio_link='/scv2/part/babar/c')
 
@@ -323,8 +323,8 @@ def init_participant(participant_table, connection):
 		connection.execute(ins,
 								firstname='Jean',
 								lastname='de Brunhoff',
-								birthdate=date(1899,9,12),
-								deathdate=date(1937,10,16),
+								birthdate=datetime(1899,9,12),
+								deathdate=datetime(1937,10,16),
 								picture_link='/scv2/part/babar/j',
 								bio_link='/scv2/part/babar/j')
 
@@ -332,7 +332,7 @@ def init_participant(participant_table, connection):
 		connection.execute(ins,
 								firstname='Laurent',
 								lastname='de Brunhoff',
-								birthdate=date(1925,9,30),
+								birthdate=datetime(1925,9,30),
 								picture_link='/scv2/part/babar/l',
 								bio_link='/scv2/part/babar/l')
 
@@ -340,7 +340,7 @@ def init_participant(participant_table, connection):
 		connection.execute(ins,
 								firstname='Thomas',
 								lastname='Viola',
-								birthdate=date(1996, 2, 23),
+								birthdate=datetime(1996, 2, 23),
 								picture_link='/scv2/part/tviola',
 								bio_link='/scv2/part/tviola')
 
@@ -348,21 +348,21 @@ def init_participant(participant_table, connection):
 		connection.execute(ins,
 								firstname='Jean-Pierre',
 								lastname='Jeunet',
-								birthdate=date(1953,9,3),
+								birthdate=datetime(1953,9,3),
 								picture_link='/scv2/part/jpjeunet',
 								bio_link='/scv2/part/jpjeunet')
 
 		connection.execute(ins,
 								firstname='Guillaume',
 								lastname='Laurent',
-								birthdate=date(1961,11,22),
+								birthdate=datetime(1961,11,22),
 								picture_link='/scv2/part/glaurent',
 								bio_link='/scv2/part/glaurent')
 
 		connection.execute(ins,
 								firstname='Audrey',
 								lastname='Tautou',
-								birthdate=date(1976,8,9),
+								birthdate=datetime(1976,8,9),
 								picture_link='/scv2/part/atautou',
 								bio_link='/scv2/part/atautou')
 
@@ -370,7 +370,7 @@ def init_participant(participant_table, connection):
 		connection.execute(ins,
 								firstname='Xavier',
 								lastname='Dolan',
-								birthdate=date(1989,3,20),
+								birthdate=datetime(1989,3,20),
 								picture_link='/scv2/part/xdolan',
 								bio_link='/scv2/part/xdolan')
 
@@ -378,7 +378,7 @@ def init_participant(participant_table, connection):
 		connection.execute(ins,
 								firstname='Monia',
 								lastname='Chokri',
-								birthdate=date(1983,6,27),
+								birthdate=datetime(1983,6,27),
 								picture_link='/scv2/part/mchokri',
 								bio_link='/scv2/part/mchokri')
 
@@ -386,7 +386,7 @@ def init_participant(participant_table, connection):
 		connection.execute(ins,
 								firstname='Niels',
 								lastname='Schneider',
-								birthdate=date(1987,6,18),
+								birthdate=datetime(1987,6,18),
 								picture_link='/scv2/part/nschneider',
 								bio_link='/scv2/part/nschneider')
 
@@ -394,7 +394,7 @@ def init_participant(participant_table, connection):
 		connection.execute(ins,
 								firstname='Robert',
 								lastname='Wyatt',
-								birthdate=date(1945,1,28),
+								birthdate=datetime(1945,1,28),
 								picture_link='/scv2/part/rwyatt',
 								bio_link='/scv2/part/rwyatt')
 
@@ -402,7 +402,7 @@ def init_participant(participant_table, connection):
 		connection.execute(ins,
 								firstname='Mike',
 								lastname='Oldfield',
-								birthdate=date(1953,5,15),
+								birthdate=datetime(1953,5,15),
 								picture_link='/scv2/part/moldfield',
 								bio_link='/scv2/part/moldfield')
 
@@ -410,7 +410,7 @@ def init_participant(participant_table, connection):
 		connection.execute(ins,
 								firstname='Nick',
 								lastname='Mason',
-								birthdate=date(1944,1,27),
+								birthdate=datetime(1944,1,27),
 								picture_link='/scv2/part/nmason',
 								bio_link='/scv2/part/nmason')
 
@@ -534,7 +534,7 @@ def init_participation(participation_table, connection):
 
 		connection.execute(ins,
 								item_id=6,
-								participant_id=13,
+								participant_id=14,
 								role='Producteur'
 								)
 
