@@ -24,8 +24,11 @@ mapAll(tables)
 
 print ('=====================================================')
 print ('|	      Trying out the session !	  	    |')
-print ('=====================================================')
+print ('=====================================================\n\n')
 
+
+print('######################################################\n')
+print('>>TEST D\'AJOUT D\'USERS EXISTANTS, & MÉTHODE __repr__()\n')
 
 alfredo = User()
 alfredo.firstname='alfredo'
@@ -52,57 +55,47 @@ session.commit()
 
 
 for user in session.query(User):
-	print(repr(user)) #use of __repr__ method :) 
+	print(user) #use of __repr__ method :) 
 
-
-# A CHANGER: IL EST POSSIBLE D'INSERT PLUSIEURS FOIS LE MEME USER!
-# CHANGEMENT: ON A RAJOUTÉ des UNIQUE CONSTRAINTS
-# PROBLEME : MAINTENANT CELA GÉNÈRE UNE INTREGRITY EXCEPTION, ET CRASH LE SCRIPT...
-# IL FAUT DONC TOUJOURS DEL LES DOUBLES...
-# This short snippet of code suppresses duplicate Users ...
-
-print("\nIl y a peut-être des doublons ! Supprimons les ?\n")
-
-for user in session.query(User).filter(User.firstname.like('alfredo')).all():
-	count = session.query(User).filter(User.firstname.like('alfredo')).count()
-	print(count)
-	if(count > 1):
-		session.delete(user)
 
 #FIN DES SUPPRESSIONS DE DOUBLONS !
 
 session.flush()
 session.commit()
 
-for user in session.query(User):
-	print(user.firstname,user.lastname)
 
-print('\n\nAllons itérer en recherche alphabétique par queries ! :D\n')
+
+print('######################################################\n')
+print('>>TEST RECHERCHE PAR ORDRE ALPHABÉTIQUE:\n')
 
 for letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
 	for itemtype in session.query(Itemtype.type_name):
-		for item in alphaSearch(session,Item,Itemtype,letter,itemtype[0]):
+		for item in alphaItemSearch(session,Item,Itemtype,letter,itemtype[0]):
 			print('-----------')
 			print("Un(e)",itemtype[0]," commençant par la lettre",letter,"est:", item.title)
 			print("\nCeux qui y ont participé:\n")
-			for participant,participation in queryAllParticipantsInfo(session,Itemtype,Item,Participant,Participation,item):
+			for participant,participation in getAllParticipantsInfo(session,Item,Participant,Participation,item):
 				print(participant.firstname,participant.lastname,"| leur role:",participation.role)
 
 			print('\n')
 
-
-print('test pour les dates ! :)\n')
+print('######################################################\n')
+print('>>TEST RECHERCHE PAR DATE:\n')
 
 threshold = timedelta(weeks=40*52) # date(year,month,day)
-
+print('Liste des items vieux de 40 ans (=',threshold,')\n')
 for itemtype in session.query(Itemtype.type_name):
-	print(itemtype[0])
-	print('==============')
+	print('Les ',itemtype[0],':\n')
 	for item in getRecentItems(session, Item, Itemtype, threshold, itemtype[0]):
-		print("Item récent (",threshold,'):',item.title, '||', item.release_date)
+		print(item)
 
-print('ok')
+print('######################################################\n')
+print('>>TEST RECHERCHE PAR MOT-CLÉ:\n')
 
+for keyword in ['ciné','CLUB','amour','AmOuR','rock','archive']:
+	for output in keywordItemSearch(session,Item,keyword):
+		print("Avec le mot-clé",keyword,"on obtient: [",output,']')
+	print('\n')
 # REQUETES AVEC SELECT TOUJOURS DISPONIBLES ! 
 
 # print ("<><><><><><><> Requêtes et companie ;) <><><><><><><>\n")
