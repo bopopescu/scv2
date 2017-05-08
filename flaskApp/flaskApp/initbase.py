@@ -31,10 +31,10 @@ user = Table('user', metadata,
 	Column('user_id', Integer,primary_key=True, autoincrement=True),
     Column('firstname', String(16), nullable=False),
     Column('lastname', String(20)),
-    Column('username', String(20), nullable=False),
+    Column('username', String(20), nullable=False, unique=True),
     Column('birthdate', Date),
-    Column('mail', String(30),  nullable=False),
-    Column('password', String(20), nullable=False),
+    Column('mail', String(30),  nullable=False, unique=True),
+    Column('password', String(20), nullable=False, unique=True),
     Column('picture_link', String(100)),
     Column('bio_link', String(100))
 
@@ -49,13 +49,14 @@ item = Table('item', metadata,
     Column('image_link', String(100), primary_key=True, nullable=False),
     Column('video_link', String(100), nullable=False),
     Column('desc_link', String(100), nullable=False),
-    Column('mean', Float)
+    Column('mean', Float),
+    UniqueConstraint('title','type_id')
 )
 
 #if not engine.dialect.has_table(scv2_engine, "item_type"):
 item_type = Table('item_type', metadata,
 	Column('item_type_id', Integer,primary_key=True, autoincrement=True),
-    Column('type_name', String(20), nullable=False)
+    Column('type_name', String(20), nullable=False, unique=True)
 )
 
 #if not engine.dialect.has_table(scv2_engine, "notation"):
@@ -63,7 +64,7 @@ notation = Table('notation', metadata,
     Column('note_id', Integer, primary_key=True, autoincrement=True),
     Column('item_id', Integer, ForeignKey("item.item_id"), nullable=False),
     Column('user_id', Integer, ForeignKey("user.user_id"), nullable=False),
-    Column('note', Float),
+    Column('note', Float,nullable=False),
     Column('review_link', String(100)),
     Column('review_date', DateTime(timezone=True), default=func.now()),
     Column('upvotes',Integer)
@@ -73,7 +74,7 @@ notation = Table('notation', metadata,
 tag = Table('tag', metadata,
     Column('tag_id', Integer,primary_key=True, autoincrement=True),
     Column('item_id', Integer, ForeignKey("item.item_id"), nullable=False),
-    Column('tagname', String(20), nullable=False)
+    Column('tagname', String(20), nullable=False, unique=True)
     )
 
 interest = Table('interest', metadata,
@@ -81,7 +82,7 @@ interest = Table('interest', metadata,
     Column('tag_id', Integer, ForeignKey("tag.tag_id"), nullable=False),
     Column('user_id', Integer, ForeignKey("user.user_id"), nullable=False),
     Column('item_id', Integer, ForeignKey("item.item_id"), nullable=False),
-    Column('interested',Boolean)
+    Column('interested',Boolean,unique=True)
 
 )
 
@@ -89,17 +90,19 @@ vote = Table('vote', metadata,
     Column('vote_id',Integer, primary_key=True, autoincrement=True),
     Column('user_id', Integer, ForeignKey("user.user_id"), nullable=False),
     Column('note_id', Integer, ForeignKey("notation.note_id"), nullable=False),
-    Column('good', Boolean )
+    Column('good', Boolean ),
+    UniqueConstraint('user_id','note_id')
     )
 
 participant = Table('participant', metadata,
     Column('participant_id', Integer,primary_key=True, autoincrement=True),
     Column('firstname', String(20), nullable=False),
     Column('lastname', String(20)),
-    Column('birthdate', Date, nullable=False),
+    Column('birthdate', Date, nullable=False,unique=True),
     Column('deathdate',Date),
     Column('picture_link', String(100), nullable=False),
     Column('bio_link', String(100), nullable=False),
+    UniqueConstraint('firstname','lastname','birthdate')
 
 )
 
@@ -107,7 +110,8 @@ participation = Table('participation', metadata,
     Column('participation_id', Integer,primary_key=True, autoincrement=True),
     Column('item_id', Integer, ForeignKey("item.item_id"), nullable=False),
     Column('participant_id', Integer, ForeignKey("participant.participant_id")),
-    Column('role', String(50), nullable=False)
+    Column('role', String(50), nullable=False),
+    UniqueConstraint('item_id','participant_id','role')
 
 )
 
@@ -116,13 +120,15 @@ distinction = Table('distinction', metadata,
     Column('distinction_id', Integer, primary_key=True, autoincrement=True),
     Column('participation_id', Integer, ForeignKey("participation.participation_id")),
     Column('event_id', Integer, ForeignKey("event.event_id")),
-    Column('award',String(30),nullable=False)
+    Column('award',String(30),nullable=False),
+    UniqueConstraint('event_id','participation_id')
     )
 
 event = Table('event', metadata,
     Column('event_id', Integer, primary_key=True, autoincrement=True),
     Column('event_date', DateTime, nullable=False),
-    Column('event_name',String(20), nullable=False)
+    Column('event_name',String(20), nullable=False),
+    UniqueConstraint('event_date','event_name')
     )
 
 # Suppression de la table actuelle, et reconstruction de la table neuve

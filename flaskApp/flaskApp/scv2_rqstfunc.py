@@ -1,6 +1,17 @@
-from sqlalchemy import select,and_,func,Date,cast
+from sqlalchemy import select,and_,func,Date,cast,exc
 from datetime import date,datetime,timedelta
 
+# Session functions
+
+def safeAdd(session,an_object):
+    try:
+        with session.begin_nested():
+            session.add(an_object)
+            session.flush()
+
+    except exc.IntegrityError:
+        print('Integrity Error, add canceled.\n')
+        session.rollback()
 
 
 # functions with Tables select,where, ...

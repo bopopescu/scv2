@@ -1,7 +1,8 @@
-from sqlalchemy import *
+import sqlalchemy
 from sqlalchemy.orm import sessionmaker
 from scv2_initfunc import *
 from scv2_rqstfunc import *
+from sqlalchemy import create_engine,MetaData
 import string
 from datetime import datetime,timedelta
 
@@ -42,31 +43,28 @@ yoan = User(firstname='Yoan',
 			)
 yoan.password='abc123'
 
-session.add(yoan)
-session.add(alfredo)
-session.add(alfredo)
-print(session.new,'\n')
 
-session.flush()
+
+safeAdd(session,yoan)
+safeAdd(session,alfredo)
+
 session.commit()
+
 
 for user in session.query(User):
 	print(repr(user)) #use of __repr__ method :) 
 
 
-# A CHANGER: IL EST POSSIBLE D'INSERT PLUSIEURS FOIS LE MEME USER! 
+# A CHANGER: IL EST POSSIBLE D'INSERT PLUSIEURS FOIS LE MEME USER!
+# CHANGEMENT: ON A RAJOUTÉ des UNIQUE CONSTRAINTS
+# PROBLEME : MAINTENANT CELA GÉNÈRE UNE INTREGRITY EXCEPTION, ET CRASH LE SCRIPT...
+# IL FAUT DONC TOUJOURS DEL LES DOUBLES...
 # This short snippet of code suppresses duplicate Users ...
 
 print("\nIl y a peut-être des doublons ! Supprimons les ?\n")
 
 for user in session.query(User).filter(User.firstname.like('alfredo')).all():
 	count = session.query(User).filter(User.firstname.like('alfredo')).count()
-	print(count)
-	if(count > 1):
-		session.delete(user)
-
-for user in session.query(User).filter(User.firstname.like('Yoan')).all():
-	count = session.query(User).filter(User.firstname.like('Yoan')).count()
 	print(count)
 	if(count > 1):
 		session.delete(user)

@@ -1,7 +1,8 @@
 from flask import Flask, jsonify, render_template, request,json
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import *
-from scv2func import *
+from scv2_initfunc import *
+from scv2_rqstfunc import *
 import string
 
 app = Flask(__name__)  # Construct an instance of Flask class for our webapp
