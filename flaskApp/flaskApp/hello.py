@@ -1,9 +1,15 @@
+# -*- coding: utf-8 -*-
+
 from flask import Flask, jsonify, render_template, request,json
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import *
+from sqlalchemy.orm import sessionmaker
+import sqlalchemy
+
 from scv2_initfunc import *
 from scv2_rqstfunc import *
 import string
+from datetime import datetime,timedelta
 
 app = Flask(__name__)  # Construct an instance of Flask class for our webapp
 db = SQLAlchemy()
@@ -11,10 +17,53 @@ db = SQLAlchemy()
 scv2_engine = create_engine('mysql+mysqlconnector://scv2:scv2@localhost/scv2db')
 metadata = MetaData(scv2_engine)
 tables = importContext(scv2_engine,metadata)
-item = tables['item']
+mapAll(tables)
+
+
 
 conn = scv2_engine.connect()
+'''
+Session = sessionmaker(bind=engine)
+s = Session()
+query = s.query(User).filter(User.username.in_([POST_USERNAME]), User.password.in_([POST_PASSWORD]))
+'''
+@app.route('/all')
+def allItems():
+    results = getAllItems(conn)
+    return render_template('pages/menu.html', entries=results)
 
+
+@app.route('/search')
+def search():
+    results = keywordItemSearch(conn,"babar")
+    entries = results
+    return render_template('pages/menu.html', entries=entries)
+
+@app.route('/look')
+def show_entries():
+    cur = conn.execute('select firstname,lastname,participant_id from participant order by participant_id desc')
+    entries = cur
+    return render_template('pages/menu.html', entries=entries)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        if request.form['username'] != app.config['USERNAME']:
+            error = 'Invalid username'
+        elif request.form['password'] != app.config['PASSWORD']:
+            error = 'Invalid password'
+        else:
+            session['logged_in'] = True
+            flash('You were logged in')
+            return redirect(url_for('/'))
+    return render_template('login.html', error=error)
+
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    flash('You were logged out')
+    return redirect(url_for('/'))
 
 @app.route('/_add_numbers')
 def add_numbers():
@@ -26,24 +75,12 @@ def add_numbers():
 def signUp():
     return render_template('signUp.html')
 
-@app.route('/signUpUser', methods=['POST'])
-def signUpUser():
-    user =  request.form['username'];
-    password = request.form['password'];
-    if user=='Thomas':
-        return 'yes'
-    else:
-        return 'no'    
-    #return json.dumps({'status':'OK','user':user,'pass':password});
-    
 @app.route('/f')
 def f():
-    print(' \n\n\n Ciné !\n\n\n')
     return render_template('pages/Films/Films/film_page1.html')
 
 @app.route('/m')
 def m():
-    print(' \n\n\n Menu ! \n\n\n')
     return render_template('pages/menu.html',bod="<h1>cool</h1>")
 
 @app.route('/clever')
