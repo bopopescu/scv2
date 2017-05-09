@@ -73,6 +73,10 @@ def signUp():
 def f():
     return render_template('pages/Films/Films/film_page1.html')
 
+@app.route('/item')
+def item():
+    return render_template('pages/Films/Films/Harry_Potter.html')
+
 @app.route('/m')
 def m():
     return render_template('pages/menu.html',bod="<h1>cool</h1>")

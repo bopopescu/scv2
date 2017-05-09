@@ -3,6 +3,8 @@ flaskApp/flaskApp.py
 flaskApp/hello.py
 flaskApp/initbase.py
 flaskApp/manipbase.py
+flaskApp/scv2_initfunc.py
+flaskApp/scv2_rqstfunc.py
 flaskApp/scv2func.py
 flaskApp/tempinsert.py
 flaskApp.egg-info/PKG-INFO

@@ -135,7 +135,7 @@ event = Table('event', metadata,
 
 metadata.drop_all()
 print("\nTables dropped. Let's build'em again :)")
-metadata.create_all()
+'''metadata.create_all()
 
 
 # On print les champs de nos tables et leur nom
@@ -160,3 +160,4 @@ init_participation(participation,connec)
 connec.close()
 
 print('database successfully initialised !\n')
+'''
