@@ -16,17 +16,10 @@ db = SQLAlchemy()
 
 scv2_engine = create_engine('mysql+mysqlconnector://scv2:scv2@localhost/scv2db')
 metadata = MetaData(scv2_engine)
-tables = importContext(scv2_engine,metadata)
-mapAll(tables)
-
 
 
 conn = scv2_engine.connect()
-'''
-Session = sessionmaker(bind=engine)
-s = Session()
-query = s.query(User).filter(User.username.in_([POST_USERNAME]), User.password.in_([POST_PASSWORD]))
-'''
+
 @app.route('/all')
 def allItems():
     results = getAllItems(conn)
@@ -57,6 +50,8 @@ def login():
             flash('You were logged in')
             return redirect(url_for('/'))
     return render_template('login.html', error=error)
+
+
 
 @app.route('/logout')
 def logout():
