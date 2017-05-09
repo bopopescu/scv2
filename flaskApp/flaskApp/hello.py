@@ -35,15 +35,14 @@ def allItems():
 
 @app.route('/search')
 def search():
-    results = keywordItemSearch(conn,"babar")
-    entries = results
+    entries = getItemWithKeyWord(conn,"babar")
     return render_template('pages/menu.html', entries=entries)
 
 @app.route('/look')
 def show_entries():
-    cur = conn.execute('select firstname,lastname,participant_id from participant order by participant_id desc')
+    cur = conn.execute('select type_name,firstname,lastname,participant_id from participant order by participant_id desc')
     entries = cur
-    return render_template('pages/menu.html', entries=entries)
+    return render_template('pages/menu.html', participants=entries)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

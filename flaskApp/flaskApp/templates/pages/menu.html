@@ -297,7 +297,18 @@
 			</div>
 			<!-- /.col-lg-12 -->
 		</div>
-
+		<div class="items">
+		<h1>Items :</h1>
+		<a href=/all>show all items </a>
+		<br>
+		<a href=/search>show babar </a>
+		
+		{% for result in entries %}
+			<ul>
+			<li><h4>{{result.title}} <a href="/{{result.type_id}}/{{result.title}}/{{result.item_id}}">Go to item </a></h4></li>
+			</ul>
+		{% endfor %}
+		</div>
 		<script type="text/javascript">
 			$(function() {
 				var submit_form = function(e) {
