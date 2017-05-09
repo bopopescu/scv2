@@ -5,6 +5,16 @@ from datetime import date,datetime,timedelta
 
 
 # Useful functions for the SCV2 project.
+# Functions role:
+
+## Define the Classes to be mapped with database Tables, their attributes and methods
+
+## Define the process by which we retrieve the tables from the existing DB (REFLECTION)
+ ## and mapp those tables to the newly defined Classes.
+
+
+
+ 
 
 # Define empty Classes that will be mapped to DB tables:
 
@@ -33,7 +43,7 @@ class Item(object):
 		self.mean=mean
 
 	def __repr__(self):
-		return 'title: '+self.title+'| date: '+str(self.release_date)+'| id: '+self.type_id.__repr__()
+		return 'title: '+self.title+'| date: '+str(self.release_date)+'| type_id: '+self.type_id.__repr__()
 
 
 
