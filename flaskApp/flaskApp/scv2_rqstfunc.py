@@ -102,3 +102,113 @@ def getRecentItems(session, ItemClass, TypeClass, timedelta, itemtype):
 def keywordItemSearch(session,ItemClass,keyword):
     keyword = '%'+keyword+'%'
     return session.query(ItemClass).filter(ItemClass.title.ilike(keyword)).all()
+    
+    
+############################
+#PARTIE JADY AVEC SELECT   #
+############################
+
+def getAllItems(connection):
+	return connection.execute("SELECT * FROM item;")
+	
+def getItemWithKeyWord(connection, Keyword, ItemTypeId=None):
+
+	
+	if ItemTypeId==None:
+		sql  = "SELECT distinct * FROM item, item_type WHERE type_id = item_type_id AND item.title LIKE '%"+ Keyword +"%';"
+		
+	else:
+		sql  = "SELECT distinct * FROM item, item_type WHERE item.title LIKE '%" + Keyword + "%' AND type_id = item_type_id AND type_id = "+str(ItemTypeId)+";"
+	
+	#print(sql)
+	return connection.execute(sql)
+
+def getIdOfThisItem(connection,ItemName=None,ItemTypeId=None):
+	if ItemTypeId == None and ItemName == None:
+		sql = "select item_id from item;"
+		print("search ALL the ids")
+	else:
+		if ItemTypeId == None:
+			sql = "SELECT item_id from item where title LIKE '%" + ItemName + "%';"
+		else:
+			sql = "SELECT item_id from item where title LIKE '%" + ItemName + "%' and type_id = " + str(ItemTypeID)+";"
+	
+	
+	#print(sql)
+	return connection.execute(sql)
+
+def getParticipantsOfThisItem(connection, ItemId):
+	
+	sql = "SELECT distinct * FROM item, participation, item_type, participant WHERE item.type_id = item_type.item_type_id and participation.item_id = item.item_id and participation.participant_id =  participant.participant_id and  item.item_id = " + str(ItemId)
+	#print(sql)
+	return connection.execute(sql)
+
+def getAllItems(connection):
+	return connection.execute("SELECT * FROM item;")
+	
+def getItemWithKeyWord(connection, Keyword, ItemTypeId=None):
+
+	
+	if ItemTypeId==None:
+		sql  = "SELECT distinct * FROM item, item_type WHERE type_id = item_type_id AND item.title LIKE '%"+ Keyword +"%';"
+		
+	else:
+		sql  = "SELECT distinct * FROM item, item_type WHERE item.title LIKE '%" + Keyword + "%' AND type_id = item_type_id AND type_id = "+str(ItemTypeId)+";"
+	
+	#print(sql)
+	return connection.execute(sql)
+
+def getIdOfThisItem(connection,ItemName=None,ItemTypeId=None):
+	if ItemTypeId == None and ItemName == None:
+		sql = "select item_id from item;"
+		print("search ALL the ids")
+	else:
+		if ItemTypeId == None:
+			sql = "SELECT item_id from item where title LIKE '%" + ItemName + "%';"
+		else:
+			sql = "SELECT item_id from item where title LIKE '%" + ItemName + "%' and type_id = " + str(ItemTypeID)+";"
+	
+	
+	#print(sql)
+	return connection.execute(sql)
+
+def getParticipantsOfThisItem(connection, ItemId):
+	
+	sql = "SELECT distinct * FROM item, participation, item_type, participant WHERE item.type_id = item_type.item_type_id and participation.item_id = item.item_id and participation.participant_id =  participant.participant_id and  item.item_id = " + str(ItemId)
+	#print(sql)
+	return connection.execute(sql)
+
+def getAllItems(connection):
+	return connection.execute("SELECT * FROM item;")
+	
+def getItemWithKeyWord(connection, Keyword, ItemTypeId=None):
+
+	
+	if ItemTypeId==None:
+		sql  = "SELECT distinct * FROM item, item_type WHERE type_id = item_type_id AND item.title LIKE '%"+ Keyword +"%';"
+		
+	else:
+		sql  = "SELECT distinct * FROM item, item_type WHERE item.title LIKE '%" + Keyword + "%' AND type_id = item_type_id AND type_id = "+str(ItemTypeId)+";"
+	
+	#print(sql)
+	return connection.execute(sql)
+
+def getIdOfThisItem(connection,ItemName=None,ItemTypeId=None):
+	if ItemTypeId == None and ItemName == None:
+		sql = "select item_id from item;"
+		print("search ALL the ids")
+	else:
+		if ItemTypeId == None:
+			sql = "SELECT item_id from item where title LIKE '%" + ItemName + "%';"
+		else:
+			sql = "SELECT item_id from item where title LIKE '%" + ItemName + "%' and type_id = " + str(ItemTypeID)+";"
+	
+	
+	#print(sql)
+	return connection.execute(sql)
+
+def getParticipantsOfThisItem(connection, ItemId):
+	
+	sql = "SELECT distinct * FROM item, participation, item_type, participant WHERE item.type_id = item_type.item_type_id and participation.item_id = item.item_id and participation.participant_id =  participant.participant_id and  item.item_id = " + str(ItemId)
+	#print(sql)
+	return connection.execute(sql)
