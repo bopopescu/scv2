@@ -1,0 +1,7 @@
+First name: Jamie
+Last name:Foxx
+birthday: 13/12/1967
+type:1
+
+
+https://fr.wikipedia.org/wiki/Jamie_Foxx

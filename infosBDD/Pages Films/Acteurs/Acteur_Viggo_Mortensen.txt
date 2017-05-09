@@ -1,0 +1,7 @@
+First name: Viggo
+Last name: Mortensen
+birthday: 20/10/1958
+type:1
+
+
+https://fr.wikipedia.org/wiki/Viggo_Mortensen

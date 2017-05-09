@@ -1,0 +1,6 @@
+First name: Omar
+Last name: Sy
+birthday: 20/01/1978
+type:1
+
+https://fr.wikipedia.org/wiki/Omar_Sy

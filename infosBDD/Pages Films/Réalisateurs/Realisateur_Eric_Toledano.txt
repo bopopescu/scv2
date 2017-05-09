@@ -1,0 +1,6 @@
+First name: Eric
+Last name: Toledano
+birthday: 03/07/1971
+type:2
+
+https://fr.wikipedia.org/wiki/%C3%89ric_Toledano

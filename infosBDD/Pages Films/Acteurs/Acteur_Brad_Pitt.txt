@@ -1,0 +1,6 @@
+First name: Brad
+Last name:Pitt
+birthday: 18/12/1963
+type:1
+
+https://fr.wikipedia.org/wiki/Brad_Pitt

@@ -1,0 +1,9 @@
+First name: Christian
+Last name: Bale
+birthday: 30/01/1974
+type:1
+
+
+https://fr.wikipedia.org/wiki/Christian_Bale
+
+

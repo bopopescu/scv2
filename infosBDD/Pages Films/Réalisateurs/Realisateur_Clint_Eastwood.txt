@@ -1,0 +1,6 @@
+First name: Clint
+Last name: Eastwood
+birthday: 31/05/1930
+type:2
+
+https://fr.wikipedia.org/wiki/Clint_Eastwood

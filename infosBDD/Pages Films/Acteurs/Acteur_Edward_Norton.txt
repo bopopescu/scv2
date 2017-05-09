@@ -1,0 +1,6 @@
+First name: Edward
+Last name: Norton
+birthday: 18/08/1969
+type:1
+
+https://fr.wikipedia.org/wiki/Edward_Norton

@@ -1,0 +1,7 @@
+First name: John
+Last name: Travolta
+birthday: 18/02/1954
+type:1
+
+
+https://fr.wikipedia.org/wiki/John_Travolta

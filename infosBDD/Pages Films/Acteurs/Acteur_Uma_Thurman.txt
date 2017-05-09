@@ -1,0 +1,7 @@
+First name: Uma
+Last name: Thurman
+birthday: 29/04/1970
+type:1
+
+
+https://fr.wikipedia.org/wiki/Uma_Thurman

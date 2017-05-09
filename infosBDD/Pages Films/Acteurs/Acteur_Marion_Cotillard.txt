@@ -1,0 +1,6 @@
+First name: Marion
+Last name: Cotillard
+birthday: 30/09/1975
+type:1
+
+https://fr.wikipedia.org/wiki/Marion_Cotillard

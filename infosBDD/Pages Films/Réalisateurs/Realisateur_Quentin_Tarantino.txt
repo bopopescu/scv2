@@ -1,0 +1,6 @@
+First name: Quentin
+Last name:Tarantino
+birthday: 27/01/1963
+type:2
+
+https://fr.wikipedia.org/wiki/Quentin_Tarantino

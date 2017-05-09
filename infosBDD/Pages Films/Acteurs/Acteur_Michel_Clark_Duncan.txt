@@ -1,0 +1,6 @@
+First name: Michel
+Last name: Clark Duncan
+birthday: 10/12/1957
+type:1
+
+https://fr.wikipedia.org/wiki/Michael_Clarke_Duncan
