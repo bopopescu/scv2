@@ -14,6 +14,35 @@ body {
   min-height: 568px;
   background-color: white; /* couleur de la page principale*/
 }
+.titles {
+
+  font-size: 20px;
+  font-style: italic;
+  text-decoration: inherit;
+}
+
+.commentaires {
+  color: grey;
+  font-style: italic; 
+  overflow: auto;
+
+}
+
+.avis_pannel {
+  height: 280px;
+  text-align: justify;
+  overflow: auto;
+}
+
+.avis {
+  width: 1000px;
+  height: 70px;
+  text-align: justify;
+  padding: 5px;
+  margin-bottom: 10px;
+  overflow: auto;
+}
+
 @media (min-width: 768px) {
   #page-wrapper {
     position: inherit;
@@ -117,7 +146,7 @@ body {
   .navbar-top-links .dropdown-messages,
   .navbar-top-links .dropdown-tasks,
   .navbar-top-links .dropdown-alerts {
-    margin-left: absolute;
+    margin-left: auto;
   }
 }
 .btn-outline {
