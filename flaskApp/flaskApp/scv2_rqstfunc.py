@@ -105,7 +105,7 @@ def keywordItemSearch(session,ItemClass,keyword):
     
     
 ############################
-#PARTIE JADY AVEC SELECT   #
+#  PARTIE JADY AVEC SELECT #
 ############################
 
 def getAllItems(connection):
