@@ -3,10 +3,13 @@
 from flask import Flask, jsonify, render_template, request,json
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import *
+from sqlalchemy.orm import sessionmaker
+import sqlalchemy
+
 from scv2_initfunc import *
 from scv2_rqstfunc import *
-from sqlalchemy.orm import sessionmaker
 import string
+from datetime import datetime,timedelta
 
 app = Flask(__name__)  # Construct an instance of Flask class for our webapp
 db = SQLAlchemy()
@@ -24,6 +27,18 @@ Session = sessionmaker(bind=engine)
 s = Session()
 query = s.query(User).filter(User.username.in_([POST_USERNAME]), User.password.in_([POST_PASSWORD]))
 '''
+@app.route('/all')
+def allItems():
+    results = getAllItems(conn)
+    return render_template('pages/menu.html', entries=results)
+
+
+@app.route('/search')
+def search():
+    results = keywordItemSearch(conn,"babar")
+    entries = results
+    return render_template('pages/menu.html', entries=entries)
+
 @app.route('/look')
 def show_entries():
     cur = conn.execute('select firstname,lastname,participant_id from participant order by participant_id desc')
