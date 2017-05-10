@@ -19,12 +19,14 @@ body {
   font-size: 20px;
   font-style: italic;
   text-decoration: inherit;
+  font-family: fontawesome;
 }
 
 .commentaires {
   color: black;
   font-style: italic; 
   overflow: auto;
+  font-family: fontawesome;
 
 }
 
@@ -33,7 +35,7 @@ body {
   text-align: justify;
   overflow: auto;
   font-size:1.2em;
-  font-family: arial;
+  font-family: fontawesome;
 }
 
 .avis {
@@ -43,6 +45,7 @@ body {
   padding: 5px;
   margin-bottom: 10px;
   overflow: auto;
+  font-family: fontawesome;
 }
 
 @media (min-width: 768px) {
