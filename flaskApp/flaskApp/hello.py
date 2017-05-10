@@ -2,30 +2,45 @@
 
 from flask import Flask, jsonify, render_template, request,json
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import *
-from sqlalchemy.orm import sessionmaker
-import sqlalchemy
-
-from scv2_initfunc import *
-from scv2_rqstfunc import *
 import string
 from datetime import datetime,timedelta
+from scv2_ORM.scv2_rqstfunc import *
+from scv2_ORM.scv2_base_model import *
+import datetime
 
 app = Flask(__name__)  # Construct an instance of Flask class for our webapp
-db = SQLAlchemy()
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://scv2:scv2@localhost/scv2db'
+db.init_app(app)
+app.app_context().push()
+db.create_all()
 
-scv2_engine = create_engine('mysql+mysqlconnector://scv2:scv2@localhost/scv2db')
-metadata = MetaData(scv2_engine)
 
+@app.route('/<int:type_id>/<title>')
+def item_only(title,type_id):
+    return render_template('pages/menu.html',item=
+    'title+"  "+{0}'.format(str(type_id)))
+    
+@app.route('/chefs')
+def admin():
+    return render_template('admin.html',itemtypes=Itemtype.query.order_by(Itemtype.item_type_id).all())
 
-conn = scv2_engine.connect()
+@app.route('/chefs/<int:typeid>')
+def adminItem(typeid):
+    mytitle = request.args.get('t', 0, type=string)
+    mydate = request.args.get('rd', 0, type=string)#24052010
+    des = request.args.get('des', 0, type=string)
+#!!! ARNO FAIT EN SORTE QUE ÇA MARCHE
+    new = Item(title=mytitle)#,type_id=typeid,release_date=datetime.datetime.strptime(mydate,"%d%m%y").date())
+    dbAdd(db.session,new)
+    db.session.commit()
+    return render_template('admin.html')
 
 @app.route('/all')
 def allItems():
-    results = getAllItems(conn)
+    results = Item.query.all()
     return render_template('pages/menu.html', entries=results)
 
-
+'''
 @app.route('/search')
 def search():
     entries = getItemWithKeyWord(conn,"babar")
@@ -33,9 +48,11 @@ def search():
 
 @app.route('/look')
 def show_entries():
-    cur = conn.execute('select type_name,firstname,lastname,participant_id from participant order by participant_id desc')
+    cur = db.Query('select type_name,firstname,lastname,participant_id from participant order by participant_id desc')
     entries = cur
     return render_template('pages/menu.html', participants=entries)
+
+'''
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
