@@ -340,7 +340,9 @@
                     
                     <input id="mystar" name="stars" class="rating rating-loading" data-min="0" data-max="5" data-step="0.5">
 						<input id="giveReview" type="submit" value="Donner mon avis" onclick="giveReviewClick()" alt="Valider Vote" height="40" />
-						<label>
+						
+			    			<!-- this label is useful only to display the value of the stars-->
+			    			<label>
 							<input id="reviewDone" type="text" height="40" />
 						</label>
 						
@@ -350,15 +352,18 @@
 								//IF THE USER IS NOT LOGGED/SIGNED IN:
 								//REDIRECT TO THE LOGIN PAGE
 								//THEN REDIRECT BACK TO THE ITEM PAGE
+								//SO WE NEED TO IMPLEMENT THIS FUNCTION ASAP /!\
 								
 								var starvalue = document.getElementById("mystar").value;
+								
+								//Update the label displayer dynamically
 								document.getElementById("reviewDone").value = starvalue;
+								
 								//calls a function to store starvalue in the database
 								
 								//calls a function to avoid the user to vote twice
 								
 								//calls a function to compute the mean of the item
-								
 								
 							}
 						</script>						
