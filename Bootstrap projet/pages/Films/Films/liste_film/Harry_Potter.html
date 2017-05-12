@@ -336,7 +336,46 @@
             </div>
             
                 <div class="row  page-header">
-                    <div class="col-lg-3"> <a href="Affiches/Affiche_Harry_Potter.jpg"><img src="Affiches/Affiche_Harry_Potter.jpg" alt="Harry Potter"></a><input type="rating"  class="rating" /> <a href="#">Donnez votre avis!</a></div>
+                    <div class="col-lg-3"> <a href="Affiches/Affiche_Harry_Potter.jpg"><img src="Affiches/Affiche_Harry_Potter.jpg" alt="Harry Potter"></a>
+                    
+                    
+                    
+                    
+                    <!--STARS ARE WORKING HERE-->
+                    <input id="mystar" name="stars" class="rating rating-loading" data-min="0" data-max="5" data-step="0.5">
+						<input id="giveReview" type="submit" value="Donner mon avis" onclick="giveReviewClick()" alt="Valider Vote" height="40" />
+						
+			    			<!-- this label is useful only to display the value of the stars-->
+			    			<label>
+							<input id="reviewDone" type="text" height="40" />
+						</label>
+						
+						<script>
+							function giveReviewClick() {
+								
+								//IF THE USER IS NOT LOGGED/SIGNED IN:
+								//REDIRECT TO THE LOGIN PAGE
+								//THEN REDIRECT BACK TO THE ITEM PAGE
+								//SO WE NEED TO IMPLEMENT THIS FUNCTION ASAP /!\
+								
+								var starvalue = document.getElementById("mystar").value;
+								
+								//Update the label displayer dynamically
+								document.getElementById("reviewDone").value = starvalue;
+								
+								//calls a function to store starvalue in the database
+								
+								//calls a function to avoid the user to vote twice
+								
+								//calls a function to compute the mean of the item
+								
+							}
+						</script>
+
+						<!--STARS ARE DONE HERE-->
+                    
+                    
+                    
                     <div class="col-lg-4"> 
                         <div class="panel panel-default">
                             <div class="panel-body">
