@@ -1,3 +1,11 @@
+# Si pas venv : pip install
+* pip3 install flask
+* (si le prec marche pas) apt-get install python-flask
+* pip3 install passlib
+* pip3 install flask_user
+* ... ConfigParser
+* 
+
 # TUTO environnement virtuel (venv)
 
 ## Les venv c'est la vie :
@@ -14,6 +22,7 @@
 . Au début du prompt il y a (venv) , cela indique que toute les commandes python vont s'éxécuter en utilisant les modules du répertoire .../scv2/venv/
 . Ensuite il suffit de lancer les programme avec par exemple : **python base.py**
 . Les modules pythons complémentaires doivent être installés avec pip3 et si le module était nécessaire, on fait un ***COMMIT DU REPERTOIRE VENV***
+* suivre tuto sql connector
 
 ##### Quitter le venv
 Si vous voulez quittez le venv (quelle idée !), tapez simplement : **deactivate**
