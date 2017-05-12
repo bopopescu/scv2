@@ -231,7 +231,8 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                                          <li><a href="/admin"><i class="fa fa-sign-out fa-fw"></i> Admin</a>
+                        <li><a href="/login"><i class="fa fa-sign-out fa-fw"></i> Log in</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -261,13 +262,13 @@
                                     <a href="f">Films</a>
                                 </li>
                                 <li>
-                                    <a href="part.html">Réalisateurs</a>
+                                    <a href="/part">Réalisateurs</a>
                                 </li>
                                 <li>
-                                    <a href="part.html">Acteurs</a>
+                                    <a href="/part">Acteurs</a>
                                 </li>
                                 <li>
-                                    <a href="part.html">Classement</a>
+                                    <a href="/part">Classement</a>
                                 </li>
                             </ul>
                         </li>
@@ -295,55 +296,7 @@
 			</div>
 			<!-- /.col-lg-12 -->
 		</div>
-		<div class="items">
-		<h1>Items :</h1>
-		<a href=/all>show all items </a>
 		<br>
-		<a href=/search>show babar </a>
-		
-		{% for result in entries %}
-			<ul>
-			<li><h4>{{result.title}} <a href="/{{result.type_id}}/{{result.title}}/{{result.item_id}}">Go to item </a></h4></li>
-			</ul>
-		{% endfor %}
-		</div>
-		<script type="text/javascript">
-			$(function() {
-				var submit_form = function(e) {
-					$.getJSON($SCRIPT_ROOT + '/_add_numbers', {
-						a : $('input[name="a"]').val(),
-						b : $('input[name="b"]').val()
-					}, function(data) {
-						$('#result').text(data.result + $SCRIPT_ROOT + " chameaux")
-						$('input[name=a]').focus().select();
-					});
-					return false;
-				};
-				$('a#calculate').bind('click', submit_form);
-				$('input[type=text]').bind('keydown', function(e) {
-					if (e.keyCode == 13) {
-						submit_form(e);
-					}
-				});
-				$('input[name=a]').focus();
-			});
-		</script>
-		<h1> Calculs !</h1>
-		<p>
-			<input type="text" size="5" name="a"> + <input type="text"
-				size="5" name="b"> = <span id="result">?</span>
-		<p>
-			<a href=# id="calculate">Effectuer l'opération arithmétique</a>
-			
-		
-		
-		<h1>Test intelligence</h1>
-		<p>
-			<a href=clever>Suis-je intelligent</a> 
-			{% if clever == 1 %}
-				<h1> Tu es con  </h1>
-			{% endif %}
-		<br>		<br>		<br>
 		<div class="row">
 			<div class="col-lg-12">
 				<!-- /.panel -->

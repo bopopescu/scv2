@@ -4,47 +4,79 @@ from flask import Flask, jsonify, render_template, request,json
 from flask_sqlalchemy import SQLAlchemy
 import string
 from datetime import datetime,timedelta
-from scv2_ORM.scv2_rqstfunc import *
-from scv2_ORM.scv2_base_model import *
+from orm.func import *
+from orm.model import *
 import datetime
 
+import os
+from flask import Flask, render_template_string,render_template
+from flask_mail import Mail
+from flask_sqlalchemy import SQLAlchemy
+from flask_user import login_required, UserManager, UserMixin, SQLAlchemyAdapter
+#from orm.user import User
+from orm.model import User
+from orm.model import db
+
+# Use a Class-based config to avoid needing a 2nd file
+# os.getenv() enables configuration through OS environment variables
+class ConfigClass(object):
+    
+    # Flask settings
+    SECRET_KEY =              os.getenv('SECRET_KEY',       'THIS IS AN INSECURE SECRET')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL',     'mysql+mysqlconnector://scv2:scv2@localhost/scv2db')
+    CSRF_ENABLED = True
+
+    # Flask-Mail settings
+    MAIL_USERNAME =           os.getenv('MAIL_USERNAME',        'gros.brother@gmail.com')
+    MAIL_PASSWORD =           os.getenv('MAIL_PASSWORD',        'scv2power8000')
+    MAIL_DEFAULT_SENDER =     os.getenv('MAIL_DEFAULT_SENDER',  '"SCV2" <gros.brother@gmail.com>')
+    MAIL_SERVER =             os.getenv('MAIL_SERVER',          'smtp.gmail.com')
+    MAIL_PORT =           int(os.getenv('MAIL_PORT',            '465'))
+    MAIL_USE_SSL =        int(os.getenv('MAIL_USE_SSL',         True))
+
+    # Flask-User settings
+    USER_APP_NAME        = "Sens Critique V2"                # Used by email templates
+    
+
 app = Flask(__name__)  # Construct an instance of Flask class for our webapp
+app.config.from_object(__name__+'.ConfigClass')
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://scv2:scv2@localhost/scv2db'
 db.init_app(app)
 app.app_context().push()
+mail = Mail(app)                                # Initialize Flask-Mail
+
 db.create_all()
 
-
-@app.route('/<int:type_id>/<title>')
-def item_only(title,type_id):
-    return render_template('pages/menu.html',item=
-    'title+"  "+{0}'.format(str(type_id)))
+db_adapter = SQLAlchemyAdapter(db, User)        # Register the User model
+user_manager = UserManager(db_adapter, app)     # Initialize Flask-User
     
-@app.route('/chefs')
-def admin():
-    return render_template('admin.html',itemtypes=Itemtype.query.order_by(Itemtype.item_type_id).all())
+@app.route('/login')
+def home_page():
+    return render_template_string("""
+        {% extends "base.html" %}
+        {% block content %}
+            <h2>Home page</h2>
+            <p>This page can be accessed by anyone.</p><br/>
+            <p><a href={{ url_for('home_page') }}>Home page</a> (anyone)</p>
+            <p><a href={{ url_for('members_page') }}>Members page</a> (login required)</p>
+        {% endblock %}
+        """)
 
-@app.route('/chefs/<int:typeid>')
-def adminItem(typeid):
-    mytitle = request.args.get('t', 0, type=string)
-    mydate = request.args.get('rd', 0, type=string)#24052010
-    des = request.args.get('des', 0, type=string)
-#!!! ARNO FAIT EN SORTE QUE ÇA MARCHE
-    new = Item(title=mytitle)#,type_id=typeid,release_date=datetime.datetime.strptime(mydate,"%d%m%y").date())
-    dbAdd(db.session,new)
-    db.session.commit()
-    return render_template('admin.html')
+# The Members page is only accessible to authenticated users
+@app.route('/members')
+@login_required                                 # Use of @login_required decorator
+def members_page():
+    return render_template_string("""
+        {% extends "base.html" %}
+        {% block content %}
+            <h2>Members page</h2>
+            <p>This page can only be accessed by authenticated users.</p><br/>
+            <p><a href={{ url_for('home_page') }}>Home page</a> (anyone)</p>
+            <p><a href={{ url_for('members_page') }}>Members page</a> (login required)</p>
+        {% endblock %}
+        """)
 
-@app.route('/all')
-def allItems():
-    results = Item.query.all()
-    return render_template('pages/menu.html', entries=results)
-
-'''
-@app.route('/search')
-def search():
-    entries = getItemWithKeyWord(conn,"babar")
-    return render_template('pages/menu.html', entries=entries)
 
 @app.route('/look')
 def show_entries():
@@ -52,7 +84,7 @@ def show_entries():
     entries = cur
     return render_template('pages/menu.html', participants=entries)
 
-'''
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -84,28 +116,20 @@ def add_numbers():
 
 @app.route('/signUp')
 def signUp():
-    return render_template('signUp.html')
+    return render_template('login.html')
 
-@app.route('/f')
+@app.route('/items')
 def f():
-    return render_template('pages/Films/Films/film_page1.html')
+    return render_template('pages/rank.html')
 
 @app.route('/item')
 def item():
-    return render_template('pages/Films/Films/Harry_Potter.html')
-
-@app.route('/m')
-def m():
-    return render_template('pages/menu.html',bod="<h1>cool</h1>")
-
-@app.route('/clever')
-def clever():
-    print(' \n\n\n Menu ! \n\n\n')
-    return render_template('pages/menu.html',clever=1)
+    return render_template('pages/item.html')
 
 @app.route('/')
 def index():
     return render_template('pages/menu.html')#pages/menu.html
+
 
 if __name__ == '__main__':
     app.config['SQLALCHEMY_ECHO'] = True

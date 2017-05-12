@@ -1,3 +1,2 @@
-from .flaskApp import app2
-from .scv2_initfunc import *
-from .scv2_rqstfunc import *
+from . import orm
+#from . import flask_user
