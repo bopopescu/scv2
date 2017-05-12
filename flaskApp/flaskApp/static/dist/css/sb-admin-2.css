@@ -4,7 +4,7 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
 body {
-  background-color: #f8f8f8; /*couleur bas à gauche */ 
+  background-color: #f8f8e4; /*couleur bas à gauche */ 
 }
 #wrapper {
   width: 100%;
@@ -12,15 +12,49 @@ body {
 #page-wrapper {
   padding: 0 15px;
   min-height: 568px;
-  background-color: white; /* couleur de la page principale*/
+  background-color: #ffffe0; /* couleur de la page principale*/
 }
+.titles {
+
+  font-size: 20px;
+  font-style: italic;
+  text-decoration: inherit;
+  font-family: fontawesome;
+}
+
+.commentaires {
+  color: black;
+  font-style: italic; 
+  overflow: auto;
+  font-family: fontawesome;
+
+}
+
+.avis_pannel {
+  height: 280px;
+  text-align: justify;
+  overflow: auto;
+  font-size:1.2em;
+  font-family: fontawesome;
+}
+
+.avis {
+  width: 1000px;
+  height: 70px;
+  text-align: justify;
+  padding: 5px;
+  margin-bottom: 10px;
+  overflow: auto;
+  font-family: fontawesome;
+}
+
 @media (min-width: 768px) {
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 250px;
     padding: 0 30px; /*page principale, espace avec les bords*/ 
-    border-left: 3px solid #e7e7e7; /*bord à gauche, trait entre le menu et la page principale*/
-    border-top: 20px solid #e7e7e7; /*pour éviter que le navbar soit sur le début*/
+    border-left: 5px solid #e7e7a5; /*bord à gauche, trait entre le menu et la page principale*/
+    border-top: 20px solid #e7e7a5; /*pour éviter que le navbar soit sur le début*/
   }
 }
 .navbar-top-links {
@@ -76,10 +110,10 @@ body {
   padding: 15px; /*bordure bar de recherche*/ 
 }
 .sidebar ul li {
-  border-bottom: 1px solid #e7e7e7; /*espacement entre les menus +couleur espacement*/
+  border-bottom: 1px solid #e7e7a8; /*espacement entre les menus +couleur espacement*/
 }
 .sidebar ul li a.active {
-  background-color: #eeeeee; /*couleur du menu sélectionné*/
+  background-color: #dddddd; /*couleur du menu sélectionné*/
 }
 .sidebar .arrow {
   float: right;
@@ -117,7 +151,7 @@ body {
   .navbar-top-links .dropdown-messages,
   .navbar-top-links .dropdown-tasks,
   .navbar-top-links .dropdown-alerts {
-    margin-left: absolute;
+    margin-left: auto;
   }
 }
 .btn-outline {
@@ -246,18 +280,18 @@ table.dataTable thead .sorting:after {
   font-size: 40px;
 }
 .panel-green {
-  border-color: #5cb85c;
+  border-color: #208EA9;
 }
 .panel-green > .panel-heading {
-  border-color: #5cb85c;
+  border-color: #208EA9;
   color: white;
-  background-color: #5cb85c;
+  background-color: #208EA9;
 }
 .panel-green > a {
-  color: #5cb85c;
+  color: #008EA9;
 }
 .panel-green > a:hover {
-  color: #3d8b3d;
+  color: #00B6A9;
 }
 .panel-red {
   border-color: #d9534f;

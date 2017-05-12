@@ -12,19 +12,19 @@
     <title>SensCritiqueV2</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="/static/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="../../../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="/static/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../../../dist/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Morris Charts CSS -->
-    <link href="/static/vendor/morrisjs/morris.css" rel="stylesheet">
+    <link href="../../../vendor/morrisjs/morris.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -48,7 +48,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="m"> <span class="glyphicon glyphicon-home"></span> Menu</a> 
+                <a class="navbar-brand" href="../../menu.html"> <span class="glyphicon glyphicon-home"></span> Menu</a> 
                  <a class="navbar-brand">
                 <span class="glyphicon glyphicon-star-empty"></span>
                 <span class="glyphicon glyphicon-star-empty"></span>
@@ -295,10 +295,10 @@
                             <a href="#"><i class="fa fa-film fa-fw"></i> Films<span class="fa arrow"></span></a>
                              <ul class="nav nav-second-level">
                                 <li>
-                                    <a class="active" href="#">Films</a>
+                                    <a href="../Films/film_page1.html">Films</a>
                                 </li>
                                 <li>
-                                    <a href="../Réalisateurs/realisateur_page1.html">Réalisateurs</a>
+                                    <a class="active" href="#">Réalisateurs</a>
                                 </li>
                                 <li>
                                     <a href="#">Acteurs</a>
@@ -320,80 +320,33 @@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
+                    </ul>
+                </div>
+            </div>
                           
         </nav>
 
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Films</h1>
+                    <h1 class="page-header">Réalisateurs</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-film fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">2</div>   
-                                    <div>Nouveaux films!</div>
-                                </div>
-                            </div>  
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">Voir</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-green">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-comments fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">12</div>
-                                    <div>Nouveaux commentaires!</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">Voir</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-               
-            </div>
-                <div class="container">
                   <div class="row">
                     <div class="col-sm-4">
-                      <p><a href="item"><i class="glyphicon glyphicon-triangle-right "></i>Harry Potter</a></p>
-                      <p><a href"#"><i class="glyphicon glyphicon-triangle-right "></i>RIEN</a></p>
+                      <p><a href="liste_realisateur/realisateur_Christopher_Nolan.html"><i class="glyphicon glyphicon-triangle-right "></i>Christopher Nolan</a></p>
+                      <p><a href"#"><i class="glyphicon glyphicon-triangle-right "></i>Clint Eastwood</a></p>
                     </div>
                     <div class="col-sm-4">
-                      <p><a href"#"><i class="glyphicon glyphicon-triangle-right "></i>RIEN Potter</a></p>
-                      <p><a href"#"><i class="glyphicon glyphicon-triangle-right "></i>RIEN Potter</a></p>
+                      <p><a href"#"><i class="glyphicon glyphicon-triangle-right "></i>David Fincher</a></p>
+                      <p><a href"#"><i class="glyphicon glyphicon-triangle-right "></i>Quentin Tarantino</a></p>
                     </div>
                     <div class="col-sm-4">
-                      <p><a href"#"><i class="glyphicon glyphicon-triangle-right "></i>RIEN Potter</a></p>
-                      <p><a href"#"><i class="glyphicon glyphicon-triangle-right "></i>RIEN Potter</a></p>
+                      <p><a href"#"><i class="glyphicon glyphicon-triangle-right "></i>Robert Zemeckis</a></p>
                     </div>
                   </div>
-                </div>
                 <ul class="pagination">
                   <li class="active"><a href="#">1</a></li>
                   <li><a href="#">2</a></li>
@@ -402,10 +355,8 @@
                   <li><a href="#">5</a></li>
                 </ul>  
         
-    </ul>
     </div>
-    </div>
-        </nav>
+</nav>
 
                    
 
@@ -413,21 +364,21 @@
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="/static/vendor/metisMenu/metisMenu.min.js"></script>
+    <script src="../../../vendor/metisMenu/metisMenu.min.js"></script>
 
     <!-- Morris Charts JavaScript -->
-    <script src="/static./vendor/raphael/raphael.min.js"></script>
-    <script src="/static./vendor/morrisjs/morris.min.js"></script>
-    <script src="/static/data/morris-data.js"></script>
+    <script src="../../../vendor/raphael/raphael.min.js"></script>
+    <script src="../../../vendor/morrisjs/morris.min.js"></script>
+    <script src="../../../data/morris-data.js"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="/static/dist/js/sb-admin-2.js"></script>
+    <script src="../../../dist/js/sb-admin-2.js"></script>
 
 </body>
 
