@@ -54,7 +54,7 @@
   ### . Possibilité de noter par les étoiles
   ### . Diverses redirections (à compléter!):
     • si /<itemtype.item_type_id> alors /<itemtype.type_name>/All
-    • si /<itemtype.item_type_id>/<item.title> n'existe plus alors /home
+    • si /<itemtype.item_type_id>/<item.title> n'existe plus alors /error
     • ...
 
 
