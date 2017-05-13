@@ -61,10 +61,10 @@
 
 # NB:Modules indispensables:
 
-    ### mysql
-    ### flask
-    ### flask-sqlAlchemy
-    ### mysql-connector
-    ### bootstrap
-    ### jinja
-    ### ...
+    mysql
+    flask
+    flask-sqlAlchemy
+    mysql-connector
+    bootstrap
+    jinja
+    ...
