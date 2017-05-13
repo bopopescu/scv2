@@ -2,17 +2,17 @@
 
 # Dossiers et fichiers indispensables POUR CETTE VERSION: (tout est rangé dans VERSION1.zip)
 
-  ### scv2/flaskApp/flaskApp/scv2_ORM/insertvalues_scv2.py
-  ### scv2/flaskApp/flaskApp/scv2_ORM/rqst_fun_scv2.py
-  ### scv2/flaskApp/flaskApp/scv2_ORM/tests_base_scv2.py
-  ### scv2/flaskApp/flaskApp/scv2_ORM/base_model_scv2.py
-  ### scv2/flaskApp/flaskApp/main_server.py
-  ### scv2/flaskApp/flaskApp/templates/layout.html
-  ### scv2/flaskApp/flaskApp/templates/pages/home.html
-  ### scv2/flaskApp/flaskApp/templates/pages/pres_item.html
-  ### scv2/flaskApp/flaskApp/templates/pages/all_items.html
-  ### scv2/flaskApp/flaskApp/templates/pages/requested_list.html
-  ### scv2/flaskApp/flaskApp/static/*
+    ### scv2/flaskApp/flaskApp/scv2_ORM/insertvalues_scv2.py
+    ### scv2/flaskApp/flaskApp/scv2_ORM/rqst_fun_scv2.py
+    ### scv2/flaskApp/flaskApp/scv2_ORM/tests_base_scv2.py
+    ### scv2/flaskApp/flaskApp/scv2_ORM/base_model_scv2.py
+    ### scv2/flaskApp/flaskApp/main_server.py
+    ### scv2/flaskApp/flaskApp/templates/layout.html
+    ### scv2/flaskApp/flaskApp/templates/pages/home.html
+    ### scv2/flaskApp/flaskApp/templates/pages/pres_item.html
+    ### scv2/flaskApp/flaskApp/templates/pages/all_items.html
+    ### scv2/flaskApp/flaskApp/templates/pages/requested_list.html
+    ### scv2/flaskApp/flaskApp/static/*
 
 # Tuto pour que cette V1 marche bien
 
