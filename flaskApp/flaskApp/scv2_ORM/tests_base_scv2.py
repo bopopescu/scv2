@@ -35,7 +35,7 @@ for item in Item.query.all():
     print(item)
 
 for atype in Itemtype.query.all():
-    print(atype.item_type_id)
+    print(atype)
 
 
 for notation in Notation.query.all():

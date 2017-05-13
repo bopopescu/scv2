@@ -185,7 +185,7 @@ class Participant(db.Model):
         self.bio_link=bio_link
 
     def __repr__(self):
-        return 'id: '+self.participant_id.__repr__()+' >> name: '+self.firstname+self.lastname+' born: '+str(self.birthdate)
+        return 'id: '+self.participant_id.__repr__()+' >> name: '+self.firstname+' '+self.lastname+' born: '+str(self.birthdate)
 
 
 class Participation(db.Model):
@@ -203,7 +203,7 @@ class Participation(db.Model):
         self.role = role
 
     def __repr__(self):
-        return 'id: '+self.participation_id.__repr__() + ' >> participant: '+self.participant_id.__repr__()+' role: '+self.role
+        return 'id: '+self.participation_id.__repr__() + ' >> participant id: '+self.participant_id.__repr__()+' role: '+self.role
 
 
 class Distinction(db.Model):
