@@ -48,10 +48,11 @@
   ### Recherche par mot-clé
   ### Login (déjà prêt mais à intégrer, Thomas dis-moi quand tu peux)
   ### Fiche d'un item
-  ### Fiche d'un participant
-  ### Espace personnel
+  ### Liste des rôles possibles à chaque type d'item (dans le menu déroulant à gauche)
+  ### Fiche d'un participant (la liste des items auxquels il a joué un rôle)
+  ### Espace personnel : photo, biographie, mes notes sur les items, mes intérêts
   ### Possibilité de noter par les étoiles
-  ### Diverses redirections:
+  ### Diverses redirections (à compléter!):
     • si /<itemtype.item_type_id> alors /<itemtype.type_name>/All
     • si /<itemtype.item_type_id>/<item.title> n'existe plus alors /home
     • ...
@@ -60,10 +61,10 @@
 
 # NB:Modules indispensables:
 
-### mysql
-### flask
-### flask-sqlAlchemy
-### mysql-connector
-### bootstrap
-### jinja
-### ...
+    ### mysql
+    ### flask
+    ### flask-sqlAlchemy
+    ### mysql-connector
+    ### bootstrap
+    ### jinja
+    ### ...
