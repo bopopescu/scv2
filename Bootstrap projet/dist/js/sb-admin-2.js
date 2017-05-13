@@ -45,3 +45,27 @@ $(function() {
         }
     }
 });
+
+
+
+var myImg = document.getElementById('myImg');
+
+        function anim() {
+
+            var s = myImg.style,
+                result = s.opacity = parseFloat(s.opacity) + 0.01; 
+         
+            if (result < 1) {
+                setTimeout(anim, 30); 
+            }
+
+        }
+
+        anim();
+ 
+
+
+       
+ 
+  
+      
