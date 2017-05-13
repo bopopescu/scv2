@@ -19,7 +19,7 @@
   ### 1. Allez dans votre répertoire scv2. Faites un git pull (sauvegardez vos fichiers autre part si jamais!)
     • Si le pull fait erreur, vous pouvez faire git stash et refaire git pull
     • ATTENTION: veillez à bien enregistrer vos changements dans d'autres dossiers si jamais...
-    • Si vous téléchargez VERSION1.zip, tout l'architecture est déjà respectée et il n'y aura pas de fichiers inutiles
+    • Si vous téléchargez VERSION1.zip, toute l'architecture est déjà respectée et il n'y aura pas de fichiers inutiles
 
   ### 2. Lancer: python3 scv2/flaskApp/flaskApp/scv2_ORM/insert_values.py (version de Arno)
   ### 3. Lancer: python3 scv2/flaskApp/flaskApp/scv2_ORM/tests_base_scv2.py
