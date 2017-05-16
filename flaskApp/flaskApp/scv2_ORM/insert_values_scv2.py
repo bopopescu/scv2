@@ -19,40 +19,40 @@ app.app_context().push()
 
 
 mes_users = [
-			User(firstname='alfredo',
-		   lastname='freccino',
+			User(first_name='alfredo',
+		   last_name='freccino',
 		   username='freccifredo',
 		   birthdate = date(1978,11,24),
-		   mail = 'fredoIlPomodoro@italia.it',
+		   email = 'fredoIlPomodoro@italia.it',
 		   password = 'unamozzarella'),
 
 
-			User(firstname='Yoan',
-            lastname='boayaso',
+			User(first_name='Yoan',
+            last_name='boayaso',
             username='boyoan',
             birthdate=date(1999,10,11),
-            mail='yoyoanso@yahoo.fr',
+            email='yoyoanso@yahoo.fr',
             password='123'),
 
-			User(firstname='truc',
-            lastname='bidule',
+			User(first_name='truc',
+            last_name='bidule',
             username='machin',
             birthdate=date(3001,10,21),
-            mail='WOW@WOW.wow',
+            email='WOW@WOW.wow',
             password='wowowowowow'),
 
-			User(firstname='firstname1',
-            lastname='lastname1',
+			User(first_name='firstname1',
+            last_name='lastname1',
             username='imNUMBA1',
             birthdate=date(1,1,1),
-            mail='numba@one.first',
+            email='numba@one.first',
             password='imthafirst'),
 
-            User(firstname='boi',
-           	lastname='dat',
+            User(first_name='boi',
+           	last_name='dat',
            	username='o shit waddup',
            	birthdate= date(1996,12,12),
-           	mail= 'sumfrog@boi.com',
+           	email= 'sumfrog@boi.com',
            	password='frogfrog'
            	)
            	]
