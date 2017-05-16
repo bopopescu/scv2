@@ -2,16 +2,21 @@
 
 # Dossiers et fichiers indispensables POUR CETTE VERSION: (tout est rangé dans VERSION1.zip)
 
-    scv2/flaskApp/flaskApp/scv2_ORM/insertvalues_scv2.py
-    scv2/flaskApp/flaskApp/scv2_ORM/rqst_fun_scv2.py
+    scv2/flaskApp/flaskApp/main_server.py
+    scv2/flaskApp/flaskApp/flask_user/*
+    scv2/flaskApp/flaskApp/scv2_ORM/insert_values_scv2.py
+    scv2/flaskApp/flaskApp/scv2_ORM/rqst_func_scv2.py
     scv2/flaskApp/flaskApp/scv2_ORM/tests_base_scv2.py
     scv2/flaskApp/flaskApp/scv2_ORM/base_model_scv2.py
-    scv2/flaskApp/flaskApp/main_server.py
     scv2/flaskApp/flaskApp/templates/layout.html
+    scv2/flaskApp/flaskApp/templates/img/inscale_logo.png
+    scv2/flaskApp/flaskApp/templates/pages/error.html
     scv2/flaskApp/flaskApp/templates/pages/home.html
+    scv2/flaskApp/flaskApp/templates/pages/roles.html
     scv2/flaskApp/flaskApp/templates/pages/pres_item.html
     scv2/flaskApp/flaskApp/templates/pages/all_items.html
     scv2/flaskApp/flaskApp/templates/pages/requested_list.html
+    scv2/flaskApp/flaskApp/templates/pages/search_results.html
     scv2/flaskApp/flaskApp/static/*
 
 # Tuto pour que cette V1 marche bien
@@ -44,17 +49,35 @@
 
 
 # A faire:
-
-  ### . Recherche par mot-clé
+  ### . Mettre le logo de Inscale sur la barre d'en haut (probleme de chargement...)
+  ok ### . Mettre tout ce qui est en commun aux html dans le layout (barres laterales sous forme de block)
   ### . Login (déjà prêt mais à intégrer, Thomas dis-moi quand tu peux)
-  ### . Fiche d'un item
+  ### . Most famous DOIT ETRE DIFFERENT de Most recent (users donc login à mettre en place)
+  ### . Scrollbar sur le sidebar des différents item types quand sur ordi la liste est trop longue (et donc on voit pas le bas) -> Paul?
+  ok ### . Recherche par mot-clé
+  ### . Intégrer le nom du rôle (dans participation) pour la recherche par mot clé
+  ok ### . Redirection à partir des résultats de recherche
+  ### . Changer l'icône de musique sur les item types (quel css?)
+  ### . Garder l barre en haut sur une les plateformes plus petites
+  ### . Fiche d'un item avec le template d'harry potter
+  ### . Désactiver le menu déroulé après une certaine taille de fenêtre (quel css?)
+  ok ### . trois colonnes pour toute liste (css de panel-body)
+  ok ### . Afficher le type en string et non en id!
+  ok ### . Ajouter les roles pour chaque item type (déroulé)
+  ok ### . Rediriger à la liste des participants à un rôle d'un type (requested list)
+  ### . Trier les résultats de la recherche: alphabétique, mieux notés, plus notés et plus récents
+  ### . Items commençant par...
+  ### . garder la barre du dessus même avec une fenêtre petite
+  NON ### . Pagination : 1 page = 50 items (pour les recherches)
   ### . Liste des rôles possibles à chaque type d'item (dans le menu déroulant à gauche)
   ### . Fiche d'un participant (la liste des items auxquels il a joué un rôle)
   ### . Espace personnel : photo, biographie, mes notes sur les items, mes intérêts
   ### . Possibilité de noter par les étoiles
+  ok ### . Traduire tout le site en anglais
+  ### . Rendre responsive (profile -> login ET texte d'accueil)
   ### . Diverses redirections (à compléter!):
-    • si /<itemtype.item_type_id> alors /<itemtype.type_name>/All
-    • si /<itemtype.item_type_id>/<item.title> n'existe plus alors /error
+    ok• si /<itemtype.item_type_id> alors /<itemtype.type_name>/All
+    ok• si /<itemtype.item_type_id>/<item.title> n'existe plus alors /error
     • ...
 
 
@@ -64,7 +87,11 @@
     mysql
     flask
     flask-sqlAlchemy
-    mysql-connector
+    mysql-connector (cf tuto sur git)
     bootstrap
     jinja
+    flask_user
+    wtforms_alchemy
+    pycrypto (sudo yum install python3-crypto)
+
     ...
