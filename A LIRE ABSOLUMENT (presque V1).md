@@ -40,15 +40,21 @@
 
 # Caratéristiques:
 
-  ### . Accueil, lié au fichier scv2/flaskApp/flaskApp/pages/home.html. Encore à modifier, le site doit être en anglais
+  ### . Accueil, lié au fichier scv2/flaskApp/flaskApp/pages/home.html
   ### . Barres fixes: liste d'items (à gauche) et login (en haut à droite, redirection encore à faire)
     • tous types confondus (alphabétique, récent, populaire, mieux noté)
     • pour un type particulier (alphabétique, récent, populaire, mieux noté)
+    • les roles pour chaque type dans les déroulés
+    • les redirections d'erreur si jamais vous mettez l'url 127.0.0.1:5000/lkjdnflkzd/zdgzfg/fehefgd
+    • tentative de logo (cf le fichier inscale_logo.png)
+    • ...
+  ### . Les différentes listes (par la barre de navigation à droite)
+  ### . La barre de recherche
   ### . Redirections: URL Mapping
 
 
 
-
+# Très important:
 # A faire:
   ### . Mettre le logo de Inscale sur la barre d'en haut (probleme de chargement...)
   ok ### . Mettre tout ce qui est en commun aux html dans le layout (barres laterales sous forme de block)
