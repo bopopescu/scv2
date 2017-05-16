@@ -1,6 +1,6 @@
 # Ce 13 Mai 2017 (C) Jady - A lire attentivement 
 
-# Dossiers et fichiers indispensables POUR CETTE VERSION: (tout est rangé dans VERSION1.zip)
+# Dossiers et fichiers indispensables POUR CETTE VERSION: (tout est rangé dans VERSION1_50%.zip)
 
     scv2/flaskApp/flaskApp/main_server.py
     scv2/flaskApp/flaskApp/flask_user/*
