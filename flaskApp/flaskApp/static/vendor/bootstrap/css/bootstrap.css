@@ -6762,3 +6762,13 @@ button.close {
   font-style: italic;
   text-decoration: inherit;
 }
+
+.center-block {
+   margin-left:auto;
+   margin-right:auto;
+   display:block;
+}
+/* in case your dealing with a inline element apply this to the parent */
+.text-center {
+   text-align:center
+}

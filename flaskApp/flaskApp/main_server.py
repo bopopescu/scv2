@@ -1,156 +1,214 @@
-# -*- coding: utf-8 -*-
-
 from flask import Flask, jsonify, render_template, request,json, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import string
 from datetime import datetime,timedelta
 from scv2_ORM.rqst_func_scv2 import *
 from scv2_ORM.base_model_scv2 import *
+from flask_user import login_required, UserManager, UserMixin, SQLAlchemyAdapter
+from flask_mail import Mail
+import os
 import datetime
 
+
+class ConfigClass(object):
+    
+    # Flask settings
+    SECRET_KEY =              os.getenv('SECRET_KEY',       'THIS IS AN INSECURE SECRET')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL',     'mysql+mysqlconnector://scv2:scv2@localhost/scv2db')
+    CSRF_ENABLED = True
+
+    # Flask-Mail settings
+    MAIL_USERNAME =           os.getenv('MAIL_USERNAME',        'gros.brother@gmail.com')
+    MAIL_PASSWORD =           os.getenv('MAIL_PASSWORD',        'scv2power8000')
+    MAIL_DEFAULT_SENDER =     os.getenv('MAIL_DEFAULT_SENDER',  '"SCV2" <gros.brother@gmail.com>')
+    MAIL_SERVER =             os.getenv('MAIL_SERVER',          'smtp.gmail.com')
+    MAIL_PORT =           int(os.getenv('MAIL_PORT',            '465'))
+    MAIL_USE_SSL =        int(os.getenv('MAIL_USE_SSL',         True))
+
+    # Flask-User settings
+    USER_APP_NAME        = "Inscale"                # Used by email templates
+    
+
 app = Flask(__name__)  # Construct an instance of Flask class for our webapp
+app.config.from_object(__name__+'.ConfigClass')
+
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://scv2:scv2@localhost/scv2db'
 db.init_app(app)
 app.app_context().push()
+mail = Mail(app)                                # Initialize Flask-Mail
+
 db.create_all()
 
-#ALWAYS KEEP TYPESLIST IN render_template!!!
+db_adapter = SQLAlchemyAdapter(db, User)        # Register the User model
+user_manager = UserManager(db_adapter, app)     # Initialize Flask-User
+    
+T = [ truc.name for truc in db.metadata.sorted_tables]  # Table names 
+
+# launch phpmyadmin: systemctl restart httpd
+
+##########################  USEFUL FOR FIXED SIDEBARS
+alltypes = getAllItemtypes(db.session, Itemtype) #ALWAYS PUT THIS LINE
+roles = []
+res_all_itemtypes = [] 
+	
+for each in alltypes :
+	roles.append(getItemtypeIDRoles(db.session,Item,Participation,each.item_type_id))
+
+res_all_itemtypes = list(zip(alltypes,roles))
+##########################   END FOR SIDEBARS
+####### NEVER FORGET TO PUT IN render_template: typeslist = res_all_itemtypes
+
+
+
+
+
+
+
+@app.route('/a')
+def AllTypesWithRoles():
+	return str(res_all_itemtypes)
 
 @app.route('/')
-def redir_home():
-	return redirect(url_for('home'))
-	
-@app.route('/home')
 def home():
-	return render_template('pages/home.html', typeslist=db.session.query(Itemtype).all())
+	return render_template('pages/home.html', typeslist=res_all_itemtypes)
+
+
+#######################MODIFS THOMAS#############################
+@app.route('/login')
+def home_page():
+    return render_template("pages/login.html") #TODO
+
+# The Members page is only accessible to authenticated users
+@app.route('/members')
+@login_required      # Use of @login_required decorator
+def members_page():
+    return "Ceci est possible que pour ceux qui sont confirmés"
+#######################FIN MODIFS THOMAS#############################
+
+
 
 @app.route('/All')
 def itemlist_All_alphabetic():
-	res_all_items = db.session.query(Item).order_by(Item.title).all()
-	return render_template('pages/all_items.html', typeslist=db.session.query(Itemtype).all(), all_items = res_all_items, filter_requested = "Alphabetic order", my_itemtypename = "TYPE A AFFICHER...")
-
+	return render_template('pages/all_items.html', typeslist=res_all_itemtypes, all_items = getAllItems(db.session, Item, Itemtype), filter_requested = "Alphabetic order", displayRoles = 'no')
+	
 @app.route('/All/<myfilter>')
 def itemlist_All_sorted(myfilter):
-	if myfilter == "Best":
-		return render_template('pages/all_items.html', typeslist=db.session.query(Itemtype).all(), all_items =db.session.query(Item).order_by(Item.mean.desc()).all(), filter_requested = myfilter )
-	if myfilter == "Recent":
-		return render_template('pages/all_items.html', typeslist=db.session.query(Itemtype).all(), all_items =db.session.query(Item).order_by(Item.release_date.desc()).all(), filter_requested = myfilter )
-	if myfilter == "Famous":
-		#return render_template('pages/all_items.html', typeslist=db.session.query(Itemtype).all(), all_items =db.session.query(Item).order_by(MOSTREVIEWEDITEM).all() , filter_requested = myfilter )
-		return "Not working yet."
-		
+	if myfilter == 'Roles':
+		a = getAllRoles(db.session, Participation)
+		b = [ x[0] for x in a ]
+		return render_template('pages/all_items.html', typeslist=res_all_itemtypes, all_items = b, filter_requested = myfilter, displayRoles = 'yes')
+	else:
+		return render_template('pages/all_items.html', typeslist=res_all_itemtypes, all_items = getAllItems_WithFilter(db.session,Item,Itemtype, myfilter), filter_requested = myfilter, displayRoles = 'no')
+
+#To display a requested list
 @app.route('/<itemtype_name>/<myfilter>')
 def itemlist_Types(itemtype_name,myfilter):
-	my_item_type = getIdOfItemtype(db.session,Itemtype,itemtype_name)
-	if myfilter == "All":
-		return render_template('pages/requested_list.html', typeslist=db.session.query(Itemtype).all(), type_requested = itemtype_name, list_requested= db.session.query(Item).filter(Item.type_id == my_item_type).order_by(Item.title).all())
-	if myfilter == "Best":
-		return render_template('pages/requested_list.html', typeslist=db.session.query(Itemtype).all(), type_requested = itemtype_name, list_requested= db.session.query(Item).filter(Item.type_id == my_item_type).order_by(Item.mean.desc()).all())
-	if myfilter == "Recent":
-		return render_template('pages/requested_list.html', typeslist=db.session.query(Itemtype).all(), type_requested = itemtype_name, list_requested= db.session.query(Item).filter(Item.type_id == my_item_type).order_by(Item.release_date.desc()).all())
-	if myfilter == "Famous":
-		#return render_template('pages/requested_list.html', typeslist=db.session.query(Itemtype).all(), type_requested = itemtype_name, list_requested= db.session.query(Item).filter(Item.type_id == my_item_type.item_type_id).order_by(MOSTREVIEWEDITEM).all())
-		return "Not working yet."
-		
-@app.route('/<int:myitemtypeID>/<myItemName>')
-def description_Item(myitemtypeID,myItemName):
-	realItemName = myItemName.replace("_"," ")
-	my_item_ID = getItemID(db.session, Item, myitemtypeID,realItemName)
-	itemFields = "Ceci contiendra les champs du item dont l'ID est connu"
-	return render_template('pages/pres_item.html',typeslist=db.session.query(Itemtype).all(),myItem = itemFields)
+	mytypeID = getIdOfItemtype(db.session,Itemtype,itemtype_name)
+	
+	return render_template('pages/requested_list.html', typeslist=res_all_itemtypes, list_requested = getAllItemsOfThisIDType_WithFilter(db.session,Item,Itemtype, myfilter, mytypeID), filter_requested = myfilter, type_requested = itemtype_name.title())
 
-'''
-@app.route('/<int:type_id>/<title>')
-def item_only(title,type_id):
-    return render_template('pages/menu.html',item= 'title+"  "+{0}'.format(str(type_id)))
-    
-@app.route('/chefs')
-def admin():
-    return render_template('admin.html',itemtypes=Itemtype.query.order_by(Itemtype.item_type_id).all())
-
-@app.route('/chefs/<int:typeid>')
-def adminItem(typeid):
-    mytitle = request.args.get('t', 0, type=string)
-    mydate = request.args.get('rd', 0, type=string)#24052010
-    des = request.args.get('des', 0, type=string)
-#!!! ARNO FAIT EN SORTE QUE ÇA MARCHE
-    new = Item(title=mytitle)#,type_id=typeid,release_date=datetime.datetime.strptime(mydate,"%d%m%y").date())
-    dbAdd(db.session,new)
-    db.session.commit()
-    return render_template('admin.html')
-
-@app.route('/all')
-def allItems():
-    results = Item.query.all()
-    return render_template('pages/menu.html', entries=results)
+##THIS IS DONE TWICE (IF URL /ITEMTYPE or /ITEMTYPE/)
+#To display a requested list in alphabetic order
+@app.route('/<itemtype_name>')
+def itemlist_Types_alphabetic(itemtype_name):
+	mytypeID = getIdOfItemtype(db.session,Itemtype,itemtype_name)
+	
+	if mytypeID>0:
+		redir = '/'+itemtype_name +'/All'
+		return redirect(redir)
+	else:
+		return redirect('/')
+#To display a requested list in alphabetic order
+@app.route('/<itemtype_name>/')
+def itemlist_Types_alphabeticBIS(itemtype_name):
+	redir = '/' + itemtype_name
+	return redirect(redir)
 
 
+#To display a requested list from keywords
+@app.route('/search',  methods=['POST'])
+def searchByKeywords():
+	keyWords = request.form.get('Mysearch')
+	mylist = keywordSearch(db.session,Participant,Item,keyWords)
+	isAnItem = []
+	itemName = []
+	temp = ()
+	res = ()
+	
+	#Test if the found object is item: if yes then true
+	for each in mylist:
+		isAnItem.append(isinstance(each,Item))
+	
+	temp = list(zip(mylist,isAnItem))
+	
+	#x: list and y: true (Item) & false (Participant)
+	itemName = [db.session.query(Itemtype).filter(Itemtype.item_type_id == x.type_id).one().type_name if y else 'Participant' for (x,y) in temp ]
+	
+	#(details, item/participant)
+	res = list(zip(mylist,itemName))
+	
+	ParticipantCounter = [db.session.query(Participation).filter(Participation.participant_id == x.participant_id).count() if y =='Participant' else 0 for (x,y) in res ]
+	
+	#((details, item/participant),nbOfItems)
+	final_res = list(zip(res,ParticipantCounter))
+	
+	#return str(final_res)
+	return render_template('pages/search_results.html', typeslist=res_all_itemtypes, list_requested = final_res, type_requested = "Search results",MyKeywords = keyWords)
+	
+#if the user is trying to reach /search in the url
 @app.route('/search')
 def search():
-    entries = getItemWithKeyWord(conn,"babar")
-    return render_template('pages/menu.html', entries=entries)
-
-@app.route('/look')
-def show_entries():
-    cur = db.Query('select type_name,firstname,lastname,participant_id from participant order by participant_id desc')
-    entries = cur
-    return render_template('pages/menu.html', participants=entries)
+	return render_template('pages/search_results.html', typeslist=res_all_itemtypes, list_requested = "", type_requested = "Search results")
 
 
+#all roles in ALL TYPES
+@app.route('/Roles')
+def redirToAllRoles():
+	return redirect('/All/Roles')
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    error = None
-    if request.method == 'POST':
-        if request.form['username'] != app.config['USERNAME']:
-            error = 'Invalid username'
-        elif request.form['password'] != app.config['PASSWORD']:
-            error = 'Invalid password'
-        else:
-            session['logged_in'] = True
-            flash('You were logged in')
-            return redirect(url_for('/'))
-    return render_template('login.html', error=error)
+	
+
+#all roles in ONE GIVE NAME OF ITEM TYPE
+@app.route('/<mytypeName>/Roles')
+def AllRoles_ItemTypeName(mytypeName):
+	mytypeID = getIdOfItemtype(db.session, Itemtype, mytypeName)
+	
+	if mytypeID >0:
+		rol = getItemtypeIDRoles(db.session,Item,Participation,mytypeID)
+			
+	return render_template('pages/roles.html', typeslist=res_all_itemtypes, list_requested = rol, filter_requested = myrole, type_requested = mytypeName, ItsARole = -1)
+
+#list of A GIVEN ROLE of A GIVEN TYPE
+@app.route('/<mytypeName>/Roles/<myrole>')
+def OneRole_ItemTypeName(mytypeName,myrole):
+	mytypeID = getIdOfItemtype(db.session, Itemtype, mytypeName)
+	rol = getItemtypeIDRoles(db.session,Item,Participation,mytypeID)
+	
+	WhoHaveThisRole = getWhoHaveThisRole(db.session, Participant, Participation, myrole)
+	#return str(WhoHaveThisRole[0].participant_id)
+	return render_template('pages/roles.html', typeslist=res_all_itemtypes, list_requested = WhoHaveThisRole, filter_requested = myrole, type_requested = mytypeName, ItsARole = 0)
 
 
 
-@app.route('/logout')
-def logout():
-    session.pop('logged_in', None)
-    flash('You were logged out')
-    return redirect(url_for('/'))
+#To display one participant
+@app.route('/<mytypeName>/Roles/<int:myparticipantID>/<myparticipantName>')
+def description_Participant(mytypeName,myparticipantID,myparticipantName):
+	return "ok this is for displaying participant"
 
-@app.route('/_add_numbers')
-def add_numbers():
-    a = request.args.get('a', 0, type=int)
-    b = request.args.get('b', 0, type=int)
-    return jsonify(result=a + b)
 
-@app.route('/signUp')
-def signUp():
-    return render_template('signUp.html')
 
-@app.route('/f')
-def f():
-    return render_template('pages/Films/Films/film_page1.html')
 
-@app.route('/item')
-def item():
-    return render_template('pages/Films/Films/Harry_Potter.html')
+#To display one item
+@app.route('/<itemtype_name>/<int:myitemtypeID>/<myItemName>')
+def description_Item(itemtype_name,myitemtypeID,myItemName):
+	return "ok this is for displayint item details"
 
-@app.route('/m')
-def m():
-    return render_template('pages/menu.html',bod="<h1>cool</h1>")
 
-@app.route('/clever')
-def clever():
-    print(' \n\n\n Menu ! \n\n\n')
-    return render_template('pages/menu.html',clever=1)
-
-@app.route('/')
-def index():
-    return render_template('pages/menu.html')#pages/menu.html
-'''
+#Handling error
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('pages/error.html', typeslist=res_all_itemtypes)
 
 if __name__ == '__main__':
     app.config['SQLALCHEMY_ECHO'] = True

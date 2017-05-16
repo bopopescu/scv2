@@ -4,7 +4,7 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
 body {
-  background-color: #f8f8e4; /*couleur bas à gauche */ 
+  background-color: #f8f8f8; /*couleur bas à gauche */ 
 }
 #wrapper {
   width: 100%;
@@ -12,7 +12,7 @@ body {
 #page-wrapper {
   padding: 0 15px;
   min-height: 568px;
-  background-color: #ffffe0; /* couleur de la page principale*/
+  background-color: #ffffff; /* couleur de la page principale*/
 }
 .titles {
 
@@ -53,8 +53,8 @@ body {
     position: inherit;
     margin: 0 0 0 250px;
     padding: 0 30px; /*page principale, espace avec les bords*/ 
-    border-left: 5px solid #e7e7a5; /*bord à gauche, trait entre le menu et la page principale*/
-    border-top: 20px solid #e7e7a5; /*pour éviter que le navbar soit sur le début*/
+    border-left: 5px solid #e7e7e7; /*bord à gauche, trait entre le menu et la page principale*/
+    border-top: 20px solid #e7e7e7; /*pour éviter que le navbar soit sur le début*/
   }
 }
 .navbar-top-links {
@@ -110,7 +110,7 @@ body {
   padding: 15px; /*bordure bar de recherche*/ 
 }
 .sidebar ul li {
-  border-bottom: 1px solid #e7e7a8; /*espacement entre les menus +couleur espacement*/
+  border-bottom: 1px solid #e7e7e7; /*espacement entre les menus +couleur espacement*/
 }
 .sidebar ul li a.active {
   background-color: #dddddd; /*couleur du menu sélectionné*/
@@ -279,19 +279,19 @@ table.dataTable thead .sorting:after {
 .huge {
   font-size: 40px;
 }
-.panel-green {
-  border-color: #208EA9;
+.panel-green { /*Couleur des bordures*/
+  border-color: #B0D0F0;
 }
-.panel-green > .panel-heading {
-  border-color: #208EA9;
+.panel-green > .panel-heading { /*Couleur principale*/
+  border-color: #60A0E0;
   color: white;
-  background-color: #208EA9;
+  background-color: #60A0E0;
 }
 .panel-green > a {
-  color: #008EA9;
+  color: #000;
 }
 .panel-green > a:hover {
-  color: #00B6A9;
+  color: #60A0E0;
 }
 .panel-red {
   border-color: #d9534f;

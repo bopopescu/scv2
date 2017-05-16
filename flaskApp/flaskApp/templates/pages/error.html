@@ -2,11 +2,11 @@
 {% extends "layout.html" %}
 {% block body %}
     <div id="wrapper">
-
+ 
 	<div id="page-wrapper">
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">{{type_requested}}</h1>
+				<h1 class="page-header">ERROR 404</h1>
 			</div>
 			<!-- /.col-lg-12 -->
 		</div>
@@ -16,25 +16,32 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<!-- /.panel -->
+				<!-- /.panel -->
 				<div class="panel panel-green">
 					<div class="panel-heading">
-						<label> Alphabetic order</label>
+						<label>
+							Oops! You're not supposed to be here...
+						</label>
 					</div>
 					<!-- /.panel-heading -->
+					
+					
 					<div class="panel-body">
-						{%for item in list_requested%}
-							<a href= "/{{item.type_id}}/{{(item.title).replace(" ", "_")}}"> <p> <strong> {{item.title}} </strong> <br> </p> </a>
-							<p style="white-space:pre"> <i>	<strong> Item type: </strong> {{my_itemtypename}} ({{item.type_id}})</i> </p>
-							<p style="white-space:pre"> <i>	<strong> Review: </strong> {{item.mean}} </i> </p>
-							<p style="white-space:pre"> <i>	<strong> Releasing date: </strong>{{item.release_date}} </i> </p>
-						{%endfor%}
+						It seems that the page you are looking for is not available.<br>
+						<a href="/"> Go back to home.</a>
 					</div>
 					<!-- /.panel-body -->
+					
+					
+					
+					
+					
+					
 				</div>
 				<!-- /.panel -->
 			</div>
-			<!-- /.col-lg-8 -->
-
+			<!-- /.col-lg-12 -->
+			
 		</div>
 		<!-- /.row -->
 	</div>

@@ -2,141 +2,23 @@
 {% block body %}
     <div id="wrapper">
 
-        <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/home"> <span class="glyphicon glyphicon-home"></span> Inscale </a> 
-                
-            </div> 
-            
-             <!-- /.navbar-header -->
-
-            <ul class="nav navbar-top-links navbar-right">
-                
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-user -->
-                </li>
-                <!-- /.dropdown -->
-            </ul>
-            <!-- /.navbar-top-links -->
-            
-            
-            
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li class="sidebar-search">
-                            <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Rechercher...">
-                                <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                            </div>
-                            <!-- /input-group -->
-                        </li>
-                        
-							
-                        	
-                        <!--menu déroulant-->
-                        <li>
-                            <a href="#"><i class="fa fa-music fa-fw"></i> All Types <span class="fa arrow"></span></a>
-                             <ul class="nav nav-second-level">
-								 <ul class="nav nav-second-level" > 
-									
-									<li>
-										<a href="/All"> In alphabetic order</a>
-									</li>
-									
-									<li>
-										<a href="/All/Best"> Best rated </a>
-									</li>
-									
-									<li>
-										<a href="/All/Famous"> Most famous </a>
-									</li>
-									
-									<li>
-										<a href="/All/Recent"> Most recent </a>
-									</li>
-									
-								</ul>
-                            </ul>
-                        </li>
-                        
-                        {% for sometype in typeslist %}
-						<li> 
-							<a href="/{{sometype.type_name}}" > <i class="fa fa-music fa-fw" id = "{{sometype.item_type_id}}"> </i> {{sometype.type_name}}</i> </i> <span class="fa arrow" ></span></a>
-								
-								<ul class="nav nav-second-level" > 
-									
-									<li>
-										<a href="/{{sometype.type_name}}/All"> In alphabetic order</a>
-									</li>
-									
-									<li>
-										<a href="/{{sometype.type_name}}/Best"> Best rated </a>
-									</li>
-									
-									<li>
-										<a href="/{{sometype.type_name}}/Famous"> Most famous </a>
-									</li>
-									
-									<li>
-										<a href="/{{sometype.type_name}}/Recent"> Most recent </a>
-									</li>
-									
-									<!-- ajouter ici les rôles possibles pour chaque item type-->
-									
-								</ul>
-						</li>		
-                        {% endfor %}
-                        
-                        
-
-         </ul>
-    </div>
-    </div>
-    </nav>
 	<div id="page-wrapper">
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Welcome to Inscale ! </h1>
+				<h1 class="page-header" align="center">Welcome to Inscale ! </h1>
 			</div>
 			<!-- /.col-lg-12 -->
 		</div>
 		
-		
-		
 		<div class="row">
 			<div class="col-lg-12">
 				<!-- /.panel -->
-				<div class="panel panel-default">
+				<div class="panel panel-green">
 					<div class="panel-heading">
-						<i class="fa fa-comment fa-fw"></i> Présentation du site
+						Description of the website
 					</div>
 					<!-- /.panel-heading -->
-					<div class="panel-body">
+					<div class="panel-body" align="justify">
 						<ul class="timeline">
 							<li>
 								<div class="timeline-badge success">
@@ -144,14 +26,13 @@
 								</div>
 								<div class="timeline-panel">
 									<div class="timeline-heading">
-										<h4 class="timeline-title">A la recherche d'un bon plan?</h4>
+										<h4 class="timeline-title" align="center">Searching for a good deal?</h4>
 
 									</div>
 									<div class="timeline-body">
-										<p>
-											Vous êtes tombé sur <strong>le</strong> bon site! Ici sont
-											référencés tout types de choses, des films, des séries, des
-											livres, des bouteilles en plastique!
+										<p align="center">
+											You are in <strong> the right website!</strong> Here are reviews of
+											many movies, TV series, books, and so on.
 										</p>
 									</div>
 								</div>
@@ -162,12 +43,14 @@
 								</div>
 								<div class="timeline-panel">
 									<div class="timeline-heading">
-										<h4 class="timeline-title">Inscrivez-vous!</h4>
+										<h4 class="timeline-title" align="center">Sign in</h4>
 									</div>
 									<div class="timeline-body">
-										<p>N'attendez plus et inscrivez-vous pour participer à la
-											vie du site et donner vos avis! Ou discuter avec d'autres
-											utilisateurs pour défendre votre point de vue.</p>
+										<p align="center">
+											Don't hesitate to sign in if you would like to participate to the
+											website's community. Feel free to express yourself, give your
+											opinion as much as you can, and share same interests with other users.
+										</p>
 										<hr>
 										<div class="btn-group">
 											<button type="button"
@@ -176,8 +59,8 @@
 												<i class="fa fa-gear"></i> <span class="caret"></span>
 											</button>
 											<ul class="dropdown-menu" role="menu">
-												<li><a href="#">S'incrire</a></li>
-												<li><a href="#">Se connecter</a></li>
+												<li><a href="#" align="center">Sign in</a></li>
+												<li><a href="#" align="center">I already have an account (sign up) </a></li>
 											</ul>
 										</div>
 									</div>
@@ -189,10 +72,10 @@
 								</div>
 								<div class="timeline-panel">
 									<div class="timeline-heading">
-										<h4 class="timeline-title">Notez!</h4>
+										<h4 class="timeline-title" align="center">Give your score!</h4>
 									</div>
-									<div class="timeline-body">
-										<p>Donnez une note au film, série ou autre correspondant,
+									<div class="timeline-body" >
+										<p align="center">Donnez une note au film, série ou autre correspondant,
 											les notes vont de 0 à 5 étoiles, plus le nombre de vote est
 											important et plus la fiabilité est bonne!</p>
 									</div>
@@ -204,12 +87,14 @@
 								</div>
 								<div class="timeline-panel">
 									<div class="timeline-heading">
-										<h4 class="timeline-title">Donnez votre avis!</h4>
+										<h4 class="timeline-title" align="center">Give your opinion!</h4>
 									</div>
 									<div class="timeline-body">
-										<p>Pensez bien entendu à donner un avis constructif pour
-											défendre la note que vous donnez, les autres utilisateurs
-											pourront ainsi la voir et s'appuyer dessus pour leur choix.</p>
+										<p align="center"> Do not hesitate to give your review from a constructive point of view
+											in order to defend the score that you are giving to the chosen item.
+											By this way, the other users can rely to your point of view if they
+											have to make a choice (for a restaurant, a smartphone, ...).
+										</p>
 									</div>
 								</div>
 							</li>
@@ -219,13 +104,15 @@
 								</div>
 								<div class="timeline-panel">
 									<div class="timeline-heading">
-										<h4 class="timeline-title">Découvrez!</h4>
+										<h4 class="timeline-title" align="center">Discover!</h4>
 									</div>
 									<div class="timeline-body">
-										<p>Grâce à la barre de recherche vous pouvez rechercher du
-											contenu par préférence. Envie d'un film de Tim Burton? Tapez
-											juste le réalisateur dans la barre de recherche. Si vous ne
-											savez pas quoi chercher, le menu pourra vous aider!</p>
+										<p align="center">Thanks to the search bar, you can search some content thanks to
+											the keywords you put in. Want some Tim Burton movies ? Just write
+											down his name in the search bar and enjoy !
+											If you ever don't have any idea of what kind of review you are
+											interested in, the scrolling bar at the left can help.
+										</p>
 									</div>
 								</div>
 							</li>
@@ -237,11 +124,12 @@
 								</div>
 								<div class="timeline-panel">
 									<div class="timeline-heading">
-										<h4 class="timeline-title">Partagez!</h4>
+										<h4 class="timeline-title" align="center">Share</h4>
 									</div>
 									<div class="timeline-body">
-										<p>Partagez le site sur les réseaux sociaux pour agrandir
-											notre vaste communauté et ainsi obtenir toujours plus d'avis!</p>
+										<p align="center"> Share the website on your social networks in order to increase
+											your community and to get more and more reviews on many items!
+										</p>
 
 
 

@@ -18,22 +18,30 @@
 				<!-- /.panel -->
 				<div class="panel panel-green">
 					<div class="panel-heading">
-						<label> Alphabetic order</label>
+						<label> {{filter_requested}} </label>
 					</div>
 					<!-- /.panel-heading -->
+					
+					
+					
 					<div class="panel-body">
-						{%for item in list_requested%}
-							<a href= "/{{item.type_id}}/{{(item.title).replace(" ", "_")}}"> <p> <strong> {{item.title}} </strong> <br> </p> </a>
-							<p style="white-space:pre"> <i>	<strong> Item type: </strong> {{my_itemtypename}} ({{item.type_id}})</i> </p>
-							<p style="white-space:pre"> <i>	<strong> Review: </strong> {{item.mean}} </i> </p>
-							<p style="white-space:pre"> <i>	<strong> Releasing date: </strong>{{item.release_date}} </i> </p>
+						{%for role in list_requested%}
+							<div class="col-sm-4" align="center" >
+								<a align="center" href= "/{{type_requested}}/Roles/{{role.participant_id}}/{{(role.firstname).replace(' ', '_')}}_{{(role.lastname).replace(' ', '_')}}"> <p align="center"> <strong> {{role.firstname}} {{role.lastname}} </strong> <br> </p> </a>
+							</div>
 						{%endfor%}
 					</div>
 					<!-- /.panel-body -->
+					
+					
+					
+					
+					
+					
 				</div>
 				<!-- /.panel -->
 			</div>
-			<!-- /.col-lg-8 -->
+			<!-- /.col-lg-12 -->
 
 		</div>
 		<!-- /.row -->

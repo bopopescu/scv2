@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>SensCritiqueV2</title>
+<title> Inscale </title>
 
 <!-- Bootstrap Core CSS -->
 <link href="/static/vendor/bootstrap/css/bootstrap.min.css"
@@ -36,6 +36,161 @@
 </script>
 </head>
 
+ <!-- Upper band for login -->
+		
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <img src="img/inscale_logo.png" width="150" height="50">
+				
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                
+                <!--<a class="navbar-brand" href="/"> <span class="glyphicon glyphicon-home"></span> Inscale_logo here </a>-->
+					
+            </div>         
+            <!-- /.navbar-header -->
+
+
+            <ul class="nav navbar-top-links navbar-right">
+                
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="/login"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+            
+            
+
+
+
+
+
+
+
+<!-- Side band for item types lists requests -->
+
+            
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse" >
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+								<form action = "/search" method = "POST">
+									<input style= "width: 80%;" type="text" class="form-control" placeholder="Search for..." name="Mysearch">
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="submit">
+											<i class="fa fa-search"></i>
+										</button>
+									</span>
+								 </form>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                        
+							
+                        	
+                        <!--menu déroulant-->
+                        <li>
+                            <a href="#"><i class="fa fa-music fa-fw"></i> All Types <span class="fa arrow"></span></a>
+                             <ul class="nav nav-second-level">
+								 <ul class="nav nav-second-level" > 
+									
+									<li>
+										<a href="/All"> In alphabetic order</a>
+									</li>
+									
+									<li>
+										<a href="/All/Best"> Best rated </a>
+									</li>
+									
+									<li>
+										<a href="/All/Famous"> Most famous </a>
+									</li>
+									
+									<li>
+										<a href="/All/Recent"> Most recent </a>
+									</li>
+									
+									<li>
+										<a href="/All/Roles"> All roles </a>
+									</li>
+									
+								</ul>
+                            </ul>
+                        </li>
+                        
+                        {% for (sometype,roles) in typeslist %}
+						<li> 
+							<a href="/{{sometype.type_name}}" > <i class="fa fa-music fa-fw" id = "{{sometype.item_type_id}}"> </i> {{sometype.type_name}}</i> </i> <span class="fa arrow" ></span></a>
+								
+								<ul class="nav nav-second-level" > 
+									
+									<li>
+										<a href="/{{sometype.type_name}}/All"> In alphabetic order</a>
+									</li>
+									
+									<li>
+										<a href="/{{sometype.type_name}}/Best"> Best rated </a>
+									</li>
+									
+									<li>
+										<a href="/{{sometype.type_name}}/Famous"> Most famous </a>
+									</li>
+									
+									<li>
+										<a href="/{{sometype.type_name}}/Recent"> Most recent </a>
+									</li>
+									
+									<!-- ajouter ici les rôles possibles pour chaque item type-->
+									
+									{%for role in roles%}
+									<ul class="nav nav-second-level" >
+										<li>
+											<a href="/{{sometype.type_name}}/Roles/{{(role).replace(' ', '_')}}"> {{role}}</a>
+										</li>
+									</ul>
+									{% endfor %}
+									
+								</ul>
+						</li>		
+                        {% endfor %}
+                        
+                        
+
+         </ul>
+    </div>
+    </div>
+    </nav>
+    
+
+
+
+
+
+
+
+
+
+<!-- body that should be changed for each html -->
 {% block body %}
 {% endblock %}
 
