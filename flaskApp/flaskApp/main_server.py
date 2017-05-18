@@ -1,6 +1,5 @@
-from flask import Flask, jsonify, render_template, request, json, redirect, url_for, render_template_string,jsonify
+from flask import Flask, jsonify, render_template, request, json, redirect, url_for, render_template_string, jsonify, flash
 from flask_sqlalchemy import SQLAlchemy
-import string
 from datetime import datetime, timedelta
 
 from scv2_ORM.rqst_func_scv2 import *
@@ -9,9 +8,19 @@ from scv2_ORM.base_model_scv2 import *
 from flask_user import login_required, UserManager, UserMixin, SQLAlchemyAdapter
 from flask_mail import Mail
 import os
-import datetime
+from werkzeug.utils import secure_filename
+from flask import send_from_directory
+from datetime import *
 
 
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
+UPLOAD_FOLDER = 'static/upload/'
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+           
 class ConfigClass(object):
     
     # Flask settings
@@ -61,11 +70,84 @@ res_all_itemtypes = list(zip(alltypes, roles))
 ##########################   END FOR SIDEBARS
 ####### NEVER FORGET TO PUT IN render_template: typeslist = res_all_itemtypes
 
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
 
+# To display one item
+@app.route('/<itemtype_name>/<int:myitemtypeID>/<myItemTitle>/')
+def description_Item(itemtype_name, myitemtypeID, myItemTitle):
+    #print(myItemTitle.replace("_"," "))
+    myItem = db.session.query(Item).filter(db.and_(Item.title == myItemTitle, Item.type_id == myitemtypeID)).one()
+    print("\n\n\n\nMon item est \n\n\n\n\n: ",type(myItem))
+    return render_template('pages/item.html',monItem=myItem)
 
+# To display one add picture item
+@app.route('/<itemtype_name>/<int:myitemtypeID>/<myItemTitle>/add', methods=['GET', 'POST'])
+def add_picture_Item(itemtype_name, myitemtypeID, myItemTitle):
+    # print(myItemTitle.replace("_"," "))
+    myItem = db.session.query(Item).filter(db.and_(Item.title == myItemTitle, Item.type_id == myitemtypeID)).one()
+    print("\n\n\n\nMon item est \n\n\n\n\n: ", type(myItem))
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit a empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            # filename = secure_filename(file.filename)
+            # filename="cool"+file.filename.rsplit('.', 1)[1].lower()
+            if not os.path.exists(app.config['UPLOAD_FOLDER'] + myItem.__tablename__):
+                os.makedirs(app.config['UPLOAD_FOLDER'] + myItem.__tablename__)
+            filename = myItem.username + "." + file.filename.split(".")[1]
+            print(myItem.__tablename__+"/"+app.config['UPLOAD_FOLDER'] + filename+"\n\n\n\n !!!\n")
+            if os.path.isfile(app.config['UPLOAD_FOLDER'] +toto.__tablename__+"/"+ filename+filename+time.strftime("%Y%m%d-%H%M%S")):
+                return redirect(url_for('failure'))
+            else :
+                file.save(os.path.join(app.config['UPLOAD_FOLDER']+toto.__tablename__, filename+time.strftime("%Y%m%d-%H%M%S")))
+                return redirect(url_for('success',fileAdd="yes it has been added??"))
+    return render_template('pages/item.html', monItem=myItem,add=1)
 
-
-
+@app.route('/upload', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit a empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            # filename = secure_filename(file.filename)
+            # filename="cool"+file.filename.rsplit('.', 1)[1].lower()
+            if not os.path.exists(app.config['UPLOAD_FOLDER'] + toto.__tablename__):
+                os.makedirs(app.config['UPLOAD_FOLDER'] + toto.__tablename__)
+            filename = toto.username + "." + file.filename.split(".")[1]
+            print(toto.__tablename__+"/"+app.config['UPLOAD_FOLDER'] + filename+"\n\n\n\n !!!\n")
+            if os.path.isfile(app.config['UPLOAD_FOLDER'] +toto.__tablename__+"/"+ filename+filename+time.strftime("%Y%m%d-%H%M%S")):
+                return redirect(url_for('failure'))
+            else :
+                file.save(os.path.join(app.config['UPLOAD_FOLDER']+toto.__tablename__, filename+time.strftime("%Y%m%d-%H%M%S")))
+                return redirect(url_for('success',fileAdd="yes it has been added??"))
+    return '''
+    <!doctype html>
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form action="/upload" method=post enctype=multipart/form-data>
+      <p><input type=file name=file>
+         <input type=submit value=Upload>
+    </form>
+    '''
 
 @app.route('/a')
 def AllTypesWithRoles():
@@ -216,13 +298,6 @@ def description_Participant(mytypeName, myparticipantID, myparticipantName):
 
 
 
-# To display one item
-@app.route('/<itemtype_name>/<int:myitemtypeID>/<myItemTitle>')
-def description_Item(itemtype_name, myitemtypeID, myItemTitle):
-    #print(myItemTitle.replace("_"," "))
-    myItem = db.session.query(Item).filter(db.and_(Item.title == myItemTitle, Item.type_id == myitemtypeID)).one()
-    print("\n\n\n\nMon item est \n\n\n\n\n: ",type(myItem))
-    return render_template('pages/item.html',monItem=myItem)
 
 # Handling error
 @app.errorhandler(404)

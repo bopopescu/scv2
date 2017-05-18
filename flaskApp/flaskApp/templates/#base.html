@@ -41,10 +41,10 @@
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation"
 	style="margin-bottom: 0">
-
+	
 
 	<div class="navbar-header">
-		<img src="/static/images/Inscale_logo.png" width="150" height="50">
+		<img src="img/inscale_logo.png" width="150" height="50">
 
 		<button type="button" class="navbar-toggle" data-toggle="collapse"
 			data-target=".navbar-collapse">
@@ -66,14 +66,12 @@
 				<i class="fa fa-caret-down"></i>
 		</a>
 			<ul class="dropdown-menu dropdown-user">
-							{% if call_or_get(current_user.is_authenticated) %}
-				<li><a href="/pages/user.html"><i class="fa fa-user fa-fw"></i> {{current_user.username }}</a></li>
-				<li><a href="/pages/admin.html"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
-				<li class="divider"></li> 
-				<li><a href="{{ url_for('user.logout') }}">Sign out ! </a></li>
-				 {% else %}
-                <a href="{{ url_for('user.login') }}">Sign in !</a>
-				{% endif %}
+				<li><a href="#"><i class="fa fa-user fa-fw"></i> User
+						Profile</a></li>
+				<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
+				<li class="divider"></li>
+				<li><a href="/login"><i class="fa fa-sign-out fa-fw"></i>
+						Logout</a></li>
 			</ul> <!-- /.dropdown-user --></li>
 		<!-- /.dropdown -->
 	</ul>
