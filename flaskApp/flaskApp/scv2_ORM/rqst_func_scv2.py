@@ -335,5 +335,14 @@ def getItemtypeIDRoles(session,ItemClass,ParticipationClass,mytypeID):
 #Get a list of who have myrole in itemtype
 def getWhoHaveThisRole(session, Participant, Participation, myrole):
 	return session.query(Participant).join(Participation, Participant.participant_id == Participation.participant_id).filter(Participation.role == myrole).all()
-	
 
+#Useful for the fixed sidebars
+def mainheader(session, Item, Itemtype, Participation):
+	alltypes = getAllItemtypes(session, Itemtype)  # ALWAYS PUT THIS LINE
+	roles = []
+	res_all_itemtypes = [] 
+		
+	for each in alltypes :
+		roles.append(getItemtypeIDRoles(session, Item, Participation, each.item_type_id))
+
+	return list(zip(alltypes, roles))
