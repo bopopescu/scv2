@@ -1,97 +1,114 @@
 {% extends "layout.html" %}
 
-<head>
-
-	<!-- Useful for star-rating-->
-	<link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
-	<link href="kartik-v-bootstrap-star-rating-21d6f2a/css/star-rating.css" media="all" rel="stylesheet" type="text/css" />
-
-
-</head>
-
 {% block body %}
 
     <div id="wrapper">
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header" > {{myitem.title}}</h1>
+                    <h1 class="page-header" > {{myitem[0].title}}</h1>
                 </div>
             </div>
             
                 <div class="row page-header">
-					<!--image of the item-->
-					<div>
-						<img src="example.jpg" >
+					
+					<div class="col-lg-3" align="center">
+						<!--image of the item-->
+						<img src="/static/img/example.jpg" width="200" height="300">
 						<!--End of inserting image of the item-->
-                    </div>
-                    
-                    <!--star rating-->
-					<div>
-						<id="mystar" class="rating" data-min="0" data-max="5" data-step="0.5" onchange="giveReviewClick()" /> 
-					</div>
-					
-					<br><br><br>
-					
-					<div>
-						<class id="myvalue"></class>
-					</div>
-					
-					<script>
-						function giveReviewClick() {
-							
-							//IF THE USER IS NOT LOGGED/SIGNED IN:
-							//REDIRECT TO THE LOGIN PAGE
-							//THEN REDIRECT BACK TO THE ITEM PAGE
-							//SO WE NEED TO IMPLEMENT THIS FUNCTION ASAP /!\
-							
-							
-							//Update the label displayer dynamically
-							document.getElementById("myvalue").value = document.getElementById("mystar").value;
-							
-							//calls a function to store starvalue in the database
-							
-							//calls a function to avoid the user to vote twice
-							
-							//calls a function to compute the mean of the item
-							
-						}
-					</script>
-					<!--star rating ending-->				
 						
+						
+						<!--star rating-->
+						<input type="rating" id="mystar" class="rating" data-min="0" data-max="5" data-step="0.5" onchange="giveReviewClick()" /> 
+						<br>
+						<div>
+							<input id="myvalue">
+						</div>
+						<!--star inserted-->
+						
+						<!--script of star rating starts here-->				
+						<script>
+							function giveReviewClick() {
+								
+								//IF THE USER IS NOT LOGGED/SIGNED IN:
+								//REDIRECT TO THE LOGIN PAGE
+								//THEN REDIRECT BACK TO THE ITEM PAGE
+								//SO WE NEED TO IMPLEMENT THIS FUNCTION ASAP /!\
+								
+								
+								//Update the label displayer dynamically
+								document.getElementById("myvalue").value = document.getElementById("mystar").value;
+								
+								//calls a function to store starvalue in the database
+								
+								//calls a function to avoid the user to vote twice
+								
+								//calls a function to compute the mean of the item
+								
+							}
+						</script>
+					<!--script of star rating ends here-->				
+					
+					</div>
+                    
+					
+					
+					
+					<!-- type, participants and date-->
+					<div class="col-lg-4" align="left"> 
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<span class="glyphicon glyphicon-chevron-right" align="justify"></span>
+								<b> Item type: </b> <a href= "/{{myitem[1].type_name}}">{{ myitem[1].type_name }}</a>
+								<br> 
+								
+								{%if myitem[0].release_date%}
+									<span class="glyphicon glyphicon-chevron-right" align="justify"></span>
+									<b> Released: </b> {{ myitem[0].release_date.strftime('%Y-%m-%d') }}
+									<br> 
+								{%endif%}
+								
+
+								{%if myparticipants%}
+									<span class="glyphicon glyphicon-chevron-right" align="justify"></span>
+									<b> Participants: </b>
+									{% for someone in myparticipants%}
+										<a href = "/Roles/{{someone.participant_id}}/{{(someone.firstname).replace(' ', '_')}}_{{(someone.lastname).replace(' ', '_')}}"> {{someone.firstname}} {{someone.lastname}} </a> ,
+									{%endfor%}
+								{%else%}
+									Unknown
+								{%endif%}
+								<br>
+								
+									
+							</div>
+						</div>
+					</div>
+					<!-- title participants and date END-->
+					
+					
+					
+					<!--description of the item-->
+					<div class="col-lg-5" align="center"> 
+						<div class="panel panel-green">
+							<div class="panel-heading">
+								<h1>Description</h1>
+							</div>
+							<div class="panel-body" align="justify">
+								THIS WILL BE THE DESCRIPTION OF THE ITEM THIS WILL BE THE DESCRIPTION OF THE ITEM THIS WILL BE THE DESCRIPTION OF THE ITEM THIS WILL BE THE DESCRIPTION OF THE ITEM THIS WILL BE THE DESCRIPTION OF THE ITEM THIS WILL BE THE DESCRIPTION OF THE ITEM THIS WILL BE THE DESCRIPTION OF THE ITEM 
+							</div>
+						</div>
+						
+					</div>
+					<!--end of description-->
+					
+					
 				<!--end of page-header-->
 				</div>
                     
-				<!-- title and date-->
-				<div class="col-lg-4"> 
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<h1> <span class="glyphicon glyphicon-chevron-right" align="justify"></span> </h1> 
-								<b> Released: </b> {{ myitem.release_date.strftime('%Y-%m-%d') }}<br> 
-								<b> Participants: </b>
-								
-								
-								
-						</div>
-					</div>
-				</div>
-				<!-- title and date END-->
 				
-				<!--synopsis-->
-				<div class="col-lg-8"> 
-					<div class="panel panel-green">
-						<div class="panel-heading">
-							<h1>Synopsis</h1>
-						</div>
-						<div class="panel-body" align="justify">
-							THIS WILL BE THE SYNOPSIS THIS WILL BE THE SYNOPSISTHIS WILL BE THE SYNOPSISTHIS WILL BE THE SYNOPSISTHIS WILL BE THE SYNOPSISTHIS WILL BE THE SYNOPSISTHIS WILL BE THE SYNOPSISTHIS WILL BE THE SYNOPSIS
-						</div>
-					</div>
-					
-				</div>
-				<!--end of synopsis-->
-                
-                
+				
+				
                 
                 <div class="row">
                     <div class="col-lg-12">
@@ -102,7 +119,16 @@
 											<span class="glyphicon glyphicon-heart-empty">
 											</span>
 											
-											Average score: {{myitem.mean}}/5.0
+											Average score:
+											
+											
+											{%if myitem[0].mean>0%}
+												{{myitem[0].mean}}/5.0
+												
+											{%else%}
+												Not reviewed yet
+											{%endif%}
+											
 										</h1>
 										
 										Comments: NBCOMMENTS/VOTES/REVIEWS
@@ -113,6 +139,10 @@
 								<div class="panel-body" align="justify"> <br>
 									THIS IS A COMMENT
 								</div>							
+								
+								<div class="panel-body" align="justify"> <br>
+									THIS IS A ANOTHER ONE
+								</div>		
 								<!--END OF COMMENTS-->	
 									
 
@@ -124,9 +154,4 @@
     <!-- /#wrapper -->
 
 {% endblock %}
-
-
-<!-- useful for star-ratings -->
-<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="kartik-v-bootstrap-star-rating-21d6f2a/js/star-rating.js" type="text/javascript"></script>
 

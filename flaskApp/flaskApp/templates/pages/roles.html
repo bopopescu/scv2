@@ -27,7 +27,7 @@
 					<div class="panel-body">
 						{%for role in list_requested%}
 							<div class="col-sm-4" align="center" >
-								<a align="center" href= "/{{type_requested}}/Roles/{{role.participant_id}}/{{(role.firstname).replace(' ', '_')}}_{{(role.lastname).replace(' ', '_')}}"> <p align="center"> <strong> {{role.firstname}} {{role.lastname}} </strong> <br> </p> </a>
+								<a align="center" href= "/Roles/{{role.participant_id}}/{{(role.firstname).replace(' ', '_')}}_{{(role.lastname).replace(' ', '_')}}"> <p align="center"> <strong> {{role.firstname}} {{role.lastname}} </strong> <br> </p> </a>
 							</div>
 						{%endfor%}
 					</div>

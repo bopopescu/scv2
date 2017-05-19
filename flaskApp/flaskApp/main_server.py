@@ -73,12 +73,12 @@ def uploaded_file(filename):
 @app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>')
 def description_Item(itemtype_name, myitemID, myItemTitle):
     myItemTitle.replace("_"," ")
+    myItemObject = db.session.query(Item, Itemtype).join(Itemtype, Item.type_id == Itemtype.item_type_id).filter(Item.item_id == myitemID).one()
+    myItemPartcipants = getParticipantsOfThisItem(db.session, Participant, Participation, myitemID)
     
-    myItemObject = db.session.query(Item).filter(Item.item_id == myitemID).one()
-    #return str(myItemObject)
-    return render_template('pages/item.html', typeslist=res_all_itemtypes, myitem=myItemObject)
+    #return str(myItemPartcipants)
+    return render_template('pages/item.html', typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants)
  
-
 
 # To display one add picture item
 @app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>/add', methods=['GET', 'POST'])
@@ -267,6 +267,13 @@ def search():
 def redirToAllRoles():
 	return redirect('/All/Roles')
 
+
+# To display one participant
+@app.route('/Roles/<int:myparticipantID>/<myparticipantName>')
+def description_Participant(myparticipantID, myparticipantName):
+	return "ok this is for displaying participant"
+
+
 	
 
 # all roles in ONE GIVE NAME OF ITEM TYPE
@@ -276,6 +283,8 @@ def AllRoles_ItemTypeName(mytypeName):
 	
 	if mytypeID > 0:
 		rol = getItemtypeIDRoles(db.session, Item, Participation, mytypeID)
+	else:
+		return redirect(url_for("page_not_found"))
 			
 	return render_template('pages/roles.html', typeslist=res_all_itemtypes, list_requested=rol, filter_requested=myrole, type_requested=mytypeName, ItsARole=-1)
 
@@ -288,13 +297,6 @@ def OneRole_ItemTypeName(mytypeName, myrole):
 	WhoHaveThisRole = getWhoHaveThisRole(db.session, Participant, Participation, myrole)
 	# return str(WhoHaveThisRole[0].participant_id)
 	return render_template('pages/roles.html', typeslist=res_all_itemtypes, list_requested=WhoHaveThisRole, filter_requested=myrole, type_requested=mytypeName, ItsARole=0)
-
-
-
-# To display one participant
-@app.route('/<mytypeName>/Roles/<int:myparticipantID>/<myparticipantName>')
-def description_Participant(mytypeName, myparticipantID, myparticipantName):
-	return "ok this is for displaying participant"
 
 
 
