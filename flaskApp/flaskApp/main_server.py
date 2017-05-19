@@ -15,9 +15,9 @@ import fnmatch
 
 #input("Press Enter to continue...")
 
+UPLOAD_FOLDER = 'static/images/'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
-UPLOAD_FOLDER = 'static/upload/'
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -45,7 +45,7 @@ class ConfigClass(object):
 app = Flask(__name__)  # Construct an instance of Flask class for our webapp
 app.config.from_object(__name__ + '.ConfigClass')
 
-
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://scv2:scv2@localhost/scv2db'
 db.init_app(app)
 app.app_context().push()
@@ -74,11 +74,10 @@ def uploaded_file(filename):
 # To display one item
 @app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>/')
 def description_Item(itemtype_name, myitemID, myItemTitle):
-    myItemTitle.replace("_"," ")
     myItemObject = db.session.query(Item, Itemtype).join(Itemtype, Item.type_id == Itemtype.item_type_id).filter(Item.item_id == myitemID).one()
     myItemPartcipants = getParticipantsOfThisItem(db.session, Participant, Participation, myitemID)
     myfile = '0'
-
+    myItemTitle = myItemObject[0].title.replace(" ","_")
     from click.types import File
     if not os.path.exists('static/images/'+itemtype_name+'/'):
         image_link = "noo"
@@ -97,40 +96,17 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
  
 
 # To display one add picture item
+
 @app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>/add', methods=['GET', 'POST'])
 def add_picture_Item(itemtype_name, myitemID, myItemTitle):
-    myItemTitle.replace("_"," ")
-    myItemObject = db.session.query(Item).filter(Item.item_id == myitemID).one()
-    
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        # if user does not select file, browser also
-        # submit a empty part without filename
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            # filename = secure_filename(file.filename)
-            # filename="cool"+file.filename.rsplit('.', 1)[1].lower()
-            if not os.path.exists(app.config['UPLOAD_FOLDER'] + myItem.__tablename__):
-                os.makedirs(app.config['UPLOAD_FOLDER'] + myItem.__tablename__)
-            filename = myItem.username + "." + file.filename.split(".")[1]
-            print(myItem.__tablename__+"/"+app.config['UPLOAD_FOLDER'] + filename+"\n\n\n\n !!!\n")
-            if os.path.isfile(app.config['UPLOAD_FOLDER'] +toto.__tablename__+"/"+ filename+filename+time.strftime("%Y%m%d-%H%M%S")):
-                return redirect(url_for('failure'))
-            else :
-                file.save(os.path.join(app.config['UPLOAD_FOLDER']+toto.__tablename__, filename+time.strftime("%Y%m%d-%H%M%S")))
-                return redirect(url_for('success',fileAdd="yes it has been added??"))
-    return render_template('pages/item.html', monItem=myItem,add=1)
+    myItemPartcipants = getParticipantsOfThisItem(db.session, Participant, Participation, myitemID)
+    myItemObject = db.session.query(Item, Itemtype).join(Itemtype, Item.type_id == Itemtype.item_type_id).filter(Item.item_id == myitemID).one()
+    myItemTitle = myItemObject[0].title.replace(" ","_")
 
-@app.route('/upload', methods=['GET', 'POST'])
-def upload_file():
     if request.method == 'POST':
         # check if the post request has the file part
+        add = -1
+        image_link="upload_error"
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
@@ -141,26 +117,21 @@ def upload_file():
             flash('No selected file')
             return redirect(request.url)
         if file and allowed_file(file.filename):
-            # filename = secure_filename(file.filename)
+            filename = secure_filename(file.filename)
             # filename="cool"+file.filename.rsplit('.', 1)[1].lower()
-            if not os.path.exists(app.config['UPLOAD_FOLDER'] + toto.__tablename__):
-                os.makedirs(app.config['UPLOAD_FOLDER'] + toto.__tablename__)
-            filename = toto.username + "." + file.filename.split(".")[1]
-            print(toto.__tablename__+"/"+app.config['UPLOAD_FOLDER'] + filename+"\n\n\n\n !!!\n")
-            if os.path.isfile(app.config['UPLOAD_FOLDER'] +toto.__tablename__+"/"+ filename+filename+time.strftime("%Y%m%d-%H%M%S")):
-                return redirect(url_for('failure'))
+            if not os.path.exists(app.config['UPLOAD_FOLDER'] + itemtype_name):
+                os.makedirs(app.config['UPLOAD_FOLDER'] + itemtype_name)
+            filename = myItemTitle+ "." + file.filename.split(".")[1]
+            if os.path.isfile(app.config['UPLOAD_FOLDER'] +itemtype_name+"/"+ filename):
+                add = 0
+                image_link="/"+app.config['UPLOAD_FOLDER']+itemtype_name+"/"+filename 
+                #return redirect(url_for('failure'))
             else :
-                file.save(os.path.join(app.config['UPLOAD_FOLDER']+toto.__tablename__, filename+time.strftime("%Y%m%d-%H%M%S")))
-                return redirect(url_for('success',fileAdd="yes it has been added??"))
-    return '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form action="/upload" method=post enctype=multipart/form-data>
-      <p><input type=file name=file>
-         <input type=submit value=Upload>
-    </form>
-    '''
+                file.save(os.path.join(app.config['UPLOAD_FOLDER']+itemtype_name, filename))
+                add=1
+                #return redirect(url_for('success',fileAdd="yes it has been added??"))
+                image_link="/"+app.config['UPLOAD_FOLDER']+itemtype_name+"/"+filename 
+    return render_template('pages/item.html',add=add, image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants)
 
 
 @app.route('/a')
@@ -171,7 +142,7 @@ def AllTypesWithRoles():
 def home():
 	return render_template('pages/home.html', typeslist=res_all_itemtypes)
 
-'''
+
 @app.route('/login')
 def home_page():
     return render_template_string("""
@@ -197,7 +168,7 @@ def members_page():
             <p><a href={{ url_for('members_page') }}>Members page</a> (login required)</p>
         {% endblock %}
         """)
-'''        
+        
 ####################login ends here#############################
 
 

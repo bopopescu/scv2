@@ -15,13 +15,20 @@
 					<div class="col-lg-3" align="center">
 						<!--image of the item-->
 						{% if image_link == "noo" %}
-							<p> No image :( <br> Do you want to  add the first image in this category ? </p>
-						{% elif image_link == "no"%}
+							<p> No image :( <br> Do you want to  add the firs
+ 					{% elif image_link == "no"%}
  							<p> No image :( <br> Do you want to add one ? </p> 
- 						{% else %}
-							<img src="{{image_link}}" width="200" height="300">
-							<!--End of inserting image of the item-->
-								{%endif%}
+				<br>
+				<form action="add" method=post enctype=multipart/form-data>
+					
+						<input type=file name=file> <input type=submit
+							value=Upload>
+				</form>
+				<br>
+				{% else %} <img src="{{image_link}}" width="200"
+					height="300">
+				<!--End of inserting image of the item-->
+				{%endif%}
 						
 						<!--star rating-->
 						<input type="rating" id="mystar" class="rating" data-min="0" data-max="5" data-step="0.5" onchange="giveReviewClick()" /> 
