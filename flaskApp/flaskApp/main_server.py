@@ -11,7 +11,9 @@ import os
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
 from datetime import *
+import fnmatch
 
+#input("Press Enter to continue...")
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
@@ -70,14 +72,28 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
 
 # To display one item
-@app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>')
+@app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>/')
 def description_Item(itemtype_name, myitemID, myItemTitle):
     myItemTitle.replace("_"," ")
     myItemObject = db.session.query(Item, Itemtype).join(Itemtype, Item.type_id == Itemtype.item_type_id).filter(Item.item_id == myitemID).one()
     myItemPartcipants = getParticipantsOfThisItem(db.session, Participant, Participation, myitemID)
-    
-    #return str(myItemPartcipants)
-    return render_template('pages/item.html', typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants)
+    myfile = '0'
+
+    from click.types import File
+    if not os.path.exists('static/images/'+itemtype_name+'/'):
+        image_link = "noo"
+    else :
+        for file in os.listdir('static/images/'+itemtype_name+'/'):
+            if fnmatch.fnmatch(file, '*'+myItemTitle+'*.*'):
+                print ('\n\n\n'+file+'\n\n\n')
+                myfile=file
+                image_link="/static/images/"+itemtype_name+"/"+myfile 
+                break
+        
+        if myfile=='0' :
+            image_link="no"
+        
+    return render_template('pages/item.html',image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants)
  
 
 # To display one add picture item
@@ -309,4 +325,4 @@ if __name__ == '__main__':
     app.config['SQLALCHEMY_ECHO'] = True
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     app.debug = True
-    app.run()
+    app.run(port=5000)
