@@ -3,47 +3,50 @@
 
 <head>
 
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="">
-<meta name="author" content="">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
 
-<title>Inscale</title>
+	<title>Inscale</title>
 
-<!-- Bootstrap Core CSS -->
-<link href="/static/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
+	<!-- Bootstrap Core CSS -->
+	<link href="/static/vendor/bootstrap/css/bootstrap.min.css"
+		rel="stylesheet">
 
-<!-- MetisMenu CSS -->
-<link href="/static/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+	<!-- MetisMenu CSS -->
+	<link href="/static/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 
-<!-- Custom CSS -->
-{% block style_constr %}
-    <!-- In-lining styles to avoid needing a separate .css file -->
-    <style>
-        hr { border-color: #cccccc; margin: 0; }
-        .no-margins { margin: 0px; }
-        .with-margins { margin: 10px; }
-        .col-centered { float: none; margin: 0 auto; }
-    </style>
+	<!-- Custom CSS -->
+	{% block style_constr %}
+		<!-- In-lining styles to avoid needing a separate .css file -->
+		<style>
+			hr { border-color: #cccccc; margin: 0; }
+			.no-margins { margin: 0px; }
+			.with-margins { margin: 10px; }
+			.col-centered { float: none; margin: 0 auto; }
+		</style>
 
-<link href="/static/dist/css/sb-admin-2.css" rel="stylesheet">
+		<link href="/static/dist/css/sb-admin-2.css" rel="stylesheet">
 
-{% endblock %}
-<!-- Morris Charts CSS -->
-<link href="/static/vendor/morrisjs/morris.css" rel="stylesheet">
+	{% endblock %}
+	
+	
+	<!-- Morris Charts CSS -->
+	<link href="/static/vendor/morrisjs/morris.css" rel="stylesheet">
 
-<!-- Custom Fonts -->
-<link href="/static/vendor/font-awesome/css/font-awesome.min.css"
-	rel="stylesheet" type="text/css">
+	<!-- Custom Fonts -->
+	<link href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-<!-- jQuery -->
-<script src="/static/vendor/jquery/jquery.min.js"></script>
+	<!-- jQuery -->
+	<script src="/static/vendor/jquery/jquery.min.js"></script>
 
-<script type="text/javascript">
-  var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-</script>
+	<script type="text/javascript">
+	  var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+	</script>
+	
+	
 </head>
 
 <!-- Upper band for login -->
@@ -54,18 +57,15 @@
 
 	{% block logo %}
 	<div class="navbar-header">
-		<a href="/">
-			<img src="/static/images/Inscale_logo.png" width="150" height="50">
-		</a>
-
+		
 		<button type="button" class="navbar-toggle" data-toggle="collapse"
 			data-target=".navbar-collapse">
 			<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
 			<span class="icon-bar"></span> <span class="icon-bar"></span>
 		</button>
 
-		<!--<a class="navbar-brand" href="/"> <span class="glyphicon glyphicon-home"></span> Inscale_logo here </a>-->
-
+		<a href="/"> <img src="/static/img/inscale_logo.png" width="160" height="50" style="float:left;margin:0 10px 0 20px;"> </a>
+		
 	</div>
 	<!-- /.navbar-header -->
 	{% endblock %}
@@ -74,20 +74,23 @@
 	<ul class="nav navbar-top-links navbar-right">
 
 		<!-- /.dropdown -->
-		<li class="dropdown"><a class="dropdown-toggle"
-			data-toggle="dropdown" href="#"> <i class="fa fa-user fa-fw"></i>
-				<i class="fa fa-caret-down"></i>
-		</a>
+		<li class="dropdown">
+			<a class="dropdown-toggle"
+				data-toggle="dropdown" href="#"> <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+			</a>
 			<ul class="dropdown-menu dropdown-user">
-							{% if call_or_get(current_user.is_authenticated) %}
-				<li><a href="/pages/user.html"><i class="fa fa-user fa-fw"></i> {{current_user.username }}</a></li>
-				<li><a href="/pages/admin.html"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
-				<li class="divider"></li> 
-				<li><a href="{{ url_for('user.logout') }}">Sign out ! </a></li>
-				 {% else %}
-                <a href="{{ url_for('user.login') }}">Sign in !</a>
+				{% if call_or_get(current_user.is_authenticated) %}
+					<li><a href="/pages/user.html"><i class="fa fa-user fa-fw"></i> {{current_user.username }}</a></li>
+					<li><a href="/pages/admin.html"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
+					<li class="divider"></li> 
+					<li><a href="{{ url_for('user.logout') }}"> <i class="fa fa-sign-out fa-fw"></i> Sign out ! </a></li>
+				{% else %}
+					<a href="{{ url_for('user.login') }}"> <i class="fa fa-sign-out fa-fw"></i>  Sign in !</a>
 				{% endif %}
-			</ul> <!-- /.dropdown-user --></li>
+			</ul> <!-- /.dropdown-user -->
+			
+		</li>
+			
 		<!-- /.dropdown -->
 	</ul>
 	<!-- /.navbar-top-links -->
@@ -117,13 +120,19 @@
 						</form>
 					</div> <!-- /input-group -->
 				</li>
-				{% endblock %}
+	{% endblock %}
 
 
-				{% block items %}
+	{% block items %}
 				<!--menu déroulant-->
-				<li><a href="#"><i class="fa fa-music fa-fw"></i> All Types
-						<span class="fa arrow"></span></a>
+				<li><a href="#">
+					<class id="alltypes>">
+						<span class="fa fa-bookmark fa-fw"></span>
+							All Types
+						<span class="fa arrow"></span>
+					</class>
+					</a>
+					
 					<ul class="nav nav-second-level">
 						<ul class="nav nav-second-level">
 
@@ -139,9 +148,14 @@
 
 						</ul>
 					</ul></li> {% for (sometype,roles) in typeslist %}
-				<li><a href="/{{sometype.type_name}}"> <i
-						class="fa fa-music fa-fw" id="{{sometype.item_type_id}}"> </i>
-						{{sometype.type_name}}</i> </i> <span class="fa arrow"></span></a>
+				
+				<li><a href="/{{sometype.type_name}}">
+					<class id="{{sometype.item_type_id}}">
+						<span class="fa fa-bookmark fa-fw"></span>
+							{{sometype.type_name}}
+						<span class="fa arrow"></span>
+					</class>
+					</a>
 
 					<ul class="nav nav-second-level">
 
@@ -160,13 +174,15 @@
 
 						{%for role in roles%}
 						<ul class="nav nav-second-level">
-							<li><a
-								href="/{{sometype.type_name}}/Roles/{{(role).replace(' ', '_')}}">
-									{{role}}</a></li>
+							<li><a href="/{{sometype.type_name}}/Roles/{{(role).replace(' ', '_')}}">{{role}}</a></li>
 						</ul>
 						{% endfor %}
+						
+					</ul>
+			</li> {% endfor %}
 
-					</ul></li> {% endfor %}
+
+
 				{% endblock %}
 
 
@@ -179,8 +195,10 @@
 
 <body>
 <!-- body that should be changed for each html -->
-{% block body_layout %}
+{% block body %}
 {% endblock %}
+
+
     <hr class="no-margins"/>
 
     <div id="footer-div" class="clearfix with-margins">
@@ -189,24 +207,23 @@
     </div>
     </body>
     
-<!-- jQuery -->
-<script src="/static/vendor/jquery/jquery.min.js"></script>
+	<!-- jQuery -->
+	<script src="/static/vendor/jquery/jquery.min.js"></script>
 
-<!-- Bootstrap Core JavaScript -->
-<script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<!-- Bootstrap Core JavaScript -->
+	<script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
 
-<!-- Metis Menu Plugin JavaScript -->
-<script src="/static/vendor/metisMenu/metisMenu.min.js"></script>
+	<!-- Metis Menu Plugin JavaScript -->
+	<script src="/static/vendor/metisMenu/metisMenu.min.js"></script>
 
-<!-- Morris Charts JavaScript -->
-<script src="/static/vendor/raphael/raphael.min.js"></script>
-<script src="/static/vendor/morrisjs/morris.min.js"></script>
-<script src="/static/data/morris-data.js"></script>
+	<!-- Morris Charts JavaScript -->
+	<script src="/static/vendor/raphael/raphael.min.js"></script>
+	<script src="/static/vendor/morrisjs/morris.min.js"></script>
+	<script src="/static/data/morris-data.js"></script>
 
-<!-- Custom Theme JavaScript -->
-<script src="/static/dist/js/sb-admin-2.js"></script>
+	<!-- Custom Theme JavaScript -->
+	<script src="/static/dist/js/sb-admin-2.js"></script>
 
-<script type="text/javascript"
-	src="http://platform.twitter.com/widgets.js"></script>
+	<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 
 </html>

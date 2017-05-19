@@ -59,36 +59,33 @@ T = [ truc.name for truc in db.metadata.sorted_tables]  # Table names
 # launch phpmyadmin: systemctl restart httpd
 
 ##########################  USEFUL FOR FIXED SIDEBARS
-alltypes = getAllItemtypes(db.session, Itemtype)  # ALWAYS PUT THIS LINE
-roles = []
-res_all_itemtypes = [] 
-	
-for each in alltypes :
-	roles.append(getItemtypeIDRoles(db.session, Item, Participation, each.item_type_id))
-
-res_all_itemtypes = list(zip(alltypes, roles))
+res_all_itemtypes = mainheader(db.session, Item, Itemtype, Participation)
 ##########################   END FOR SIDEBARS
 ####### NEVER FORGET TO PUT IN render_template: typeslist = res_all_itemtypes
 
+
+####################login here#############################
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'],
-                               filename)
+    return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
 
 # To display one item
-@app.route('/<itemtype_name>/<int:myitemtypeID>/<myItemTitle>/')
-def description_Item(itemtype_name, myitemtypeID, myItemTitle):
-    #print(myItemTitle.replace("_"," "))
-    myItem = db.session.query(Item).filter(db.and_(Item.title == myItemTitle, Item.type_id == myitemtypeID)).one()
-    print("\n\n\n\nMon item est \n\n\n\n\n: ",type(myItem))
-    return render_template('pages/item.html',monItem=myItem)
+@app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>')
+def description_Item(itemtype_name, myitemID, myItemTitle):
+    myItemTitle.replace("_"," ")
+    
+    myItemObject = db.session.query(Item).filter(Item.item_id == myitemID).one()
+    #return str(myItemObject)
+    return render_template('pages/item.html', typeslist=res_all_itemtypes, myitem=myItemObject)
+ 
+
 
 # To display one add picture item
-@app.route('/<itemtype_name>/<int:myitemtypeID>/<myItemTitle>/add', methods=['GET', 'POST'])
-def add_picture_Item(itemtype_name, myitemtypeID, myItemTitle):
-    # print(myItemTitle.replace("_"," "))
-    myItem = db.session.query(Item).filter(db.and_(Item.title == myItemTitle, Item.type_id == myitemtypeID)).one()
-    print("\n\n\n\nMon item est \n\n\n\n\n: ", type(myItem))
+@app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>/add', methods=['GET', 'POST'])
+def add_picture_Item(itemtype_name, myitemID, myItemTitle):
+    myItemTitle.replace("_"," ")
+    myItemObject = db.session.query(Item).filter(Item.item_id == myitemID).one()
+    
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
@@ -149,6 +146,7 @@ def upload_file():
     </form>
     '''
 
+
 @app.route('/a')
 def AllTypesWithRoles():
 	return str(res_all_itemtypes)
@@ -157,6 +155,7 @@ def AllTypesWithRoles():
 def home():
 	return render_template('pages/home.html', typeslist=res_all_itemtypes)
 
+'''
 @app.route('/login')
 def home_page():
     return render_template_string("""
@@ -182,6 +181,8 @@ def members_page():
             <p><a href={{ url_for('members_page') }}>Members page</a> (login required)</p>
         {% endblock %}
         """)
+'''        
+####################login ends here#############################
 
 
 @app.route('/All')
@@ -294,8 +295,6 @@ def OneRole_ItemTypeName(mytypeName, myrole):
 @app.route('/<mytypeName>/Roles/<int:myparticipantID>/<myparticipantName>')
 def description_Participant(mytypeName, myparticipantID, myparticipantName):
 	return "ok this is for displaying participant"
-
-
 
 
 

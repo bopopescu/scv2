@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 
-{% block body_layout %}
+{% block body %}
 <div id="wrapper">
 
 	<div id="page-wrapper">
@@ -9,7 +9,7 @@
 			<div class="col-lg-12">
 				<h1 class="page-header" align="center">Welcome to Inscale !</h1>
 			</div>
-
+			
 			<!-- /.col-lg-12 -->
 		</div>
 
@@ -60,8 +60,8 @@
 												<i class="fa fa-gear"></i> <span class="caret"></span>
 											</button>
 											<ul class="dropdown-menu" role="menu">
-												<li><a href="#" align="center">Sign in</a></li>
-												<li><a href="#" align="center">I already have an
+												<li><a href="{{ url_for('user.login') }}" align="center">Sign in</a></li>
+												<li><a href="{{ url_for('user.login') }}" align="center">I already have an
 														account (sign up) </a></li>
 											</ul>
 										</div>
@@ -78,9 +78,11 @@
 											score!</h4>
 									</div>
 									<div class="timeline-body">
-										<p align="center">Donnez une note au film, série ou autre
-											correspondant, les notes vont de 0 à 5 étoiles, plus le
-											nombre de vote est important et plus la fiabilité est bonne!</p>
+										<p align="center">
+											Give a review to an item, between 0 and 5 stars.
+											The more you give reviews, the more reliable is
+											the website!
+										</p>
 									</div>
 								</div>
 							</li>
