@@ -108,6 +108,7 @@ body {
 }
 .sidebar .sidebar-search {
   padding: 15px; /*bordure bar de recherche*/ 
+
 }
 .sidebar ul li {
   border-bottom: 1px solid #e7e7e7; /*espacement entre les menus +couleur espacement*/
@@ -137,11 +138,18 @@ body {
 @media (min-width: 768px) {
   .sidebar {
     z-index: 1;
-    position: fixed;
+    position: absolute;
     width: 250px;
     margin-top: 51px;
+    overflow-y: scroll;
   }
 
+th > a {
+  color: #000000;
+}
+th > a:hover {
+  color: #000000;
+}
   .navbar{
     position: fixed;
     right: 0;
@@ -279,19 +287,19 @@ table.dataTable thead .sorting:after {
 .huge {
   font-size: 40px;
 }
-.panel-green { /*Couleur des bordures*/
-  border-color: #B0D0F0;
+.panel-green {
+  border-color: #208EA9;
 }
-.panel-green > .panel-heading { /*Couleur principale*/
-  border-color: #60A0E0;
+.panel-green > .panel-heading {
+  border-color: #208EA9;
   color: white;
-  background-color: #60A0E0;
+  background-color: #208EA9;
 }
 .panel-green > a {
-  color: #000;
+  color: #008EA9;
 }
 .panel-green > a:hover {
-  color: #60A0E0;
+  color: #00B6A9;
 }
 .panel-red {
   border-color: #d9534f;
@@ -445,33 +453,58 @@ table.dataTable thead .sorting:after {
   margin-top: 5px;
 }
 @media (max-width: 767px) {
-  ul.timeline:before {
-    left: 40px;
+
+    #page-wrapper {
+   
+  
+    border-top: 100px solid #e7e7e7; /*pour éviter que le navbar soit sur le début*/
   }
-  ul.timeline > li > .timeline-panel {
-    width: calc(10%);
-    width: -moz-calc(10%);
-    width: -webkit-calc(10%);
-  }
-  ul.timeline > li > .timeline-badge {
-    top: 16px;
-    left: 15px;
-    margin-left: 0;
-  }
-  ul.timeline > li > .timeline-panel {
-    float: right;
-  }
-  ul.timeline > li > .timeline-panel:before {
-    right: auto;
-    left: -15px;
-    border-right-width: 15px;
-    border-left-width: 0;
-  }
-  ul.timeline > li > .timeline-panel:after {
-    right: auto;
-    left: -14px;
-    border-right-width: 14px;
-    border-left-width: 0;
-  }
+    ul.timeline:before {
+        left: 40px;
+    }
+
+    ul.timeline > li > .timeline-panel {
+        width: calc(100% - 90px);
+        width: -moz-calc(100% - 90px);
+        width: -webkit-calc(100% - 90px);
+    }
+
+    ul.timeline > li > .timeline-badge {
+        left: 15px;
+        margin-left: 0;
+        top: 16px;
+    }
+
+    ul.timeline > li > .timeline-panel {
+        float: right;
+    }
+
+        ul.timeline > li > .timeline-panel:before {
+            border-left-width: 0;
+            border-right-width: 15px;
+            left: -15px;
+            right: auto;
+        }
+
+        ul.timeline > li > .timeline-panel:after {
+            border-left-width: 0;
+            border-right-width: 14px;
+            left: -14px;
+            right: auto;
+        }
+	.navbar{
+		position: fixed;
+		right: 0;
+		left: 0;
+		z-index: 1030;
+	}
+
+ .navbar-top-links
+ .dropdown-user {
+  right: auto;
+  left: 0;
 }
 
+
+
+}

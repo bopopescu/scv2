@@ -1,25 +1,32 @@
-{% extends "layout.html" %} 
- {% block body_layout %}
+{% extends "layout.html" %}
+
+{% block body %}
 
     <div id="wrapper">
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Films</h1>
+                    <h1 class="page-header" > {{myitem[0].title}}</h1>
                 </div>
             </div>
             
-                <div class="row  page-header">
-                    <div class="col-lg-3"> <a href="Affiches/Affiche_Harry_Potter.jpg"><img src="Affiches/Affiche_Harry_Potter.jpg" alt="Harry Potter"></a>
-                    
-                    <input id="mystar" name="stars" class="rating rating-loading" data-min="0" data-max="5" data-step="0.5">
-						<input id="giveReview" type="submit" value="Donner mon avis" onclick="giveReviewClick()" alt="Valider Vote" height="40" />
+                <div class="row page-header">
+					
+					<div class="col-lg-3" align="center">
+						<!--image of the item-->
+						<img src="/static/img/example.jpg" width="200" height="300">
+						<!--End of inserting image of the item-->
 						
-			    			<!-- this label is useful only to display the value of the stars-->
-			    			<label>
-							<input id="reviewDone" type="text" height="40" />
-						</label>
 						
+						<!--star rating-->
+						<input type="rating" id="mystar" class="rating" data-min="0" data-max="5" data-step="0.5" onchange="giveReviewClick()" /> 
+						<br>
+						<div>
+							<input id="myvalue">
+						</div>
+						<!--star inserted-->
+						
+						<!--script of star rating starts here-->				
 						<script>
 							function giveReviewClick() {
 								
@@ -28,10 +35,9 @@
 								//THEN REDIRECT BACK TO THE ITEM PAGE
 								//SO WE NEED TO IMPLEMENT THIS FUNCTION ASAP /!\
 								
-								var starvalue = document.getElementById("mystar").value;
 								
 								//Update the label displayer dynamically
-								document.getElementById("reviewDone").value = starvalue;
+								document.getElementById("myvalue").value = document.getElementById("mystar").value;
 								
 								//calls a function to store starvalue in the database
 								
@@ -40,97 +46,110 @@
 								//calls a function to compute the mean of the item
 								
 							}
-						</script>						
-						
-                    
-                    </div>
-                    <div class="col-lg-4"> 
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <div class="glyphicon glyphicon-chevron-right"> <span class="titles"> Titre : </span></div> {{monItem.title}}</br>
-                                 <span class="glyphicon glyphicon-chevron-right"> <span class="titles"> Date de sortie : </span></span> {{monItem.release_date}}</br>
-                      <!--          <span class="glyphicon glyphicon-chevron-right"> <span class="titles"> Réalisateur : </span></span><a href="#"> Mike Newell</a></br>
-                                <span class="glyphicon glyphicon-chevron-right"> <span class="titles"> Acteurs : </span></span><a href="#"> Daniel Radcliffe</a>, <a href="#">Emma Watson</a>, <a href="#">Ruper Grint</a>, <a href="#">plus...</a></br>
-                                <span class="glyphicon glyphicon-chevron-right"> <span class="titles"> Genre : </span></span> Fantastique</br>
-                                <span class="glyphicon glyphicon-chevron-right"> <span class="titles"> Nationalités : </span></span> Américain, Britannique</br>
-                       -->      </div>
-                        </div>
-                    </div>
-			  <div>
-
-				{% if add is sameas 1 %}
-				<h1>Upload new File</h1>
-				<form action="/upload" method=post enctype=multipart/form-data>
-					<p>
-						<input type=file name=file> <input type=submit value=Upload>
-					</p>
-				</form>
-				{% else %}
-					<a href="add" align="center">Add picture</a>
-				{% endif %}
-			</div> 
-			<div class="col-lg-5">
-				<div class="panel panel-green">
-					<div class="panel-heading">
-						<h1>Synopsis</h1>
+						</script>
+					<!--script of star rating ends here-->				
+					
 					</div>
-					<div class="panel-body">La quatrième année à l'école de
-						Poudlard est marquée par le "Tournoi des trois sorciers". Les
-						participants sont choisis par la fameuse "coupe de feu" qui est à
-						l'origine d'un scandale. Elle sélectionne Harry Potter alors qu'il
-						n'a pas l'âge légal requis ! Accusé de tricherie et mis à mal par
-						une série d'épreuves physiques de plus en plus difficiles, ce
-						dernier sera enfin confronté à Celui dont on ne doit pas prononcer
-						le nom, Lord V.</div>
-				</div>
+                    
+					
+					
+					
+					<!-- type, participants and date-->
+					<div class="col-lg-4" align="left"> 
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<span class="glyphicon glyphicon-chevron-right" align="justify"></span>
+								<b> Item type: </b> <a href= "/{{myitem[1].type_name}}">{{ myitem[1].type_name }}</a>
+								<br> 
+								
+								{%if myitem[0].release_date%}
+									<span class="glyphicon glyphicon-chevron-right" align="justify"></span>
+									<b> Released: </b> {{ myitem[0].release_date.strftime('%Y-%m-%d') }}
+									<br> 
+								{%endif%}
+								
 
-			</div>
-		</div>
+								{%if myparticipants%}
+									<span class="glyphicon glyphicon-chevron-right" align="justify"></span>
+									<b> Participants: </b>
+									{% for someone in myparticipants%}
+										<a href = "/Roles/{{someone.participant_id}}/{{(someone.firstname).replace(' ', '_')}}_{{(someone.lastname).replace(' ', '_')}}"> {{someone.firstname}} {{someone.lastname}} </a> ,
+									{%endfor%}
+								{%else%}
+									Unknown
+								{%endif%}
+								<br>
+								
+									
+							</div>
+						</div>
+					</div>
+					<!-- title participants and date END-->
+					
+					
+					
+					<!--description of the item-->
+					<div class="col-lg-5" align="center"> 
+						<div class="panel panel-green">
+							<div class="panel-heading">
+								<h1>Description</h1>
+							</div>
+							<div class="panel-body" align="justify">
+								THIS WILL BE THE DESCRIPTION OF THE ITEM THIS WILL BE THE DESCRIPTION OF THE ITEM THIS WILL BE THE DESCRIPTION OF THE ITEM THIS WILL BE THE DESCRIPTION OF THE ITEM THIS WILL BE THE DESCRIPTION OF THE ITEM THIS WILL BE THE DESCRIPTION OF THE ITEM THIS WILL BE THE DESCRIPTION OF THE ITEM 
+							</div>
+						</div>
+						
+					</div>
+					<!--end of description-->
+					
+					
+				<!--end of page-header-->
+				</div>
+                    
+				
+				
+				
+                
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-green">
                                 <div class="panel-heading">
-                                    <h2><i class="glyphicon glyphicon-heart-empty"></i> Note globale : 4/5</h2>  <a class="commentaires">x critiques</a>
-                                </div>
-                                <div class="panel-body avis_pannel">
-                                   <h1>Avis</h1></br><div class="avis fa fa-comment"> La quatrième année à l'école de Poudlard est marquée par le "Tournoi des trois sorciers". Les participants sont choisis par la fameuse "coupe de feu" qui est à l'origine d'un scandale. Elle sélectionne Harry Potter alors qu'il n'a pas l'âge légal requis !
-                                   Accusé de tricherie et mis à mal par une série d'épreuves physiques de plus en plus difficiles, ce dernier sera enfin confronté à Celui dont on ne doit pas prononcer le nom, Lord V.</div>
-                                   <div class="avis fa fa-comment"> C'était cool</div>
-                                   <div class="avis fa fa-comment"> La quatrième année à l'école de Poudlard est marquée par le "Tournoi des trois sorciers". Les participants sont choisis par la fameuse "coupe de feu" qui est à l'origine d'un scandale. Elle sélectionne Harry Potter alors qu'il n'a pas l'âge légal requis !
-                                   Accusé de tricherie et mis à mal par une série d'épreuves physiques de plus en plus difficiles, ce dernier sera enfin confronté à Celui dont on ne doit pas prononcer le nom, Lord V.</div> 
-                                   <div class="avis fa fa-comment"> La quatrième année à l'école de Poudlard est marquée par le "Tournoi des trois sorciers". Les participants sont choisis par la fameuse "coupe de feu" qui est à l'origine d'un scandale. Elle sélectionne Harry Potter alors qu'il n'a pas l'âge légal requis !
-                                   Accusé de tricherie et mis à mal par une série d'épreuves physiques de plus en plus difficiles, ce dernier sera enfin confronté à Celui dont on ne doit pas prononcer le nom, Lord V.La quatrième année à l'école de Poudlard est marquée par le "Tournoi des trois sorciers". Les participants sont choisis par la fameuse "coupe de feu" qui est à l'origine d'un scandale. Elle sélectionne Harry Potter alors qu'il n'a pas l'âge légal requis !
-                                   Accusé de tricherie et mis à mal par une série d'épreuves physiques de plus en plus difficiles, ce dernier sera enfin confronté à Celui dont on ne doit pas prononcer le nom, Lord V.La quatrième année à l'école de Poudlard est marquée par le "Tournoi des trois sorciers". Les participants sont choisis par la fameuse "coupe de feu" qui est à l'origine d'un scandale. Elle sélectionne Harry Potter alors qu'il n'a pas l'âge légal requis !
-                                   Accusé de tricherie et mis à mal par une série d'épreuves physiques de plus en plus difficiles, ce dernier sera enfin confronté à Celui dont on ne doit pas prononcer le nom, Lord V.</div>
+                                    
+										<h1>
+											<span class="glyphicon glyphicon-heart-empty">
+											</span>
+											
+											Average score:
+											
+											
+											{%if myitem[0].mean>0%}
+												{{myitem[0].mean}}/5.0
+												
+											{%else%}
+												Not reviewed yet
+											{%endif%}
+											
+										</h1>
+										
+										Comments: NBCOMMENTS/VOTES/REVIEWS
+								</div>		
+									
+								
+								<!--COMMENTS-->
+								<div class="panel-body" align="justify"> <br>
+									THIS IS A COMMENT
+								</div>							
+								
+								<div class="panel-body" align="justify"> <br>
+									THIS IS A ANOTHER ONE
+								</div>		
+								<!--END OF COMMENTS-->	
+									
 
-                                </div>
-                            </div>
-
-
-                        </div>
-                        
-
-                    </div>
-<!--                          
-      </div>
-
-
-      </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-</div>
- -->
-        
-  
-
-                   
-
+						</div>
+					</div>
+				</div>
+		</div>
     </div>
     <!-- /#wrapper -->
 

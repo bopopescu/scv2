@@ -1,6 +1,6 @@
 
 {% extends "layout.html" %}
-{% block body_layout %}
+{% block body %}
     <div id="wrapper">
 
 	<div id="page-wrapper">
@@ -31,7 +31,17 @@
 													
 								<a href= "/{{item.type_name}}/{{item.item_id}}/{{(item.title).replace(' ', '_')}}"> <p align="center"> <strong> {{item.title}} </strong> <br> </p> </a>
 								<p align="center" style="white-space:normal"> <i>	<strong> Review: </strong> {{item.mean}} </i> </p>
-								<p align="center" style="white-space:normal"> <i>	<strong> Releasing date: </strong>{{item.release_date}} </i> </p>
+								<p align="center" style="white-space:normal"> 
+									<i>
+										<strong> Releasing date:</strong>
+										{%if item.release_date%}
+											{{item.release_date.strftime('%Y-%m-%d')}}
+										{%else%}
+											Unknown
+										{%endif%}
+									</i>
+									</p>
+											
 							
 							</div>
 						{%endfor%}
