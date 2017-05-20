@@ -141,10 +141,19 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
         i_id = myitemID
         review = request.form['comment']
 
-        u_id = request.form['user_id']
-        add_res = dbAdd(db.session,Notation(item_id=i_id,user_id=u_id,note=note,review_link=review))
-        db.session.commit()
+        q = db.session.query(Notation).filter(db.and_(Notation.item_id == myitemID,Notation.user_id == g.user.id))
 
+        if q.count() == 0:
+            u_id = request.form['user_id']
+            add_res = dbAdd(db.session,Notation(item_id=i_id,user_id=u_id,note=note,review_link=review))
+            db.session.commit()
+        else:
+            #got to update:
+            item_update = q.one()
+
+            item_update.note = note
+            item_update.review_link = review_link
+            db.session.commit()
         # On recalcule la moyenne
 
         current_item = db.session.query(Item).filter(Item.item_id == myitemID).one()
@@ -155,15 +164,14 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
 
         print("\n\nGOTTEM? \n",request.form.to_dict())
 
-    if request.method == 'GET':
+        
+    # On check si user connecté, si data dans DB..
 
-        if g.user.is_active:
-            print(g.user)
-            q = db.session.query(Notation).filter(db.and_(Notation.item_id == myitemID,Notation.user_id == g.user.id))
+    if g.user.is_active:
+        q = db.session.query(Notation).filter(db.and_(Notation.item_id == myitemID,Notation.user_id == g.user.id))
 
-            if q.count() > 0:
-                user_note = q.one()
-
+        if q.count() > 0:
+            user_note = q.one()
 
     return render_template('pages/item.html',image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants,add_res=add_res,user_note=user_note)
          
@@ -389,6 +397,15 @@ def OneRole_ItemTypeName(mytypeName, myrole):
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('pages/error.html', typeslist=res_all_itemtypes)
+
+@app.errorhandler(403)
+def page_not_found(e):
+    return render_template('pages/error.html', typeslist=res_all_itemtypes)
+
+@app.errorhandler(400)
+def page_not_found(e):
+    return render_template('pages/error.html', typeslist=res_all_itemtypes)
+
 
 if __name__ == '__main__':
     app.config['SQLALCHEMY_ECHO'] = True
