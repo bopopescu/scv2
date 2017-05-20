@@ -253,35 +253,36 @@ def itemlist_Types_alphabeticBIS(itemtype_name):
 # To display a requested list from keywords
 @app.route('/search', methods=['POST'])
 def searchByKeywords():
-	keyWords = request.form.get('Mysearch')
+    keyWords = request.form.get('Mysearch')
     if keyWords is None:
         keyWords = ''
-	mylist = keywordSearch(db.session,Participation,Participant,Item,keyWords)
-	isAnItem = []
-	itemName = []
-	temp = ()
-	res = ()
+
+    mylist = keywordSearch(db.session,Participation,Participant,Item,keyWords)
+    isAnItem = []
+    itemName = []
+    temp = ()
+    res = ()
 	
 	# Test if the found object is item: if yes then true
-	for each in mylist:
-		isAnItem.append(isinstance(each, Item))
-	
-	temp = list(zip(mylist, isAnItem))
+    for each in mylist:
+        isAnItem.append(isinstance(each, Item))
+
+    temp = list(zip(mylist, isAnItem))
 	
 	# x: list and y: true (Item) & false (Participant)
-	itemName = [db.session.query(Itemtype).filter(Itemtype.item_type_id == x.type_id).one().type_name if y else 'Participant' for (x, y) in temp ]
+    itemName = [db.session.query(Itemtype).filter(Itemtype.item_type_id == x.type_id).one().type_name if y else 'Participant' for (x, y) in temp ]
 	
 	# (details, item/participant)
-	res = list(zip(mylist, itemName))
-	
-	ParticipantCounter = [db.session.query(Participation).filter(Participation.participant_id == x.participant_id).count() if y == 'Participant' else 0 for (x, y) in res ]
+    res = list(zip(mylist, itemName))
+
+    ParticipantCounter = [db.session.query(Participation).filter(Participation.participant_id == x.participant_id).count() if y == 'Participant' else 0 for (x, y) in res ]
 	
 	# ((details, item/participant),nbOfItems)
-	final_res = list(zip(res, ParticipantCounter))
+    final_res = list(zip(res, ParticipantCounter))
 	
 	#return str(mylist)
 	#return str(final_res)
-	return render_template('pages/search_results.html', typeslist=res_all_itemtypes, list_requested=final_res, type_requested="Search results", MyKeywords=keyWords)
+    return render_template('pages/search_results.html', typeslist=res_all_itemtypes, list_requested=final_res, type_requested="Search results", MyKeywords=keyWords)
 	
 # if the user is trying to reach /search in the url
 
