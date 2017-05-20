@@ -233,7 +233,7 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
 @app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>/reviews', methods=['GET', 'POST'], strict_slashes=False)
 def allnotes_Item(itemtype_name, myitemID, myItemTitle):
 
-    current_item = db.session.query(Item).fiter(Item.item_id == myitemID)
+    current_item = db.session.query(Item).filter(Item.item_id == myitemID).one()
     if current_item is not None:
         return render_template('pages/allnotes.html',comment_list=getAllNotations(db.session,User,Notation,current_item))
     else:
