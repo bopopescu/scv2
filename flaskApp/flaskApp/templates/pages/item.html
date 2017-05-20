@@ -13,11 +13,20 @@
                 <div class="row page-header">
 					
 					<div class="col-lg-3" align="center">
-						<!--image of the item-->
-						<img src="/static/img/example.jpg" width="200" height="300">
-						<!--End of inserting image of the item-->
-						
-						
+
+											<!--image of the item-->
+ 						{% if image_link == "noo" %}
+						<p> No image :( <br> Do you want to add the first image in this category ? </p>
+						{% elif image_link == "no"%}
+  						<p> No image :( <br> Do you want to add one ? </p>
+  						<br>
+  						<form action="add" method=post enctype=multipart/form-data>					
+							<input type=file name=file> <input type=submit value=Upload>
+						</form>
+						{% else %}
+						<img src="{{image_link}}" width="200" height="300">
+						{%endif%}
+						<br>
 						<!--star rating-->
 						<input type="rating" id="mean_star" class="rating" data-min="0" data-max="5" data-step="0.5" value="{% if myitem[0].mean != None %}{{myitem[0].mean}}{% else %}0{%endif%}" readonly /> 
 						<br>
