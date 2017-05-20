@@ -254,6 +254,8 @@ def itemlist_Types_alphabeticBIS(itemtype_name):
 @app.route('/search', methods=['POST'])
 def searchByKeywords():
 	keyWords = request.form.get('Mysearch')
+    if keyWords is None:
+        keyWords = ''
 	mylist = keywordSearch(db.session,Participation,Participant,Item,keyWords)
 	isAnItem = []
 	itemName = []
