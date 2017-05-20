@@ -68,7 +68,7 @@ class Item(db.Model):
 
     item_type = db.relationship('Itemtype', backref=db.backref('item', lazy='dynamic'))
 
-    __table_args__ = tuple(db.UniqueConstraint('title','type_id'))
+    __table_args__ = (db.UniqueConstraint('title', 'type_id'), )
 
     def __init__(self, title=None,release_date=None,type_id=None,image_link=None,video_link=None,desc_link=None,mean=None):
         self.title=title
@@ -180,7 +180,7 @@ class Vote(db.Model):
     comment = db.Column(db.String(100))
     good = db.Column(db.Boolean )
 
-    __table_args__ = tuple(db.UniqueConstraint('user_id','note_id'))
+    __table_args__ = (db.UniqueConstraint('user_id','note_id'), )
 
     def __init__(self, user_id=None, note_id=None, good=None):
         self.user_id = user_id
@@ -201,7 +201,7 @@ class Participant(db.Model):
     picture_link = db.Column(db.String(100), nullable=False)
     bio_link = db.Column(db.String(100), nullable=False)
 
-    __table_args__ = tuple(db.UniqueConstraint('firstname','lastname','birthdate'))
+    __table_args__ = (db.UniqueConstraint('firstname','lastname','birthdate'), )
 
     def __init__(self, firstname=None,lastname=None,birthdate=None,deathdate=None,picture_link=None,bio_link=None):
         self.firstname=firstname
@@ -226,7 +226,7 @@ class Participation(db.Model):
     participant = db.relationship('Participant', backref=db.backref('participation', lazy='dynamic'))
 
 
-    __table_args__ = tuple(db.UniqueConstraint('item_id','participant_id','role'))
+    __table_args__ = (db.UniqueConstraint('item_id','participant_id','role'), )
 
     def __init__(self, item_id=None,participant_id=None,role=None):
         self.item_id = item_id
@@ -265,7 +265,7 @@ class Event(db.Model):
     event_date = db.Column( db.DateTime, nullable=False)
     event_name = db.Column( db.String(20), nullable=False)
 
-    __table_args__ = tuple(db.UniqueConstraint('event_date','event_name'))
+    __table_args__ = (db.UniqueConstraint('event_date','event_name'),)
 
     def __init__(self, event_date=None,event_name=None):
         self.event_date = event_date
