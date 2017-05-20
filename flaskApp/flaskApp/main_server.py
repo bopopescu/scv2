@@ -112,7 +112,7 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
 
 # To display one item
-@app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>',methods=['GET','POST'])
+@app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>',methods=['GET','POST'], strict_slashes=False)
 def description_Item(itemtype_name, myitemID, myItemTitle):
     myItemObject = db.session.query(Item, Itemtype).join(Itemtype, Item.type_id == Itemtype.item_type_id).filter(Item.item_id == myitemID).one()
     myItemPartcipants = getParticipantsOfThisItem(db.session, Participant, Participation, myitemID)
@@ -170,7 +170,7 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
 
 # To display one add picture item
 
-@app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>/add', methods=['GET', 'POST'])
+@app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>/add', methods=['GET', 'POST'], strict_slashes=False)
 def add_picture_Item(itemtype_name, myitemID, myItemTitle):
     myItemPartcipants = getParticipantsOfThisItem(db.session, Participant, Participation, myitemID)
     myItemObject = db.session.query(Item, Itemtype).join(Itemtype, Item.type_id == Itemtype.item_type_id).filter(Item.item_id == myitemID).one()
@@ -206,11 +206,6 @@ def add_picture_Item(itemtype_name, myitemID, myItemTitle):
                 image_link="/"+app.config['UPLOAD_FOLDER']+itemtype_name+"/"+filename 
     return render_template('pages/item.html',add=add, image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants)
 
-
-@app.route('/a')
-def AllTypesWithRoles():
-	return str(res_all_itemtypes)
-
 @app.route('/')
 def home():
 	return render_template('pages/home.html', typeslist=res_all_itemtypes)
@@ -245,11 +240,11 @@ def members_page():
 ####################login ends here#############################
 
 
-@app.route('/All')
+@app.route('/All', strict_slashes=False)
 def itemlist_All_alphabetic():
 	return render_template('pages/all_items.html', typeslist=res_all_itemtypes, all_items=getAllItems(db.session, Item, Itemtype), filter_requested="Alphabetic order", displayRoles='no')
 	
-@app.route('/All/<myfilter>')
+@app.route('/All/<myfilter>', strict_slashes=False)
 def itemlist_All_sorted(myfilter):
 	if myfilter == 'Roles':
 		a = getAllRoles(db.session, Participation)
@@ -259,7 +254,7 @@ def itemlist_All_sorted(myfilter):
 		return render_template('pages/all_items.html', typeslist=res_all_itemtypes, all_items=getAllItems_WithFilter(db.session, Item, Itemtype, myfilter), filter_requested=myfilter, displayRoles='no')
 
 # To display a requested list
-@app.route('/<itemtype_name>/<myfilter>')
+@app.route('/<itemtype_name>/<myfilter>', strict_slashes=False)
 def itemlist_Types(itemtype_name, myfilter):
 	mytypeID = getIdOfItemtype(db.session, Itemtype, itemtype_name)
 	
@@ -267,7 +262,7 @@ def itemlist_Types(itemtype_name, myfilter):
 
 # #THIS IS DONE TWICE (IF URL /ITEMTYPE or /ITEMTYPE/)
 # To display a requested list in alphabetic order
-@app.route('/<itemtype_name>')
+@app.route('/<itemtype_name>', strict_slashes=False)
 def itemlist_Types_alphabetic(itemtype_name):
 	mytypeID = getIdOfItemtype(db.session, Itemtype, itemtype_name)
 	
@@ -276,71 +271,98 @@ def itemlist_Types_alphabetic(itemtype_name):
 		return redirect(redir)
 	else:
 		return redirect('/')
-        
-# To display a requested list in alphabetic order
-@app.route('/<itemtype_name>/')
-def itemlist_Types_alphabeticBIS(itemtype_name):
-	redir = '/' + itemtype_name
-	return redirect(redir)
-
 
 # To display a requested list from keywords
-@app.route('/search', methods=['POST'])
+@app.route('/search', methods=['POST'], strict_slashes=False)
 def searchByKeywords():
-    keyWords = request.form.get('Mysearch')
-    if keyWords is not None and keyWords is not '':
-        mylist = keywordSearch(db.session,Participation,Participant,Item,keyWords)
-    else:
-        mylist = []
-
-    isAnItem = []
-    itemName = []
-    temp = ()
-    res = ()
+	keyWords = request.form.get('Mysearch')
 	
-	# Test if the found object is item: if yes then true
-    for each in mylist:
-        isAnItem.append(isinstance(each, Item))
-
-    temp = list(zip(mylist, isAnItem))
-	
-	# x: list and y: true (Item) & false (Participant)
-    itemName = [db.session.query(Itemtype).filter(Itemtype.item_type_id == x.type_id).one().type_name if y else 'Participant' for (x, y) in temp ]
-	
-	# (details, item/participant)
-    res = list(zip(mylist, itemName))
-
-    ParticipantCounter = [db.session.query(Participation).filter(Participation.participant_id == x.participant_id).count() if y == 'Participant' else 0 for (x, y) in res ]
-	
-	# ((details, item/participant),nbOfItems)
-    final_res = list(zip(res, ParticipantCounter))
-	
+	if keyWords:
+		mylist = keywordSearch(db.session,Participation,Participant,Item,keyWords)
+		isAnItem = []
+		itemName = []
+		temp = ()
+		res = ()
+		
+		
+		# Test if the found object is item: if yes then true
+		for each in mylist:
+			isAnItem.append(isinstance(each, Item))
+		
+		temp = list(zip(mylist, isAnItem))
+		
+		# x: list and y: true (Item) & false (Participant)
+		itemName = [db.session.query(Itemtype).filter(Itemtype.item_type_id == x.type_id).one().type_name if y else 'Participant' for (x, y) in temp ]
+		
+		# (details, item/participant)
+		res = list(zip(mylist, itemName))
+		
+		ParticipantCounter = [db.session.query(Participation).filter(Participation.participant_id == x.participant_id).count() if y == 'Participant' else 0 for (x, y) in res ]
+		
+		# ((details, item/participant),nbOfItems)
+		final_res = list(zip(res, ParticipantCounter))
+	else:
+		final_res =""
+			
 	#return str(mylist)
 	#return str(final_res)
-    return render_template('pages/search_results.html', typeslist=res_all_itemtypes, list_requested=final_res, type_requested="Search results", MyKeywords=keyWords)
+	return render_template('pages/search_results.html', typeslist=res_all_itemtypes, list_requested=final_res, type_requested="Search results", MyKeywords=keyWords)
 	
 # if the user is trying to reach /search in the url
 
-@app.route('/search', methods=['GET'])
+@app.route('/search', methods=['GET'], strict_slashes=False)
 def search():
 	return render_template('pages/search_results.html', typeslist=res_all_itemtypes, list_requested="", type_requested="Search results")
 
 # all roles in ALL TYPES
-@app.route('/Roles')
+@app.route('/Roles', strict_slashes=False)
 def redirToAllRoles():
 	return redirect('/All/Roles')
+	
+# get all participants from THIS Role
+@app.route('/Roles/<nameofrole>', strict_slashes=False)
+def participantsOfThisROle(nameofrole):
+	
+	participantsOfTheRole = db.session.query(Participant.participant_id, Participant.firstname, Participant.lastname).distinct(Participant.participant_id, Participation.participant_id).filter(and_(Participation.participant_id == Participant.participant_id, Participation.role == nameofrole)).all()
+	thefilter = "Here is the list of the " + nameofrole.lower() + "s you are searching for:"
+	res = []
+	finalres = []
+	
+	for each in participantsOfTheRole:
+		res = (each.participant_id, each.firstname, each.lastname, db.session.query(Itemtype.type_name, Participation.item_id, Item.title).distinct(Participation.participant_id).filter(Participation.participant_id==each.participant_id, Participation.item_id ==Item.item_id, Item.type_id==Itemtype.item_type_id, Participation.role == nameofrole).all())
+		finalres.append(res)
+	
+	#finalres structure: [participant_id, firstname, lastname, object]
+	#and object = [ (typename1, item_id1, title1), (typename2, item_id2, title2), (typename3, item_id3, title3), ... ]
+	
+	#return str(finalres)
+	return render_template('pages/requested_list.html', typeslist=res_all_itemtypes, list_requested=finalres, filter_requested=thefilter, type_requested=nameofrole)
 
 
 # To display one participant
-@app.route('/Roles/<int:myparticipantID>/<myparticipantName>')
+@app.route('/Roles/<int:myparticipantID>/<myparticipantName>', strict_slashes=False)
 def description_Participant(myparticipantID, myparticipantName):
-	return "ok this is for displaying participant"
-
+	myparticipantDetails = db.session.query(Participant).filter(Participant.participant_id == myparticipantID).one()
+	myitemsObject = db.session.query(Participation.role, Item.item_id, Item.title, Itemtype.type_name, Item.mean).filter(Participation.item_id == Item.item_id, Item.type_id == Itemtype.item_type_id, Participation.participant_id == myparticipantID).all()
+	myrolesObject = db.session.query(Participation.role).distinct(Participation.role).filter(Participation.participant_id == myparticipantID).all()
+	res = []
+	finalres = []
+	
+	for eachitem in myitemsObject:
+		oldres = res
+		res = (eachitem.role, db.session.query(Item.item_id, Item.title, Item.release_date, Item.mean, Itemtype.type_name).filter(Participation.item_id == Item.item_id, Participation.role == eachitem.role, Participation.participant_id == myparticipantID, Itemtype.item_type_id == Item.type_id).all())
+		if (oldres != res):
+			finalres.append(res)
+	
+	#finalres : [ (role1, (item1 where im role1, item2 where im role1 ,...)), (role2, (item1 where im role2, item2 where im role2 ,...))]
+	#return str(finalres)
+	return render_template('pages/onerole.html',typeslist=res_all_itemtypes, mydetails=myparticipantDetails, myitems=finalres, myroles = myrolesObject)
+    
 
 	
 
 # all roles in ONE GIVE NAME OF ITEM TYPE
-@app.route('/<mytypeName>/Roles')
+@app.route('/<mytypeName>/Roles', strict_slashes=False)
 def AllRoles_ItemTypeName(mytypeName):
 	mytypeID = getIdOfItemtype(db.session, Itemtype, mytypeName)
 	
@@ -352,7 +374,7 @@ def AllRoles_ItemTypeName(mytypeName):
 	return render_template('pages/roles.html', typeslist=res_all_itemtypes, list_requested=rol, filter_requested=myrole, type_requested=mytypeName, ItsARole=-1)
 
 # list of A GIVEN ROLE of A GIVEN TYPE
-@app.route('/<mytypeName>/Roles/<myrole>')
+@app.route('/<mytypeName>/Roles/<myrole>', strict_slashes=False)
 def OneRole_ItemTypeName(mytypeName, myrole):
 	mytypeID = getIdOfItemtype(db.session, Itemtype, mytypeName)
 	rol = getItemtypeIDRoles(db.session, Item, Participation, mytypeID)
@@ -367,18 +389,6 @@ def OneRole_ItemTypeName(mytypeName, myrole):
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('pages/error.html', typeslist=res_all_itemtypes)
-
-# Handling error
-@app.errorhandler(403)
-def page_not_found(e):
-    return render_template('pages/error.html', typeslist=res_all_itemtypes)
-
-# Handling error
-@app.errorhandler(400)
-def page_not_found(e):
-    return render_template('pages/error.html', typeslist=res_all_itemtypes)
-
-
 
 if __name__ == '__main__':
     app.config['SQLALCHEMY_ECHO'] = True
