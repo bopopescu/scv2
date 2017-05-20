@@ -36,23 +36,22 @@
 								<div class="col-sm-4">
 										{%if typeFound == 'Participant'%} 
 											
-											<a align="center" href= "/Roles/{{item.participant_id}}/{{(item.firstname).replace(' ', '_')}}_{{(item.lastname).replace(' ', '_')}}"> <p> <strong> {{item.firstname}} {{item.lastname}} (Role) </strong> <br> </p> </a>
-											<p style="white-space:normal"> <i>	<strong> Birthdate: </strong> {{item.birthdate}} </i> </p>
-											<p style="white-space:normal"> <i>	<strong> Participated to: </strong> {{nb}} items</i> </p>
+											<a href= "/Roles/{{item.participant_id}}/{{(item.firstname).replace(' ', '_')}}_{{(item.lastname).replace(' ', '_')}}"> <p align="center"> <strong> {{item.firstname}} {{item.lastname}} (Role) </strong> <br> </p> </a>
+											<p align="center"> <strong> Birthdate: </strong> {{item.birthdate}} </p>
+											<p align="center"> <strong> Participated to: </strong> {{nb}} items </p>
 											
 										{%else%}
 											
-											<a align="center" href= "/{{typeFound}}/{{item.item_id}}/{{(item.title).replace(' ', '_')}}"> <p> <strong> {{item.title}} ({{typeFound}}) </strong> <br> </p> </a>
-											<p style="white-space:normal"> <i>	<strong> Review: </strong> {{item.mean}} </i> </p>
-											<p align="center" style="white-space:normal"> 
-											<i>
+											<a href= "/{{typeFound}}/{{item.item_id}}/{{(item.title).replace(' ', '_')}}"> <p align="center"> <strong> {{item.title}} ({{typeFound}}) </strong> <br> </p> </a>
+											<p align="center" > <strong> Review: </strong> {{item.mean}} </p>
+											<p align="center" > 
+											
 												<strong> Releasing date:</strong>
 												{%if item.release_date%}
 													{{item.release_date.strftime('%Y-%m-%d')}}
 												{%else%}
 													Unknown
 												{%endif%}
-											</i>
 											</p>
 											
 										{%endif%}

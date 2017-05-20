@@ -46,16 +46,16 @@ def getRecentItems(session, ItemClass, TypeClass, timedelta, itemtype):
 						all()
 
 
-# Retourne un itérable d'OBJETS:
- ## items dont l'attribut title contient "keyword" (NON SENSIBLE À LA CASSE)
+# Retourne un itÃ©rable d'OBJETS:
+ ##Â items dont l'attribut title contient "keyword" (NON SENSIBLE Ã€ LA CASSE)
 
 def keywordItemSearch(session,ItemClass,keyword):
     keyword = '%'+keyword+'%'
     return session.query(ItemClass).filter(ItemClass.title.ilike(keyword)).all()
 
-# Retourne la moyenne arithmétique d'un item
- ## item EST UN OBJET
-  # => surcharger si voulu... 
+# Retourne la moyenne arithmÃ©tique d'un item
+ ##Â item EST UN OBJET
+  #Â => surcharger si voulu... 
 
 def getArithMean(session,NotationClass,item):
 
@@ -73,7 +73,7 @@ def notedItems(session,NotationClass,user):
                         filter(NotationClass.user_id == user.user_id).all()
 
 # Retourne une liste SANS DOUBLONS:
- ## de STRINGS étant les roles existant pour cet itemtype donné
+ ##Â de STRINGS Ã©tant les roles existant pour cet itemtype donnÃ©
   ### itemtype EST UN OBJET !
    # => surcharger si voulu..
 
@@ -126,67 +126,30 @@ from functools import reduce
 ## This is the main ORM tool to use with SQLAlchemy:
  ## the aim is to store all useful query functions here.
 
-def alphaItemSearch(session,ItemClass,TypeClass,letter, itemtype):
-	
-	#First get the id of the type:
-	ourtype = session.query(TypeClass).filter(TypeClass.type_name.like(itemtype)).one()
-
-	letter+='%'
-
-	return session.query(ItemClass).filter(ItemClass.type_id == ourtype.item_type_id).filter(ItemClass.title.like(letter)).all()
 
 
-def getAllParticipantsInfo(session,ItemClass,ParticipantClass,ParticipationClass,item):
-
-	return session.query(ParticipantClass,ParticipationClass).\
-						filter(and_(
-                            ItemClass.type_id == item.type_id,
-                            and_(
-    							ItemClass.title == item.title,
-    							and_(
-    								ParticipationClass.item_id == ItemClass.item_id),
-    								ParticipationClass.participant_id == ParticipantClass.participant_id)
-    								)).\
-						all()
-
-
-def getRecentItems(session, ItemClass, TypeClass, timedelta, itemtype):
-
-
-	ourtype = session.query(TypeClass).filter(TypeClass.type_name.like(itemtype)).one()
-	
-	return session.query(ItemClass).\
-						filter(and_(
-							ItemClass.type_id == ourtype.item_type_id),
-							ItemClass.release_date < (datetime.utcnow() - timedelta)
-							).\
-						all()
-
-
-# Retourne un itérable d'OBJETS:
- ## items dont l'attribut title contient "keyword" (NON SENSIBLE À LA CASSE)
+# Retourne un itÃ©rable d'OBJETS:
+ ##Â items dont l'attribut title contient "keyword" (NON SENSIBLE Ã€ LA CASSE)
 
 def keywordItemSearch(session,ItemClass,keyword):
     keyword = '%'+keyword+'%'
     return session.query(ItemClass).filter(ItemClass.title.ilike(keyword)).all()
 
-## Tolère: un keyword sous la forme d'une phrase, ramène tous les Items qui matchent
+## TolÃ¨re: un keyword sous la forme d'une phrase, ramÃ¨ne tous les Items qui matchent
 
 def keywordC_ItemSearch(session,ItemClass,keyword):
+
 	words = keyword.split(' ')
-	L = []
-	for word in words:
-		L.append('%'+word+'%') 
+	L = [ '%'+word+'%' for word in words if word is not '']
 
 	res = [ ItemClass.title.ilike(word) for word in L]
 
 	return session.query(ItemClass).filter(reduce(lambda x,y:or_(x,y) , res)).all()
 
 def keywordC_partSearch(session,ParticipantClass,keyword):
+
 	words = keyword.split(' ')
-	L = []
-	for word in words:
-		L.append('%'+word+'%') 
+	L = [ '%'+word+'%' for word in words if word is not '']
 
 	res1 = [ ParticipantClass.firstname.ilike(word) for word in L]
 	res2 = [ ParticipantClass.lastname.ilike(word) for word in L]
@@ -196,13 +159,113 @@ def keywordC_partSearch(session,ParticipantClass,keyword):
 
 	return final_list
 
+def popKeyWords(session,ParticipationClass,ParticipantClass,newwords,var='descent'):
 
-## Fonction FINALE !!! :D
+	if var is 'descent':
 
-def keywordSearch(session,ParticipantClass,ItemClass,keyword):
+		final_list = []
+
+		while not (len(final_list) > 0):
+		
+			newwords = [ word[:-1] for word in newwords if (word[:-1] is not '' and len(word[:-1])>3)]
+
+			if (len(newwords) ==0):
+				break
+
+			newL = [ '%'+word+'%' for word in newwords]
+
+			print("new try:",newL,"\n")
+			res = [ ParticipationClass.role.ilike(word) for word in newL]
+
+			for part,_ in session.query(ParticipantClass,ParticipationClass).\
+								filter(and_(
+									ParticipantClass.participant_id == ParticipationClass.participant_id,
+									reduce(lambda x,y:or_(x,y) , res)
+									)).\
+								all():
+				final_list.append(part)
+
+
+		print("Found! ",newwords,'\n')
+
+		return final_list
+
+	if var is 'ascent':
+
+		final_list = []
+
+		while not (len(final_list) > 0):
+		
+			newwords = [ word[1:] for word in newwords if word[1:] is not '']
+
+			if (len(newwords) ==0):
+				break
+
+			newL = [ '%'+word+'%' for word in newwords]
+
+			print("new try:",newL,"\n")
+			res = [ ParticipationClass.role.ilike(word) for word in newL]
+
+			for part,_ in session.query(ParticipantClass,ParticipationClass).\
+								filter(and_(
+									ParticipantClass.participant_id == ParticipationClass.participant_id,
+									reduce(lambda x,y:or_(x,y) , res)
+									)).\
+								all():
+				final_list.append(part)
+
+
+		print("Found! ",newwords,'\n')
+
+		return final_list
+
+
+
+
+
+
+def keywordC_roleSearch(session,ParticipationClass,ParticipantClass,keyword):
+
+	words = keyword.split(' ')
+	L = [ '%'+word+'%' for word in words if word is not '']
+
+	# First try...
+
+	res = [ ParticipationClass.role.ilike(word) for word in L]
+
+	final_list = []
+	for part,_ in session.query(ParticipantClass,ParticipationClass).\
+							filter(and_(
+								ParticipantClass.participant_id == ParticipationClass.participant_id,
+								reduce(lambda x,y:or_(x,y) , res)
+								)).\
+							all():
+		final_list.append(part)
+
+
+	if (len(final_list)>0):
+		return final_list #enough...
+
+	# if doesn't work? try all combinations of keyword slices ..
+
+	newwords = words
+
+	global_list = []
+
+	while ( len(newwords) > 0):
+		newwords = [ word[1:] for word in newwords if word[1:] is not '']
+		global_list.extend(popKeyWords(session,ParticipationClass,ParticipantClass,newwords,var='descent'))
+		
+
+	return global_list
+
+##Â Fonction FINALE !!! :D
+
+def keywordSearch(session,ParticipationClass,ParticipantClass,ItemClass,keyword):
 
 	L = keywordC_ItemSearch(session,ItemClass,keyword)
 	L.extend(keywordC_partSearch(session,ParticipantClass,keyword))
+	L.extend(keywordC_roleSearch(session,ParticipationClass,ParticipantClass,keyword))
 
 	seen = set()
 	seen_add = seen.add
@@ -211,9 +274,9 @@ def keywordSearch(session,ParticipantClass,ItemClass,keyword):
 
 # def keywordItemSearch(session,ItemClass,keyword)
 
-# Retourne la moyenne arithmétique d'un item
- ## item EST UN OBJET
-  # => surcharger si voulu... 
+# Retourne la moyenne arithmÃ©tique d'un item
+ ##Â item EST UN OBJET
+  #Â => surcharger si voulu... 
 
 def getArithMean(session,NotationClass,item):
 
@@ -231,7 +294,7 @@ def notedItems(session,NotationClass,user):
                         filter(NotationClass.user_id == user.user_id).all()
 
 # Retourne une liste SANS DOUBLONS:
- ## de STRINGS étant les roles existant pour cet itemtype donné
+ ##Â de STRINGS Ã©tant les roles existant pour cet itemtype donnÃ©
   ### itemtype EST UN OBJET !
    # => surcharger si voulu..
 

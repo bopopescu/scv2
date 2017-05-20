@@ -25,6 +25,12 @@
 
     <!-- Custom Fonts -->
     <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- Choix de la date-->
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"> 
+
+
+
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -278,27 +284,30 @@
             <!-- /.navbar-top-links -->
 
             <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li class="sidebar-search">
-                            <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Rechercher...">
+                <div class="sidebar-nav navbar-collapse" >
+                    <ul class="nav" id="side-menu"  >
+                        <li class="sidebar-search"  >
+                            <div class="input-group custom-search-form" >
+                          
+                              <input type="text" id="tags" class="form-control ui-autocomplete-input" autocomplete="off"  placeholder="Rechercher...">
                                 <span class="input-group-btn">
                                 <button class="btn btn-default" type="button">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </span>
-                            </div>
+                           </div>
+                           </li> 
+                    
                             <!-- /input-group -->
-                        </li>
+                        
                         <li>
                             <a href="#"><i class="fa fa-film fa-fw"></i> Films<span class="fa arrow"></span></a>
                              <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="Films/Films/film_page1.html">Films</a>
+                                    <a href="../Films/Films/film_page1.html">Films</a>
                                 </li>
                                 <li>
-                                    <a href="Films/Réalisateurs/realisateur_page1.html">Réalisateurs</a>
+                                    <a href="../Films/Réalisateurs/realisateur_page1.html">Réalisateurs</a>
                                 </li>
                                 <li>
                                     <a href="#">Acteurs</a>
@@ -321,23 +330,35 @@
                             <!-- /.nav-second-level -->
                         </li>
 
-         </ul>
-    </div>
-    </div>
+                    </ul>
+            </div>
+      </div>
     </nav>
 
     <div id="page-wrapper">
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">Profil de lambda</h1>
+        <div class="row page-header">
+            <div class="col-lg-8">
+                <h1>Profil de lambda</h1>
             </div>
+            <div class="col-lg-4">
+                <i class="fa fa-user-plus fa-4x" style="color:#999"></i>
+            </div>
+
         </div>
         <div class="row">
             <div class="col-lg-2">
                 <div class="page-header" style="margin-top:0%"><a href="avatar/Utilisateur_Lambda.png"><img src="avatar/Utilisateur_Lambda.png" style="width:150px" class="img-rounded" alt="Utilisateur_lambda"></a></div>
                 
             </div>
-            <div class="col-lg-6"><h1>Lambda</h1> Cochon, 10 ans
+            <div class="col-lg-4"><h1>Lambda</h1> Cochon, <span id="DateNais">04/03/1996<span>, <span id="Age"></span> ans
+            </div>
+            <div class="col-lg-5">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                    A propos de moi:</br>
+                    </div>
+                </div>
+
             </div>
         </div>
         <div class="row">
@@ -394,11 +415,11 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-film fa-4x"></i>
+                                    <i class="fa fa fa-star-half-full fa-4x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">200</div>   
-                                    <div>Appréciation de Films</div>
+                                    <div>Toutes mes Notes</div>
                                 </div>
                             </div>  
                         </div>
@@ -414,11 +435,49 @@
                 
                
             </div>
+            <p>Date: <input type="text" id="datepicker"/></p>
+           
+       
+         
+       
+            
 
     </div>
+  
 
 
+  <SCRIPT LANGUAGE="JavaScript">
+  
+    var td=new Date();
+    DateNais=document.getElementById("DateNais").innerHTML;
+    var dtn=DateNais; 
+    var an=dtn.substr(6,4);
+    var mois=dtn.substr(3,2)-1;
+    var day= dtn.substr(0,2)-14; 
+    var age=td.getFullYear()-an; 
+    
+    var mMois=td.getMonth()-mois; 
+     
+    if(mMois < 0)
+    {
+        age=age-1; 
+    }  
+    else
+    {
+        if(mMois == 0)
+        {
+            var mDate=td.getDay()-day;
+            if(mDate < 0)
+            {
+                age=age-1;
+            }
+             
+        }
+    }
+ 
+    document.getElementById("Age").innerHTML=age; 
 
+        </script>
     <!-- jQuery -->
     <script src="../../vendor/jquery/jquery.min.js"></script>
 
@@ -437,7 +496,20 @@
     <script src="../../dist/js/sb-admin-2.js"></script>
 
     <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-    
+   
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    <script>
+    $( function() {
+     $( "#datepicker" ).datepicker({
+        showOtherMonths: true,
+        selectOtherMonths: true
+       });
+   } );
+    </script>
+
+
 </body>
 
 </html>

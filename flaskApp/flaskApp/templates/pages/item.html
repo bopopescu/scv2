@@ -13,41 +13,27 @@
                 <div class="row page-header">
 					
 					<div class="col-lg-3" align="center">
-						<!--image of the item-->
-						<img src="/static/img/example.jpg" width="200" height="300">
-						<!--End of inserting image of the item-->
-						
-						
-						<!--star rating-->
-						<input type="rating" id="mystar" class="rating" data-min="0" data-max="5" data-step="0.5" onchange="giveReviewClick()" /> 
+
+											<!--image of the item-->
+ 						{% if image_link == "noo" %}
+						<p> No image :( <br> Do you want to add the first image in this category ? </p>
+						{% elif image_link == "no"%}
+  						<p> No image :( <br> Do you want to add one ? </p>
+  						<br>
+  						<form action="add" method=post enctype=multipart/form-data>					
+							<input type=file name=file> <input type=submit value=Upload>
+						</form>
+						{% else %}
+						<img src="{{image_link}}" width="200" height="300">
+						{%endif%}
 						<br>
-						<div>
-							<input id="myvalue">
-						</div>
+						<!--star rating-->
+						<input type="rating" id="mean_star" class="rating" data-min="0" data-max="5" data-step="0.5" value="{% if myitem[0].mean != None %}{{myitem[0].mean}}{% else %}0{%endif%}" readonly /> 
+						<br>
+												
 						<!--star inserted-->
 						
-						<!--script of star rating starts here-->				
-						<script>
-							function giveReviewClick() {
-								
-								//IF THE USER IS NOT LOGGED/SIGNED IN:
-								//REDIRECT TO THE LOGIN PAGE
-								//THEN REDIRECT BACK TO THE ITEM PAGE
-								//SO WE NEED TO IMPLEMENT THIS FUNCTION ASAP /!\
-								
-								
-								//Update the label displayer dynamically
-								document.getElementById("myvalue").value = document.getElementById("mystar").value;
-								
-								//calls a function to store starvalue in the database
-								
-								//calls a function to avoid the user to vote twice
-								
-								//calls a function to compute the mean of the item
-								
-							}
-						</script>
-					<!--script of star rating ends here-->				
+		
 					
 					</div>
                     
@@ -116,9 +102,13 @@
                                 <div class="panel-heading">
                                     
 										<h1>
+											{%if current_user.is_active %}{{ current_user.username }}'s view :{%else%} Log in to note !{%endif%}
+										</h1>
+											
+
+										<h2 style="position: absolute;top: 20%;right: 0;width: 30%;height: 10%;">
 											<span class="glyphicon glyphicon-heart-empty">
 											</span>
-											
 											Average score:
 											
 											
@@ -128,22 +118,53 @@
 											{%else%}
 												Not reviewed yet
 											{%endif%}
+
+										</h2>
 											
-										</h1>
+										
 										
 										Comments: NBCOMMENTS/VOTES/REVIEWS
 								</div>		
 									
 								
 								<!--COMMENTS-->
-								<div class="panel-body" align="justify"> <br>
-									THIS IS A COMMENT
-								</div>							
+								<!--star rating-->
+						<form action="/{{myitem[1].type_name}}/{{myitem[0].item_id}}/{{myitem[0].title.replace(' ','_')}}" method="post">
+						<div class="row">
+                    		<div class="col-lg-12">
+                    		</div>
+                    	</div>
+
+						<input type="rating" id="mystar" class="rating" data-min="0" data-max="5" data-step="0.5" onchange="giveReviewClick()" />
+						<input type="hidden" name="starvalue" id="starvalue" value="" />
+						<input type="hidden" name="user_id" id="user_id" value="" />
+
+
+						<div class="row">
+                    		<div class="col-lg-12">
+							<br> <p>Comment: </p><input type="text" name = "comment" placeholder="Express Yourself ;)">
+						</div>
+						<!--script of star rating starts here-->				
+						<script>
+							function giveReviewClick() {
 								
-								<div class="panel-body" align="justify"> <br>
-									THIS IS A ANOTHER ONE
-								</div>		
-								<!--END OF COMMENTS-->	
+
+								$('#starvalue').val(document.getElementById("mystar").value.toString());
+
+								$('#user_id').val({{current_user.get_id()}}.toString());
+							}
+						</script>
+						{%if current_user.is_active %}
+						<button type="submit" style="position: relative;top: 10%;right: 0;width: 20%;height: 20%;"> Share your thoughts !</button>
+						{%else%}
+						<button type="button"> Log in to Share </button>
+						{%endif%}
+						</form>
+						
+
+					<!--script of star rating ends here-->		
+					
+
 									
 
 						</div>

@@ -17,6 +17,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://scv2:scv2@localh
 db.init_app(app)
 app.app_context().push()
 
+db.drop_all()
+db.create_all()
+
 
 mes_users = [
 			User(first_name='alfredo',

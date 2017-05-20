@@ -12,10 +12,10 @@
 	<title>Inscale</title>
 
 	<!-- Bootstrap Core CSS and for STAR RATING -->
-	<link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/static/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
 
 	<!-- MetisMenu CSS -->
-	<link href="/static/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+	<link href="/static/vendor/metisMenu/metisMenu.css" rel="stylesheet">
 
 	<!-- Custom CSS -->
 	{% block style_constr %}
@@ -36,10 +36,10 @@
 	<link href="/static/vendor/morrisjs/morris.css" rel="stylesheet">
 
 	<!-- Custom Fonts -->
-	<link href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="/static/vendor/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
 
 	<!-- jQuery -->
-	<script src="/static/vendor/jquery/jquery.min.js"></script>
+	<script src="/static/vendor/jquery/jquery.js"></script>
 
 	<script type="text/javascript">
 	  var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
@@ -51,6 +51,7 @@
 </head>
 
 <!-- Upper band for login -->
+
 
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation"
@@ -65,7 +66,7 @@
 			<span class="icon-bar"></span> <span class="icon-bar"></span>
 		</button>
 
-		<a href="/"> <img src="/static/img/inscale_logo.png" width="160" height="50" style="float:left;margin:0 10px 0 20px;"> </a>
+		<a href="/"> <img src="/static/images/Inscale_logo.png" width="160" height="50" style="float:left;margin:0 10px 0 20px;"> </a>
 		
 	</div>
 	<!-- /.navbar-header -->
@@ -88,7 +89,8 @@
 				{% else %}
 					<a href="{{ url_for('user.login') }}"> <i class="fa fa-sign-out fa-fw"></i>  Sign in !</a>
 				{% endif %}
-			</ul> <!-- /.dropdown-user -->
+			</ul>
+			<!-- /.dropdown-user -->
 			
 		</li>
 			
@@ -122,10 +124,10 @@
 						</form>
 					</div> <!-- /input-group -->
 				</li>
-	{% endblock %}
+				{% endblock %}
 
 
-	{% block items %}
+				{% block items %}
 				<!--menu déroulant-->
 				<li><a href="#">
 					<class id="alltypes>">
@@ -149,8 +151,10 @@
 							<li><a href="/All/Roles"> All roles </a></li>
 
 						</ul>
-					</ul></li> {% for (sometype,roles) in typeslist %}
+					</ul>
+				</li>
 				
+				{% for (sometype,roles) in typeslist %}
 				<li><a href="/{{sometype.type_name}}">
 					<class id="{{sometype.item_type_id}}">
 						<span class="fa fa-bookmark fa-fw"></span>
@@ -181,7 +185,8 @@
 						{% endfor %}
 						
 					</ul>
-			</li> {% endfor %}
+				</li>
+				{% endfor %}
 
 
 
@@ -205,22 +210,22 @@
 
     <div id="footer-div" class="clearfix with-margins">
         <div class="pull-left">Inscale 0.98</div>
-        <div class="pull-right">&copy; 2016 INSA Lyon</div>
+        <div class="pull-right">&copy; 2017 INSA Lyon. Quentel, Ramanandray, Veletanlic & Viola</div>
     </div>
     </body>
     
 	<!-- jQuery & USEFUL FOR STAR-RATING -->
-	<script src="/static/vendor/jquery/jquery.min.js"></script>
+	<script src="/static/vendor/jquery/jquery.js"></script>
 
 	<!-- Bootstrap Core JavaScript -->
-	<script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/static/vendor/bootstrap/js/bootstrap.js"></script>
 
 	<!-- Metis Menu Plugin JavaScript -->
-	<script src="/static/vendor/metisMenu/metisMenu.min.js"></script>
+	<script src="/static/vendor/metisMenu/metisMenu.js"></script>
 
 	<!-- Morris Charts JavaScript -->
-	<script src="/static/vendor/raphael/raphael.min.js"></script>
-	<script src="/static/vendor/morrisjs/morris.min.js"></script>
+	<script src="/static/vendor/raphael/raphael.js"></script>
+	<script src="/static/vendor/morrisjs/morris.js"></script>
 	<script src="/static/data/morris-data.js"></script>
 
 	<!-- Custom Theme JavaScript -->
