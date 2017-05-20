@@ -206,7 +206,7 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
             item_update = q.one()
 
             item_update.note = note
-            item_update.review_link = review_link
+            item_update.review_link = review
             db.session.commit()
         # On recalcule la moyenne
 
