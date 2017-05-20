@@ -164,6 +164,11 @@
 
                         <div class="row">
                             <div class="col-lg-12 col-lg-offset-3 col-md-12 col-md-offset-3 col-xs-12 col-xs-offset-3">
+                            <span style="float:right;">
+                                                <form action="/{{myitem[1].type_name}}/{{myitem[0].item_id}}/{{(myitem[0].title).replace(' ', '_')}}/reviews" method="get">	
+													<input type=submit value="See the item reviews">
+												</form>
+							</span>
 
                             <br> <p>Comment: </p>
                             {% if user_note != None %}
@@ -193,11 +198,6 @@
                         		<button type="submit">Log in to Share</button>
                         	</form>
                         {%endif%}
-                        <span style="float:right;">
-                                                <form action="/{{myitem[1].type_name}}/{{myitem[0].item_id}}/{{(myitem[0].title).replace(' ', '_')}}/reviews" method="get">	
-													<input type=submit value="See the item reviews">
-												</form>
-						</span>
                         {% if add_res %}{{add_res}}{%endif%}
                         
                         </div>
