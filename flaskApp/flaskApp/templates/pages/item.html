@@ -57,7 +57,7 @@
 								<span class="glyphicon glyphicon-chevron-right" align="justify"></span>
 								<b> Participants: </b>
 									
-								{%if myparticipants%}
+								{%if myparticipants is not none%}
 									{% for someone in myparticipants%}
 										<a href = "/Roles/{{someone.participant_id}}/{{(someone.firstname).replace(' ', '_')}}_{{(someone.lastname).replace(' ', '_')}}"> {{someone.firstname}} {{someone.lastname}} </a> ,
 									{%endfor%}
