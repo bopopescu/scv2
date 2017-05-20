@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request, json, redirect, url_for, render_template_string, jsonify, flash,g
+from flask import Flask, jsonify, render_template, request, json, redirect, url_for, render_template_string, jsonify, flash, g
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
 
@@ -18,10 +18,12 @@ from werkzeug.utils import secure_filename
 from flask import send_from_directory
 from datetime import *
 import fnmatch
+from click.types import File
+
 
 # Useful list of class names, see flask_admin
 
-classes =   [   User,
+classes = [   User,
                 Item,
                 Itemtype,
                 Notation,
@@ -34,9 +36,10 @@ classes =   [   User,
                 Event]
 
 
-#input("Press Enter to continue...")
+# input("Press Enter to continue...")
 
 UPLOAD_FOLDER = 'static/images/'
+UPLOAD_FOLDER_USER = 'static/user/'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 
@@ -67,13 +70,14 @@ app = Flask(__name__)  # Construct an instance of Flask class for our webapp
 app.config.from_object(__name__ + '.ConfigClass')
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER_USER'] = UPLOAD_FOLDER_USER
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://scv2:scv2@localhost/scv2db'
 
 db.init_app(app)
 app.app_context().push()
 mail = Mail(app)  # Initialize Flask-Mail
 db.create_all()
-#set flask_admin !
+# set flask_admin !
 
 admin = Admin(app, name='inScale', template_mode='bootstrap3')
 
@@ -90,7 +94,6 @@ def before_request():
     g.user = current_user
 
 # @login_manager.user_loader
-# def load_user(u_id):
 #     user = db.session.query(User).filter(User.id == u_id).one()
 #     g.user = user
 #     return user
@@ -107,30 +110,81 @@ res_all_itemtypes = mainheader(db.session, Item, Itemtype, Participation)
 
 
 ####################login here#############################
+
+@app.route('/user/<user_id>', strict_slashes=False)
+def userPage(user_id):
+    myUserObject = db.session.query(User).filter(User.id == user_id).one()
+    myfile = '0'
+    if not os.path.exists('static/user/' + user_id + '/'):
+        image_link = "no"
+    else :
+        for file in os.listdir('static/user/' + user_id + '/'):
+            if fnmatch.fnmatch(file, '*' +"_"+ myUserObject.id + '*.*'):
+                print ('\n\n\n' + file + '\n\n\n')
+                myfile = file
+                image_link = "/static/user/" + user_id + "/" + myfile 
+                break
+        
+        if myfile == '0' :
+            image_link = "no"
+    return render_template('pages/user.html',image_link=image_link, user=myUserObject,typeslist=res_all_itemtypes)
+
+@app.route('/user/<user_id>/add', methods=['GET', 'POST'], strict_slashes=False)
+def add_picture_User(user_id):
+    myUserObject = db.session.query(User).filter(User.id == user_id).one()
+    if request.method == 'POST':
+        # check if the post request has the file part
+        add = -1
+        image_link = "upload_error"
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit a empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            # filename="cool"+file.filename.rsplit('.', 1)[1].lower()
+            if not os.path.exists(app.config['UPLOAD_FOLDER_USER'] + user_id):
+                os.makedirs(app.config['UPLOAD_FOLDER_USER'] + user_id)
+            filename = myUserObject.username+"_"+user_id + "." + file.filename.split(".")[1]
+            if os.path.isfile(app.config['UPLOAD_FOLDER_USER'] + user_id + "/" + filename):
+                add = 0
+                image_link = "/" + app.config['UPLOAD_FOLDER_USER'] + user_id + "/" + filename 
+                # return redirect(url_for('failure'))
+            else :
+                file.save(os.path.join(app.config['UPLOAD_FOLDER_USER'] + user_id, filename))
+                add = 1
+                # return redirect(url_for('success',fileAdd="yes it has been added??"))
+                image_link = "/" + app.config['UPLOAD_FOLDER_USER'] + user_id + "/" + filename 
+    return render_template('pages/user.html',image_link=image_link, user=myUserObject,typeslist=res_all_itemtypes)
+
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 # To display one item
-@app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>',methods=['GET','POST'], strict_slashes=False)
+@app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>', methods=['GET', 'POST'], strict_slashes=False)
 def description_Item(itemtype_name, myitemID, myItemTitle):
     myItemObject = db.session.query(Item, Itemtype).join(Itemtype, Item.type_id == Itemtype.item_type_id).filter(Item.item_id == myitemID).one()
     myItemPartcipants = getParticipantsOfThisItem(db.session, Participant, Participation, myitemID)
     myfile = '0'
-    myItemTitle = myItemObject[0].title.replace(" ","_")
-    from click.types import File
-    if not os.path.exists('static/images/'+itemtype_name+'/'):
+    myItemTitle = myItemObject[0].title.replace(" ", "_")
+    if not os.path.exists('static/images/' + itemtype_name + '/'):
         image_link = "noo"
     else :
-        for file in os.listdir('static/images/'+itemtype_name+'/'):
-            if fnmatch.fnmatch(file, '*'+myItemTitle+'*.*'):
-                print ('\n\n\n'+file+'\n\n\n')
-                myfile=file
-                image_link="/static/images/"+itemtype_name+"/"+myfile 
+        for file in os.listdir('static/images/' + itemtype_name + '/'):
+            if fnmatch.fnmatch(file, '*' + myItemTitle + '*.*'):
+                print ('\n\n\n' + file + '\n\n\n')
+                myfile = file
+                image_link = "/static/images/" + itemtype_name + "/" + myfile 
                 break
         
-        if myfile=='0' :
-            image_link="no"
+        if myfile == '0' :
+            image_link = "no"
 
     add_res = None
     user_note = None
@@ -142,30 +196,30 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
         review = request.form['comment']
 
         u_id = request.form['user_id']
-        add_res = dbAdd(db.session,Notation(item_id=i_id,user_id=u_id,note=note,review_link=review))
+        add_res = dbAdd(db.session, Notation(item_id=i_id, user_id=u_id, note=note, review_link=review))
         db.session.commit()
 
         # On recalcule la moyenne
 
         current_item = db.session.query(Item).filter(Item.item_id == myitemID).one()
 
-        current_item.mean = getArithMean(db.session,Notation,current_item)
+        current_item.mean = getArithMean(db.session, Notation, current_item)
 
         db.session.commit()
 
-        print("\n\nGOTTEM? \n",request.form.to_dict())
+        print("\n\nGOTTEM? \n", request.form.to_dict())
 
     if request.method == 'GET':
 
         if g.user.is_active:
             print(g.user)
-            q = db.session.query(Notation).filter(db.and_(Notation.item_id == myitemID,Notation.user_id == g.user.id))
+            q = db.session.query(Notation).filter(db.and_(Notation.item_id == myitemID, Notation.user_id == g.user.id))
 
             if q.count() > 0:
                 user_note = q.one()
 
 
-    return render_template('pages/item.html',image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants,add_res=add_res,user_note=user_note)
+    return render_template('pages/item.html', image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants, add_res=add_res, user_note=user_note)
          
 
 # To display one add picture item
@@ -174,12 +228,12 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
 def add_picture_Item(itemtype_name, myitemID, myItemTitle):
     myItemPartcipants = getParticipantsOfThisItem(db.session, Participant, Participation, myitemID)
     myItemObject = db.session.query(Item, Itemtype).join(Itemtype, Item.type_id == Itemtype.item_type_id).filter(Item.item_id == myitemID).one()
-    myItemTitle = myItemObject[0].title.replace(" ","_")
+    myItemTitle = myItemObject[0].title.replace(" ", "_")
 
     if request.method == 'POST':
         # check if the post request has the file part
         add = -1
-        image_link="upload_error"
+        image_link = "upload_error"
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
@@ -194,17 +248,17 @@ def add_picture_Item(itemtype_name, myitemID, myItemTitle):
             # filename="cool"+file.filename.rsplit('.', 1)[1].lower()
             if not os.path.exists(app.config['UPLOAD_FOLDER'] + itemtype_name):
                 os.makedirs(app.config['UPLOAD_FOLDER'] + itemtype_name)
-            filename = myItemTitle+ "." + file.filename.split(".")[1]
-            if os.path.isfile(app.config['UPLOAD_FOLDER'] +itemtype_name+"/"+ filename):
+            filename = myItemTitle + "." + file.filename.split(".")[1]
+            if os.path.isfile(app.config['UPLOAD_FOLDER'] + itemtype_name + "/" + filename):
                 add = 0
-                image_link="/"+app.config['UPLOAD_FOLDER']+itemtype_name+"/"+filename 
-                #return redirect(url_for('failure'))
+                image_link = "/" + app.config['UPLOAD_FOLDER'] + itemtype_name + "/" + filename 
+                # return redirect(url_for('failure'))
             else :
-                file.save(os.path.join(app.config['UPLOAD_FOLDER']+itemtype_name, filename))
-                add=1
-                #return redirect(url_for('success',fileAdd="yes it has been added??"))
-                image_link="/"+app.config['UPLOAD_FOLDER']+itemtype_name+"/"+filename 
-    return render_template('pages/item.html',add=add, image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'] + itemtype_name, filename))
+                add = 1
+                # return redirect(url_for('success',fileAdd="yes it has been added??"))
+                image_link = "/" + app.config['UPLOAD_FOLDER'] + itemtype_name + "/" + filename 
+    return render_template('pages/item.html', add=add, image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants)
 
 @app.route('/')
 def home():
@@ -278,7 +332,7 @@ def searchByKeywords():
 	keyWords = request.form.get('Mysearch')
 	
 	if keyWords:
-		mylist = keywordSearch(db.session,Participation,Participant,Item,keyWords)
+		mylist = keywordSearch(db.session, Participation, Participant, Item, keyWords)
 		isAnItem = []
 		itemName = []
 		temp = ()
@@ -302,10 +356,10 @@ def searchByKeywords():
 		# ((details, item/participant),nbOfItems)
 		final_res = list(zip(res, ParticipantCounter))
 	else:
-		final_res =""
+		final_res = ""
 			
-	#return str(mylist)
-	#return str(final_res)
+	# return str(mylist)
+	# return str(final_res)
 	return render_template('pages/search_results.html', typeslist=res_all_itemtypes, list_requested=final_res, type_requested="Search results", MyKeywords=keyWords)
 	
 # if the user is trying to reach /search in the url
@@ -329,13 +383,13 @@ def participantsOfThisROle(nameofrole):
 	finalres = []
 	
 	for each in participantsOfTheRole:
-		res = (each.participant_id, each.firstname, each.lastname, db.session.query(Itemtype.type_name, Participation.item_id, Item.title).distinct(Participation.participant_id).filter(Participation.participant_id==each.participant_id, Participation.item_id ==Item.item_id, Item.type_id==Itemtype.item_type_id, Participation.role == nameofrole).all())
+		res = (each.participant_id, each.firstname, each.lastname, db.session.query(Itemtype.type_name, Participation.item_id, Item.title).distinct(Participation.participant_id).filter(Participation.participant_id == each.participant_id, Participation.item_id == Item.item_id, Item.type_id == Itemtype.item_type_id, Participation.role == nameofrole).all())
 		finalres.append(res)
 	
-	#finalres structure: [participant_id, firstname, lastname, object]
-	#and object = [ (typename1, item_id1, title1), (typename2, item_id2, title2), (typename3, item_id3, title3), ... ]
+	# finalres structure: [participant_id, firstname, lastname, object]
+	# and object = [ (typename1, item_id1, title1), (typename2, item_id2, title2), (typename3, item_id3, title3), ... ]
 	
-	#return str(finalres)
+	# return str(finalres)
 	return render_template('pages/requested_list.html', typeslist=res_all_itemtypes, list_requested=finalres, filter_requested=thefilter, type_requested=nameofrole)
 
 
@@ -354,9 +408,9 @@ def description_Participant(myparticipantID, myparticipantName):
 		if (oldres != res):
 			finalres.append(res)
 	
-	#finalres : [ (role1, (item1 where im role1, item2 where im role1 ,...)), (role2, (item1 where im role2, item2 where im role2 ,...))]
-	#return str(finalres)
-	return render_template('pages/onerole.html',typeslist=res_all_itemtypes, mydetails=myparticipantDetails, myitems=finalres, myroles = myrolesObject)
+	# finalres : [ (role1, (item1 where im role1, item2 where im role1 ,...)), (role2, (item1 where im role2, item2 where im role2 ,...))]
+	# return str(finalres)
+	return render_template('pages/onerole.html', typeslist=res_all_itemtypes, mydetails=myparticipantDetails, myitems=finalres, myroles=myrolesObject)
     
 
 	
