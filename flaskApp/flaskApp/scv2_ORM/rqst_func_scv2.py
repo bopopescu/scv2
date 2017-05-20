@@ -339,7 +339,7 @@ def getAllNotations(session,UserClass,NotationClass,item):
 	return session.query(NotationClass,UserClass).\
 						filter(
 							and_(
-								NotationClass.user_id == UserClass.user_id,
+								NotationClass.user_id == UserClass.id,
 								NotationClass.item_id == item.item_id)).all()
 
 def getParticipantsOfThisItem(session, Participant, Participation, myitemID):
