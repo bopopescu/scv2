@@ -147,7 +147,7 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
 
         # On recalcule la moyenne
 
-        current_item = db.session.query(Item).filter(Item.item_id).one()
+        current_item = db.session.query(Item).filter(Item.item_id == myitemID).one()
 
         current_item.mean = getArithMean(db.session,Notation,current_item)
 
