@@ -254,7 +254,7 @@ def itemlist_Types_alphabeticBIS(itemtype_name):
 @app.route('/search', methods=['POST'])
 def searchByKeywords():
 	keyWords = request.form.get('Mysearch')
-	mylist = keywordSearch(db.session, Participant, Item, keyWords)
+	mylist = keywordSearch(db.session,Participation,Participant,Item,keyWords)
 	isAnItem = []
 	itemName = []
 	temp = ()
@@ -277,7 +277,8 @@ def searchByKeywords():
 	# ((details, item/participant),nbOfItems)
 	final_res = list(zip(res, ParticipantCounter))
 	
-	# return str(final_res)
+	#return str(mylist)
+	#return str(final_res)
 	return render_template('pages/search_results.html', typeslist=res_all_itemtypes, list_requested=final_res, type_requested="Search results", MyKeywords=keyWords)
 	
 # if the user is trying to reach /search in the url
@@ -285,8 +286,6 @@ def searchByKeywords():
 @app.route('/search', methods=['GET'])
 def search():
 	return render_template('pages/search_results.html', typeslist=res_all_itemtypes, list_requested="", type_requested="Search results")
-
-
 
 # all roles in ALL TYPES
 @app.route('/Roles')

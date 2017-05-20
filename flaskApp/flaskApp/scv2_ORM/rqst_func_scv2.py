@@ -46,16 +46,16 @@ def getRecentItems(session, ItemClass, TypeClass, timedelta, itemtype):
 						all()
 
 
-# Retourne un itérable d'OBJETS:
- ## items dont l'attribut title contient "keyword" (NON SENSIBLE À LA CASSE)
+# Retourne un itÃ©rable d'OBJETS:
+ ##Â items dont l'attribut title contient "keyword" (NON SENSIBLE Ã€ LA CASSE)
 
 def keywordItemSearch(session,ItemClass,keyword):
     keyword = '%'+keyword+'%'
     return session.query(ItemClass).filter(ItemClass.title.ilike(keyword)).all()
 
-# Retourne la moyenne arithmétique d'un item
- ## item EST UN OBJET
-  # => surcharger si voulu... 
+# Retourne la moyenne arithmÃ©tique d'un item
+ ##Â item EST UN OBJET
+  #Â => surcharger si voulu... 
 
 def getArithMean(session,NotationClass,item):
 
@@ -73,7 +73,7 @@ def notedItems(session,NotationClass,user):
                         filter(NotationClass.user_id == user.user_id).all()
 
 # Retourne une liste SANS DOUBLONS:
- ## de STRINGS étant les roles existant pour cet itemtype donné
+ ##Â de STRINGS Ã©tant les roles existant pour cet itemtype donnÃ©
   ### itemtype EST UN OBJET !
    # => surcharger si voulu..
 
@@ -128,14 +128,14 @@ from functools import reduce
 
 
 
-# Retourne un itérable d'OBJETS:
- ## items dont l'attribut title contient "keyword" (NON SENSIBLE À LA CASSE)
+# Retourne un itÃ©rable d'OBJETS:
+ ##Â items dont l'attribut title contient "keyword" (NON SENSIBLE Ã€ LA CASSE)
 
 def keywordItemSearch(session,ItemClass,keyword):
     keyword = '%'+keyword+'%'
     return session.query(ItemClass).filter(ItemClass.title.ilike(keyword)).all()
 
-## Tolère: un keyword sous la forme d'une phrase, ramène tous les Items qui matchent
+## TolÃ¨re: un keyword sous la forme d'une phrase, ramÃ¨ne tous les Items qui matchent
 
 def keywordC_ItemSearch(session,ItemClass,keyword):
 
@@ -259,7 +259,7 @@ def keywordC_roleSearch(session,ParticipationClass,ParticipantClass,keyword):
 
 	return global_list
 
-## Fonction FINALE !!! :D
+##Â Fonction FINALE !!! :D
 
 def keywordSearch(session,ParticipationClass,ParticipantClass,ItemClass,keyword):
 
@@ -274,9 +274,9 @@ def keywordSearch(session,ParticipationClass,ParticipantClass,ItemClass,keyword)
 
 # def keywordItemSearch(session,ItemClass,keyword)
 
-# Retourne la moyenne arithmétique d'un item
- ## item EST UN OBJET
-  # => surcharger si voulu... 
+# Retourne la moyenne arithmÃ©tique d'un item
+ ##Â item EST UN OBJET
+  #Â => surcharger si voulu... 
 
 def getArithMean(session,NotationClass,item):
 
@@ -294,7 +294,7 @@ def notedItems(session,NotationClass,user):
                         filter(NotationClass.user_id == user.user_id).all()
 
 # Retourne une liste SANS DOUBLONS:
- ## de STRINGS étant les roles existant pour cet itemtype donné
+ ##Â de STRINGS Ã©tant les roles existant pour cet itemtype donnÃ©
   ### itemtype EST UN OBJET !
    # => surcharger si voulu..
 
