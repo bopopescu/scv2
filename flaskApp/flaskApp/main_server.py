@@ -85,6 +85,9 @@ db_adapter = SQLAlchemyAdapter(db, User)  # Register the User model
 user_manager = UserManager(db_adapter, app)  # Initialize Flask-User
 
 
+@app.before_request
+def before_request():
+    g.user = current_user
 
 # @login_manager.user_loader
 # def load_user(u_id):
@@ -142,13 +145,21 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
         add_res = dbAdd(db.session,Notation(item_id=i_id,user_id=u_id,note=note,review_link=review))
         db.session.commit()
 
+        # On recalcule la moyenne
+
+        current_item = db.session.query(Item).filter(Item.item_id).one()
+
+        current_item.mean = getArithMean(db.session,Notation,current_item)
+
+        db.session.commit()
+
         print("\n\nGOTTEM? \n",request.form.to_dict())
 
     if request.method == 'GET':
 
-        if current_user.is_active:
-            print(current_user)
-            q = db.session.query(Notation).filter(db.and_(Notation.item_id == myitemID,Notation.user_id == current_user.id))
+        if g.user.is_active:
+            print(g.user)
+            q = db.session.query(Notation).filter(db.and_(Notation.item_id == myitemID,Notation.user_id == g.user.id))
 
             if q.count() > 0:
                 user_note = q.one()
