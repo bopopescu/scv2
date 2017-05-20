@@ -147,7 +147,7 @@
                             <div class="col-lg-6">
                             <br> <p>Comment: </p>
                             {% if user_note != None %}
-                            <textarea type="text" name = "comment"  value={{user_note.review_link}} cols="150" rows="5" style="max-width:90%"></textarea>
+                            <textarea type="text" name = "comment" cols="150" rows="5" style="max-width:90%">{{user_note.review_link}}</textarea>
                             {%else%}
                             <textarea type="text" name = "comment"  placeholder="Express Yourself ;)" cols="150" rows="5" style="max-width:90%"></textarea>
                             {%endif%}
