@@ -16,7 +16,7 @@
 
 						<!--image of the item-->
 						 <div class="panel panel-default">
-                              				  <div class="panel-heading">
+                         <div class="panel-heading">
  						{% if image_link == "noo" %}
 						<p> No image :( <br> Do you want to add the first image in this category ? </p>
 						{% elif image_link == "no"%}
@@ -63,7 +63,9 @@
 									
 								{%if myparticipants is not none%}
 									{% for someone in myparticipants%}
+										{%if someone is not none%}
 										<a href = "/Roles/{{someone.participant_id}}/{{(someone.firstname).replace(' ', '_')}}_{{(someone.lastname).replace(' ', '_')}}"> {{someone.firstname}} {{someone.lastname}} </a> ,
+										{%endif%}
 									{%endfor%}
 								{%else%}
 									Unknown
