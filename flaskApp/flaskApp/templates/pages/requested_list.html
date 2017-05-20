@@ -43,7 +43,7 @@
 						{%else%}
 						
 						<!--IF WE WANT A FILTERED ROLES-->
-							{%if list_requested%}
+							{%if list_requested is not none%}
 								{%for item in list_requested%}
 									<div class="col-sm-4">
 
