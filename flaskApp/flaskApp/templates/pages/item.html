@@ -128,20 +128,20 @@
                                 
                                 <!--COMMENTS-->
                                 <!--star rating-->
-                        <form action="/{{myitem[1].type_name}}/{{myitem[0].item_id}}/{{myitem[0].title.replace(' ','_')}}" method="post">
+                   	<form action="/{{myitem[1].type_name}}/{{myitem[0].item_id}}/{{myitem[0].title.replace(' ','_')}}" method="post">
                         <div class="row">
                             <div class="col-lg-12">
                             
 
                         <input type="rating" id="mystar" class="rating" data-min="0" data-max="5" data-step="0.5" onchange="giveReviewClick()" />
                         <input type="hidden" name="starvalue" id="starvalue" value="" />
-                        <input type="hidden" name="user_id" id="user_id" value="" />
+                        <input type="hidden" name="user_id" id="user_id" value="{{current_user.id}}" />
 
 
                         <div class="row">
                             <div class="col-lg-6">
                             <br> <p>Comment: </p>
-                            <textarea type="text" name = "comment"  placeholder="Express Yourself ;)" cols="150" rows="5"></textarea>
+                            <textarea type="text" name = "comment"  placeholder="Express Yourself ;)" cols="150" rows="5" style="max-width:90%"></textarea>
                             <div class="col-lg-6">
                         
                         <!--script of star rating starts here-->                
@@ -149,15 +149,26 @@
                             function giveReviewClick() {
                                 
                                 $('#starvalue').val(document.getElementById("mystar").value.toString());
-                                $('#user_id').val({{current_user.get_id()}}.toString());
+                                $('#user_id').val({{current_user.id}}.toString());
                             }
                         </script>
+
+
                         {%if current_user.is_active %}
                         <button type="submit" style="color:black; border-style:ridge; border-width:2px; border-color:blue;"> Share your thoughts !</button>
+
                         {%else%}
-                        <button type="button"> Log in to Share </button>
-                        {%endif%}
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
                         </form>
+                        	<form action="/sign-in" method="get">
+                        	<button type="submit">Log in to Share</button>
+                        	</form>
+                        {%endif%}
+                        
                         </div>
                         </div>
 					<!--script of star rating ends here-->		

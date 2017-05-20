@@ -330,6 +330,18 @@ def OneRole_ItemTypeName(mytypeName, myrole):
 def page_not_found(e):
     return render_template('pages/error.html', typeslist=res_all_itemtypes)
 
+# Handling error
+@app.errorhandler(403)
+def page_not_found(e):
+    return render_template('pages/error.html', typeslist=res_all_itemtypes)
+
+# Handling error
+@app.errorhandler(400)
+def page_not_found(e):
+    return render_template('pages/error.html', typeslist=res_all_itemtypes)
+
+
+
 if __name__ == '__main__':
     app.config['SQLALCHEMY_ECHO'] = True
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
