@@ -26,25 +26,40 @@
 					
 					
 					<div class="panel-body">
-						{%for item in list_requested%}
-							<div class="col-sm-4">
-													
-								<a href= "/{{item.type_name}}/{{item.item_id}}/{{(item.title).replace(' ', '_')}}"> <p align="center"> <strong> {{item.title}} </strong> <br> </p> </a>
-								<p align="center" style="white-space:normal"> <i>	<strong> Review: </strong> {{item.mean}} </i> </p>
-								<p align="center" style="white-space:normal"> 
-									<i>
-										<strong> Releasing date:</strong>
+						<!--IF WE WANT ALL ROLES-->
+						{% if filter_requested|length > 15%} 
+							{%for (participant_id, firstname, lastname, object) in list_requested%}
+								<div class="col-sm-4">															
+									<a href= "/Roles/{{participant_id}}/{{firstname.replace(' ','_')}}_{{lastname.replace(' ','_')}}"> <p align="center"> <strong> {{firstname}} {{lastname}} </strong> <br> </p> </a>
+									<p align="center" > <strong> As a {{type_requested.lower()}} in: </strong> 
+										{%for each in object%}
+											<a href="/{{each.type_name}}/{{each.item_id}}/{{each.title.replace(' ','_')}}"> {{each.title}}, </a>
+										{%endfor%}
+									</p><br>
+										
+								</div>
+							
+							{%endfor%}
+						{%else%}
+						
+						<!--IF WE WANT A FILTERED ROLES-->
+							{%for item in list_requested%}
+								<div class="col-sm-4">
+														
+									<a href= "/{{item.type_name}}/{{item.item_id}}/{{(item.title).replace(' ', '_')}}"> <p align="center"> <strong> {{item.title}} </strong> <br> </p> </a>
+									<p align="center"> <strong> Review: </strong> {{item.mean}} </i> </p>
+									<p align="center"> <strong> Releasing date:</strong>
 										{%if item.release_date%}
 											{{item.release_date.strftime('%Y-%m-%d')}}
 										{%else%}
 											Unknown
 										{%endif%}
-									</i>
 									</p>
-											
-							
-							</div>
-						{%endfor%}
+												
+								
+								</div>
+							{%endfor%}
+						{%endif%}
 					</div>
 					<!-- /.panel-body -->
 					

@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+    <div id="wrapper">
+        <div id="page-wrapper">
+            
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header" > {{mydetails.firstname}} {{mydetails.lastname}}</h1>
+                </div>
+            </div>
+            
+			<div class="row page-header">
+				<!--image of the role-->
+				<div class="col-lg-3" align="center">
+					<img src="/static/images/role.jpg" width="200" height="300">
+				</div>
+				
+				
+				
+				
+				<!-- type, participants and date-->
+				<div class="col-lg-4" align="left"> 
+					<div class="panel panel-default">
+						<div class="panel-body">
+							
+							
+							<span class="glyphicon glyphicon-chevron-right" align="justify"></span>
+							<b> Born the: </b>
+							{%if mydetails.birthdate%}									
+								{{ mydetails.birthdate.strftime('%Y-%m-%d') }}
+							{%else%}
+								Unknown
+							{%endif%}
+							<br> 
+							
+							
+							<span class="glyphicon glyphicon-chevron-right" align="justify"></span>
+							<b> Main role(s): </b>
+							{%for myrole in myroles%}
+								<a href="/Roles/{{myrole.role}}"> {{myrole.role}} </a>,
+							{%endfor%}
+							<br>
+								
+							<p align="justify">
+								<span class="glyphicon glyphicon-chevron-right" align="justify"></span>
+								<b> Related to: </b>
+								
+								<h5 style="margin-left: 30px;">
+								{%for eachrole in myitems%}
+									•
+									{%for relateditem in eachrole[1]%}
+										  <a href="/{{relateditem.type_name}}/{{relateditem.item_id}}/{{relateditem.title.replace(' ','_')}} ">{{relateditem.title}}</a>, 
+									{%endfor%}
+									as a <a href="/Roles/{{eachrole[0]}}">{{eachrole[0]}} </a><br>
+								{%endfor%}
+								</h5>
+									
+							</p>							
+							<br>
+							
+								
+						</div>
+					</div>
+				</div>
+				
+				
+				
+				<!--description of the role-->
+				<div class="col-lg-5" align="center"> 
+					<div class="panel panel-green">
+						<div class="panel-heading">
+							<h1> Biography </h1>
+						</div>
+						<div class="panel-body" align="justify">
+							THIS WILL BE THE DESCRIPTION OF THE ROLE THIS WILL BE THE DESCRIPTION OF THE ROLE THIS WILL BE THE DESCRIPTION OF THE ROLE THIS WILL BE THE DESCRIPTION OF THE ROLE THIS WILL BE THE DESCRIPTION OF THE ROLE THIS WILL BE THE DESCRIPTION OF THE ROLE THIS WILL BE THE DESCRIPTION OF THE ROLE THIS WILL BE THE DESCRIPTION OF THE ROLE 
+						</div>
+					</div>
+					
+				</div>
+				<!--end of description-->
+				
+				
+			<!--end of page-header-->
+			</div>
+				
+				
+		</div>
+    </div>
+    <!-- /#wrapper -->
+
+{% endblock %}
+
+

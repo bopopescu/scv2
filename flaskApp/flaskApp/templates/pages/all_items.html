@@ -27,9 +27,9 @@
 					
 					<div class="panel-body">
 						{%if displayRoles == 'yes'%}
-							{%for role in all_items%}
+							{%for myrole in all_items%}
 							<div class="col-sm-4">
-								<a href= "/search" action = "POST" value = role> <p align="center" > <strong> {{role}} </strong> <br> </p> </a>
+								<a href= "/Roles/{{myrole.replace(" ","_")}}"> <p align="center" > <strong> {{myrole}} </strong> <br> </p> </a>
 							</div>
 							{%endfor%}
 						{%endif%}
@@ -38,17 +38,15 @@
 								{%for item in all_items%}
 									<div class="col-sm-4">
 										<a href= "/{{item.type_name}}/{{item.item_id}}/{{(item.title).replace(' ', '_')}}"> <p align="center" > <strong> {{item.title}} </strong> <br> </p> </a>
-										<p align="center" style="white-space:normal"> <i>	<strong> Item type: </strong> {{item.type_name}} </i> </p>
-										<p align="center" style="white-space:normal"> <i>	<strong> Review: </strong> {{item.mean}} </i> </p>
+										<p align="center"> <strong> Item type: </strong> {{item.type_name}} </p>
+										<p align="center"> <strong> Review: </strong> {{item.mean}} </p>
 											<p align="center" style="white-space:normal"> 
-											<i>
 												<strong> Releasing date:</strong>
 												{%if item.release_date%}
 													{{item.release_date.strftime('%Y-%m-%d')}}
 												{%else%}
 													Unknown
 												{%endif%}
-											</i>
 											</p>
 											
 										
