@@ -33,7 +33,7 @@ class ConfigClass(object):
     # Flask-Mail settings
     MAIL_USERNAME = os.getenv('MAIL_USERNAME', 'gros.brother@gmail.com')
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD', 'scv2power8000')
-    MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER', '"SCV2" <gros.brother@gmail.com>')
+    MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER', '"Inscale" <gros.brother@gmail.com>')
     MAIL_SERVER = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
     MAIL_PORT = int(os.getenv('MAIL_PORT', '465'))
     MAIL_USE_SSL = int(os.getenv('MAIL_USE_SSL', True))
