@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+    <div id="wrapper">
+        <div id="page-wrapper">
+            
+            <div class="row">
+                <div class="col-lg-12">
+					<h1 class="page-header">Reviews for item {{thisitem.item_title}}</h1>
+				</div>
+			</div>
+		
+		
+		{% for data in comment_list %}
+		<!-- data is a tuple (notation, user) -->
+
+			<div class="row">
+				<div class="col-lg-12">
+				<!-- /.panel -->
+					<div class="panel panel-green">
+						<div class="panel-heading">
+							<label>
+								{{data[1].username}} said:
+								<br> at {{data[0].review_date}}.
+							</label>
+						</div>
+					<!-- /.panel-heading -->
+
+						<div class="panel-body">
+						<!--star rating-->
+						<input type="rating" id="user_star" class="rating" data-min="0" data-max="5" data-step="0.5" value="{% if data0].note != None %}{{data[0].note}}0{%endif%}" readonly /> 
+						<br>
+						<br>
+						<p> {{data[0].review_link}}</p>
+						</div>
+					</div>
+				</div>
+		</div>
+		{%endfor%}
+	</div>
+</div>
+</div>
+</div>
+
+{%endblock%}
+					

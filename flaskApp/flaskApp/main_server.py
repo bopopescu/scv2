@@ -230,6 +230,14 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
     return render_template('pages/item.html', image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants, add_res=add_res, user_note=user_note)
          
 
+@app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>/reviews', methods=['GET', 'POST'], strict_slashes=False)
+def allnotes_Item(itemtype_name, myitemID, myItemTitle):
+
+    current_item = db.session.query(Item).fiter(Item.item_id == myitemID)
+    if current_item is not None:
+        return render_template('pages/allnotes.html',comment_list=getAllNotations(db.session,User,Notation,current_item))
+    else:
+        return 'zut :/'
 # To display one add picture item
 
 @app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>/add', methods=['GET', 'POST'], strict_slashes=False)

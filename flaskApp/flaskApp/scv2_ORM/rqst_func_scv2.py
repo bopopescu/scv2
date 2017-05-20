@@ -333,6 +333,15 @@ def getParticipantItems(session,ItemClass,ParticipationClass,participant):
 
 	return [ item for item in  L if not (item in seen or seen_add(item))]
 
+
+def getAllNotations(session,UserClass,NotationClass,item):
+
+	return session.query(NotationClass,UserClass).\
+						filter(
+							and_(
+								NotationClass.user_id == UserClass.user_id,
+								NotationClass.item_id == item.item_id)).all()
+
 def getParticipantsOfThisItem(session, Participant, Participation, myitemID):
 	return session.query(Participant).join(Participation, Participant.participant_id == Participation.participant_id).filter(Participation.item_id == myitemID).all()
 
