@@ -342,9 +342,9 @@ def getAllNotations(session,UserClass,NotationClass,item):
 								NotationClass.user_id == UserClass.id,
 								NotationClass.item_id == item.item_id)).all()
 
+
 def getParticipantsOfThisItem(session, Participant, Participation, myitemID):
 	return session.query(Participant).join(Participation, Participant.participant_id == Participation.participant_id).filter(Participation.item_id == myitemID).all()
-
 
 #Get all itemtypes (for fixed borders!)
 def getAllItemtypes(session, Itemtype):
