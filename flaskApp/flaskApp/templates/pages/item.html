@@ -54,10 +54,10 @@
 									<br> 
 								{%endif%}
 								
-
+								<span class="glyphicon glyphicon-chevron-right" align="justify"></span>
+								<b> Participants: </b>
+									
 								{%if myparticipants%}
-									<span class="glyphicon glyphicon-chevron-right" align="justify"></span>
-									<b> Participants: </b>
 									{% for someone in myparticipants%}
 										<a href = "/Roles/{{someone.participant_id}}/{{(someone.firstname).replace(' ', '_')}}_{{(someone.lastname).replace(' ', '_')}}"> {{someone.firstname}} {{someone.lastname}} </a> ,
 									{%endfor%}
