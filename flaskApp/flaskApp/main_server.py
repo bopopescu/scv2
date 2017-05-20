@@ -124,10 +124,8 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
         i_id = myitemID
         review = request.form['comment']
 
-        if request.form['user_id'] is not '':
-            u_id = request.form['user_id']
-
-            add_res = dbAdd(db.session,Notation(item_id=i_id,user_id=u_id,note=note,review_link=review))
+        u_id = request.form['user_id']
+        add_res = dbAdd(db.session,Notation(item_id=i_id,user_id=u_id,note=note,review_link=review))
 
         print("\n\nGOTTEM? \n",request.form.to_dict())
 
