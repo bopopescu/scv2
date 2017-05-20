@@ -170,7 +170,7 @@ def uploaded_file(filename):
 @app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>', methods=['GET', 'POST'], strict_slashes=False)
 def description_Item(itemtype_name, myitemID,myItemTitle):
     myItemObject = db.session.query(Item, Itemtype).join(Itemtype, Item.type_id == Itemtype.item_type_id).filter(Item.item_id == myitemID).one()
-    myItemPartcipants = getParticipantsOfThisItem(db.session,Item,Itemtype, Participant, Participation, myitemID)
+    myItemPartcipants = getParticipantsOfThisItem(db.session, Participant, Participation, myitemID)
     myfile = '0'
     if not os.path.exists('static/images/' + itemtype_name + '/'):
         image_link = "noo"
@@ -233,7 +233,7 @@ def allnotes_Item(itemtype_name, myitemID, myItemTitle):
 
     current_item = db.session.query(Item).filter(Item.item_id == myitemID).one()
     if current_item is not None:
-        return render_template('pages/allnotes.html',current_item=current_item,comment_list=getAllNotations(db.session,User,Notation,current_item))
+        return render_template('pages/allnotes.html',current_item=current_item,comment_list=getAllNotations(db.session,User,Notation,current_item),typeslist=res_all_itemtypes)
     else:
         return 'zut :/'
 # To display one add picture item
