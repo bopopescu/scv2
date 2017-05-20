@@ -321,7 +321,7 @@ def redirToAllRoles():
 	
 # get all participants from THIS Role
 @app.route('/Roles/<nameofrole>', strict_slashes=False)
-def participantsOfThisROle(nameofrole):
+def participantsOfThisROle(nameofrole): 
 	
 	participantsOfTheRole = db.session.query(Participant.participant_id, Participant.firstname, Participant.lastname).distinct(Participant.participant_id, Participation.participant_id).filter(and_(Participation.participant_id == Participant.participant_id, Participation.role == nameofrole)).all()
 	thefilter = "Here is the list of the " + nameofrole.lower() + "s you are searching for:"
