@@ -168,11 +168,10 @@ def uploaded_file(filename):
 
 # To display one item
 @app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>', methods=['GET', 'POST'], strict_slashes=False)
-def description_Item(itemtype_name, myitemID, myItemTitle):
+def description_Item(itemtype_name, myitemID,myItemTitle):
     myItemObject = db.session.query(Item, Itemtype).join(Itemtype, Item.type_id == Itemtype.item_type_id).filter(Item.item_id == myitemID).one()
     myItemPartcipants = getParticipantsOfThisItem(db.session, Participant, Participation, myitemID)
     myfile = '0'
-    myItemTitle = myItemObject[0].title.replace(" ", "_")
     if not os.path.exists('static/images/' + itemtype_name + '/'):
         image_link = "noo"
     else :
@@ -226,7 +225,6 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
 
         if q.count() > 0:
             user_note = q.one()
-
     return render_template('pages/item.html', image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants, add_res=add_res, user_note=user_note)
          
 
@@ -241,7 +239,8 @@ def allnotes_Item(itemtype_name, myitemID, myItemTitle):
 # To display one add picture item
 
 @app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>/add', methods=['GET', 'POST'], strict_slashes=False)
-def add_picture_Item(itemtype_name, myitemID, myItemTitle):
+@login_required
+def add_picture_Item(itemtype_name, myitemID,myItemTitle):
     myItemPartcipants = getParticipantsOfThisItem(db.session, Participant, Participation, myitemID)
     myItemObject = db.session.query(Item, Itemtype).join(Itemtype, Item.type_id == Itemtype.item_type_id).filter(Item.item_id == myitemID).one()
     myItemTitle = myItemObject[0].title.replace(" ", "_")
@@ -275,8 +274,9 @@ def add_picture_Item(itemtype_name, myitemID, myItemTitle):
                 add = 1
                 # return redirect(url_for('success',fileAdd="yes it has been added??"))
                 image_link = "/" + app.config['UPLOAD_FOLDER'] + itemtype_name + "/" + filename 
-    return render_template('pages/item.html', add_res=add_res, user_note=user_note, add=add, image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants)
-
+                return render_template('pages/item.html', add_res=add_res, user_note=user_note, add=add, image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants)
+    else:
+        return redirect('/')
 
 @app.route('/')
 def home():
