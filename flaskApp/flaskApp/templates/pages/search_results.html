@@ -29,7 +29,7 @@
 					
 					
 					
-					{%if list_requested|length >= 1 %}
+					{%if list_requested is not none %}
 						<div class="panel-body">
 							<!--((details, item/participant),nbOfItems)-->
 							{%for ((item,typeFound),nb) in list_requested%}
@@ -37,11 +37,11 @@
 									<div class="panel panel-default">
 									
 										{%if typeFound == 'Participant'%} 
-											
+											{%if item is not none%}
 											<a href= "/Roles/{{item.participant_id}}/{{(item.firstname).replace(' ', '_')}}_{{(item.lastname).replace(' ', '_')}}"> <p align="center"> <strong> {{item.firstname}} {{item.lastname}} (Role) </strong> <br> </p> </a>
 											<p align="center"> <strong> Birthdate: </strong> {{item.birthdate}} </p>
 											<p align="center"> <strong> Participated to: </strong> {{nb}} items </p>
-											
+											{%endif%}
 										{%else%}
 											
 											<a href= "/{{typeFound}}/{{item.item_id}}/{{(item.title).replace(' ', '_')}}"> <p align="center"> <strong> {{item.title}} ({{typeFound}}) </strong> <br> </p> </a>
