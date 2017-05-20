@@ -15,6 +15,8 @@
 					<div class="col-lg-3" align="center">
 
 						<!--image of the item-->
+						 <div class="panel panel-default">
+                              				  <div class="panel-heading">
  						{% if image_link == "noo" %}
 						<p> No image :( <br> Do you want to add the first image in this category ? </p>
 						{% elif image_link == "no"%}
@@ -27,6 +29,8 @@
 						<img src="{{image_link}}" width="200" height="300">
 						{%endif%}
 						<br>
+						 </div>
+                        			</div>
 						<!--star rating-->
 						<input type="rating" id="mean_star" class="rating" data-min="0" data-max="5" data-step="0.5" value="{% if myitem[0].mean != None %}{{myitem[0].mean}}{% else %}0{%endif%}" readonly /> 
 						<br>
@@ -99,15 +103,16 @@
                     <div class="col-lg-12">
                         <div class="panel panel-green">
                                 <div class="panel-heading">
-                                    
+                                      <div class="row">   
+                                     <div class="col-lg-8">
                                         <h1>
                                             {%if current_user.is_active %}{{ current_user.username }}'s view :{%else%} Log in to note !{%endif%}
-                                        </h1>
-                                            
-
-                                        <h2 style="position: absolute;top: 5%;right: 0;width: 30%;height: 10%;">
-                                            <span class="glyphicon glyphicon-heart-empty">
-                                            </span>
+                                        </h1> <br>Comments: NBCOMMENTS/VOTES/REVIEWS
+					      </div>
+					      <div class="col-lg-4">
+					<h1>
+                                            <i class="glyphicon glyphicon-heart-empty">
+                                            </i>
 
                                             Average score: 
                                             {%if myitem[0].mean%}
@@ -118,20 +123,29 @@
                                             {%endif%}
                                             
                                             
-                                        </h2>
+                                        </h1>
                                             
                                         
                                         
-                                        Comments: NBCOMMENTS/VOTES/REVIEWS
-                                </div>      
+                                       
+                                </div>
+					</div>
+				</div>
                                     
                                 
                                 <!--COMMENTS-->
                                 <!--star rating-->
+				 <div class="row">
+                          <div class="col-lg-12">
+                          <h1></h1>
+                          </div>
+                          </div>
                    	<form action="/{{myitem[1].type_name}}/{{myitem[0].item_id}}/{{myitem[0].title.replace(' ','_')}}" method="post">
-                        <div class="row">
-                            <div class="col-lg-12">
-                            
+                          <div class="row">
+                            <div class="col-lg-2 col-lg-offset-1">
+                            <h1>Your rating:</h1>
+				  </div>
+                                <div class="col-lg-8 ">
                          {% if user_note != None %}
                          <p> You already reviewed this item, did you change your mind ? </p>
                          <br>
@@ -141,17 +155,20 @@
                         {%endif%}
                         <input type="hidden" name="starvalue" id="starvalue" value="" />
                         <input type="hidden" name="user_id" id="user_id" value="{{current_user.id}}" />
-
+				  </div>
+				</div>
 
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-12 col-lg-offset-3 col-md-12 col-md-offset-3 col-xs-12 col-xs-offset-3">
+
                             <br> <p>Comment: </p>
                             {% if user_note != None %}
-                            <textarea type="text" name = "comment" cols="150" rows="5" style="max-width:90%">{{user_note.review_link}}</textarea>
+                            <textarea type="text" name = "comment" cols="150" rows="5" style="max-width:50%">{{user_note.review_link}}</textarea>
                             {%else%}
-                            <textarea type="text" name = "comment"  placeholder="Express Yourself ;)" cols="150" rows="5" style="max-width:90%"></textarea>
+                            <textarea type="text" name = "comment"  placeholder="Express Yourself ;)" cols="150" rows="5" style="max-width:50%"></textarea>
                             {%endif%}
-                            <div class="col-lg-6">
+				</div>
+                            <div class="col-lg-12 col-lg-offset-3 col-md-12 col-md-offset-1 col-xs-12 ">
                         
                         <!--script of star rating starts here-->                
                         <script>
@@ -167,9 +184,8 @@
                         {%else%}
                         </div>
                         </div>
-                        </div>
-                        </div>
-                        </div>
+               
+              
                         </form>
                         	<form action="{{ url_for('user.login') }}" method="get">
                         		<button type="submit">Log in to Share</button>
