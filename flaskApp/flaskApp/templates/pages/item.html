@@ -20,7 +20,7 @@
 						{% elif image_link == "no"%}
   						<p> No image :( <br> Do you want to add one ? </p>
   						<br>
-  						<form action="add" method=post enctype=multipart/form-data>					
+  						<form action="/{{myitem[1].type_name}}/{{myitem[0].item_id}}/{{(myitem[0].title).replace(' ', '_')}}/add" method=post enctype=multipart/form-data>					
 							<input type=file name=file> <input type=submit value=Upload>
 						</form>
 						{% else %}

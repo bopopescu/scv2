@@ -119,7 +119,7 @@ def userPage(user_id):
         image_link = "no"
     else :
         for file in os.listdir('static/user/' + user_id + '/'):
-            if fnmatch.fnmatch(file, '*' + "_" + myUserObject.id + '*.*'):
+            if fnmatch.fnmatch(file, "*" + "_" + str(myUserObject.id)+ "*.*"):
                 print ('\n\n\n' + file + '\n\n\n')
                 myfile = file
                 image_link = "/static/user/" + user_id + "/" + myfile 
@@ -237,7 +237,8 @@ def add_picture_Item(itemtype_name, myitemID, myItemTitle):
     myItemPartcipants = getParticipantsOfThisItem(db.session, Participant, Participation, myitemID)
     myItemObject = db.session.query(Item, Itemtype).join(Itemtype, Item.type_id == Itemtype.item_type_id).filter(Item.item_id == myitemID).one()
     myItemTitle = myItemObject[0].title.replace(" ", "_")
-
+    add_res = None
+    user_note = None
     if request.method == 'POST':
         # check if the post request has the file part
         add = -1
@@ -266,7 +267,8 @@ def add_picture_Item(itemtype_name, myitemID, myItemTitle):
                 add = 1
                 # return redirect(url_for('success',fileAdd="yes it has been added??"))
                 image_link = "/" + app.config['UPLOAD_FOLDER'] + itemtype_name + "/" + filename 
-    return render_template('pages/item.html', add=add, image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants)
+    return render_template('pages/item.html', add_res=add_res, user_note=user_note, add=add, image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants)
+
 
 @app.route('/')
 def home():
