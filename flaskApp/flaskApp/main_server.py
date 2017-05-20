@@ -235,7 +235,7 @@ def allnotes_Item(itemtype_name, myitemID, myItemTitle):
 
     current_item = db.session.query(Item).filter(Item.item_id == myitemID).one()
     if current_item is not None:
-        return render_template('pages/allnotes.html',comment_list=getAllNotations(db.session,User,Notation,current_item))
+        return render_template('pages/allnotes.html',current_item=current_item,comment_list=getAllNotations(db.session,User,Notation,current_item))
     else:
         return 'zut :/'
 # To display one add picture item
