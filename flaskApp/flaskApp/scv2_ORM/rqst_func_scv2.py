@@ -49,7 +49,7 @@ def getRecentItems(session, ItemClass, TypeClass, timedelta, itemtype):
 # Retourne un itÃ©rable d'OBJETS:
  ##Â items dont l'attribut title contient "keyword" (NON SENSIBLE Ã€ LA CASSE)
 
-def keywordItemSearch(session,ItemClass,keyword):
+def keywordItemSearch(session,ItemClass,keyword=''):
     keyword = '%'+keyword+'%'
     return session.query(ItemClass).filter(ItemClass.title.ilike(keyword)).all()
 

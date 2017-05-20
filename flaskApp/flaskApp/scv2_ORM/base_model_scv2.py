@@ -107,6 +107,8 @@ class Notation(db.Model):
     item = db.relationship('Item', backref=db.backref('notation', lazy='dynamic'))
     user = db.relationship('User', backref=db.backref('notation', lazy='dynamic'))
 
+    __table_args__ = (db.UniqueConstraint('user_id','item_id'), )
+
 
     def __init__(self, item_id=None, user_id=None, note=None, review_link=None, review_date=None, upvotes=None):
         self.item_id = item_id

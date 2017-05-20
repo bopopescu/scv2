@@ -95,73 +95,91 @@
 				
 				
 				
-                
-                <div class="row">
+              <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-green">
                                 <div class="panel-heading">
                                     
-										<h1>
-											{%if current_user.is_active %}{{ current_user.username }}'s view :{%else%} Log in to note !{%endif%}
-										</h1>
-											
+                                        <h1>
+                                            {%if current_user.is_active %}{{ current_user.username }}'s view :{%else%} Log in to note !{%endif%}
+                                        </h1>
+                                            
 
-										<h2 style="position: absolute;top: 20%;right: 0;width: 30%;height: 10%;">
-											<span class="glyphicon glyphicon-heart-empty">
-											</span>
-											Average score:
-											
-											
-											{%if myitem[0].mean>0%}
-												{{myitem[0].mean}}/5.0
-												
-											{%else%}
-												Not reviewed yet
-											{%endif%}
+                                        <h2 style="position: absolute;top: 5%;right: 0;width: 30%;height: 10%;">
+                                            <span class="glyphicon glyphicon-heart-empty">
+                                            </span>
 
-										</h2>
-											
-										
-										
-										Comments: NBCOMMENTS/VOTES/REVIEWS
-								</div>		
-									
-								
-								<!--COMMENTS-->
-								<!--star rating-->
-						<form action="/{{myitem[1].type_name}}/{{myitem[0].item_id}}/{{myitem[0].title.replace(' ','_')}}" method="post">
-						<div class="row">
-                    		<div class="col-lg-12">
-                    		</div>
-                    	</div>
+                                            Average score: 
+                                            {%if myitem[0].mean>0%}
+                                                {{myitem[0].mean}}/5.0
+                                                
+                                            {%else%}
+                                                Not reviewed yet
+                                            {%endif%}
+                                            
+                                            
+                                        </h2>
+                                            
+                                        
+                                        
+                                        Comments: NBCOMMENTS/VOTES/REVIEWS
+                                </div>      
+                                    
+                                
+                                <!--COMMENTS-->
+                                <!--star rating-->
+                   	<form action="/{{myitem[1].type_name}}/{{myitem[0].item_id}}/{{myitem[0].title.replace(' ','_')}}" method="post">
+                        <div class="row">
+                            <div class="col-lg-12">
+                            
+                         {% if user_note != None %}
+                         <p> You already reviewed this item, did you change your mind ? </p>
+                         <br>
+                        <input type="rating" value="{{user_note.note}}" id="mystar" class="rating" data-min="0" data-max="5" data-step="0.5" onchange="giveReviewClick()" />
+                        {%else%}
+                        <input type="rating" id="mystar" class="rating" data-min="0" data-max="5" data-step="0.5" onchange="giveReviewClick()" />
+                        {%endif%}
+                        <input type="hidden" name="starvalue" id="starvalue" value="" />
+                        <input type="hidden" name="user_id" id="user_id" value="{{current_user.id}}" />
 
-						<input type="rating" id="mystar" class="rating" data-min="0" data-max="5" data-step="0.5" onchange="giveReviewClick()" />
-						<input type="hidden" name="starvalue" id="starvalue" value="" />
-						<input type="hidden" name="user_id" id="user_id" value="" />
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                            <br> <p>Comment: </p>
+                            {% if user_note != None %}
+                            <textarea type="text" name = "comment"  value="{{user_note.review_link}}" cols="150" rows="5" style="max-width:90%"></textarea>
+                            {%else%}
+                            <textarea type="text" name = "comment"  placeholder="Express Yourself ;)" cols="150" rows="5" style="max-width:90%"></textarea>
+                            {%endif%}
+                            <div class="col-lg-6">
+                        
+                        <!--script of star rating starts here-->                
+                        <script>
+                            function giveReviewClick() {
+
+                            	document.getElementById("starvalue").value = document.getElementById("mystar").value;    
+                            }
+                        </script>
 
 
-						<div class="row">
-                    		<div class="col-lg-12">
-							<br> <p>Comment: </p><input type="text" name = "comment" placeholder="Express Yourself ;)">
-						</div>
-						<!--script of star rating starts here-->				
-						<script>
-							function giveReviewClick() {
-								
+                        {%if current_user.is_active %}
+                        <button type="submit" style="color:black; border-style:ridge; border-width:2px; border-color:blue;"> Share your thoughts !</button>
 
-								$('#starvalue').val(document.getElementById("mystar").value.toString());
-
-								$('#user_id').val({{current_user.get_id()}}.toString());
-							}
-						</script>
-						{%if current_user.is_active %}
-						<button type="submit" style="position: relative;top: 10%;right: 0;width: 20%;height: 20%;"> Share your thoughts !</button>
-						{%else%}
-						<button type="button"> Log in to Share </button>
-						{%endif%}
-						</form>
-						
-
+                        {%else%}
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </form>
+                        	<form action="{{ url_for('user.login') }}" method="get">
+                        		<button type="submit">Log in to Share</button>
+                        	</form>
+                        {%endif%}
+                        {% if add_res %}{{add_res}}{%endif%}
+                        
+                        </div>
+                        </div>
 					<!--script of star rating ends here-->		
 					
 
