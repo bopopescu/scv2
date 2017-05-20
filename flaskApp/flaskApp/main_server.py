@@ -1,14 +1,17 @@
-from flask import Flask, jsonify, render_template, request, json, redirect, url_for, render_template_string, jsonify, flash
+from flask import Flask, jsonify, render_template, request, json, redirect, url_for, render_template_string, jsonify, flash,g
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
 
 from scv2_ORM.rqst_func_scv2 import *
 from scv2_ORM.base_model_scv2 import *
 
+
 from flask_user import login_required, UserManager, UserMixin, SQLAlchemyAdapter
 from flask_mail import Mail
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
+from flask_login import LoginManager
+from flask_login import login_user, logout_user, current_user, login_required
 
 import os
 from werkzeug.utils import secure_filename
@@ -65,6 +68,9 @@ app.config.from_object(__name__ + '.ConfigClass')
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://scv2:scv2@localhost/scv2db'
+
+login_manager = LoginManager()
+login_manager.init_app(app)
 db.init_app(app)
 app.app_context().push()
 mail = Mail(app)  # Initialize Flask-Mail
@@ -79,7 +85,16 @@ for someClass in classes:
 
 db_adapter = SQLAlchemyAdapter(db, User)  # Register the User model
 user_manager = UserManager(db_adapter, app)  # Initialize Flask-User
-    
+
+
+
+# @login_manager.user_loader
+# def load_user(u_id):
+#     user = db.session.query(User).filter(User.id == u_id).one()
+#     g.user = user
+#     return user
+
+
 T = [ truc.name for truc in db.metadata.sorted_tables]  # Table names 
 
 # launch phpmyadmin: systemctl restart httpd
@@ -117,6 +132,7 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
             image_link="no"
 
     add_res = None
+    user_note = None
 
     if request.method == 'POST':
 
@@ -130,7 +146,17 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
 
         print("\n\nGOTTEM? \n",request.form.to_dict())
 
-    return render_template('pages/item.html',image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants,add_res=add_res)
+    if request.method == 'GET':
+
+        if current_user.is_active:
+            print(current_user)
+            q = db.session.query(Notation).filter(db.and_(Notation.item_id == myitemID,Notation.user_id == g.user.id))
+
+            if q.count() > 0:
+                user_note = q.one()
+
+
+    return render_template('pages/item.html',image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants,add_res=add_res,user_note=user_note)
          
 
 # To display one add picture item
@@ -253,10 +279,11 @@ def itemlist_Types_alphabeticBIS(itemtype_name):
 @app.route('/search', methods=['POST'])
 def searchByKeywords():
     keyWords = request.form.get('Mysearch')
-    if keyWords is None:
-        keyWords = ''
+    if keyWords is not None and keyWords is not '':
+        mylist = keywordSearch(db.session,Participation,Participant,Item,keyWords)
+    else:
+        mylist = []
 
-    mylist = keywordSearch(db.session,Participation,Participant,Item,keyWords)
     isAnItem = []
     itemName = []
     temp = ()

@@ -132,8 +132,13 @@
                         <div class="row">
                             <div class="col-lg-12">
                             
-
+                         {% if user_note != None %}
+                         <p> You already reviewed this item, did you change your mind ? </p>
+                         <br>
+                        <input type="rating" value="{{user_note.note}}" id="mystar" class="rating" data-min="0" data-max="5" data-step="0.5" onchange="giveReviewClick()" />
+                        {%else%}
                         <input type="rating" id="mystar" class="rating" data-min="0" data-max="5" data-step="0.5" onchange="giveReviewClick()" />
+                        {%endif%}
                         <input type="hidden" name="starvalue" id="starvalue" value="" />
                         <input type="hidden" name="user_id" id="user_id" value="{{current_user.id}}" />
 
@@ -141,7 +146,11 @@
                         <div class="row">
                             <div class="col-lg-6">
                             <br> <p>Comment: </p>
+                            {% if user_note != None %}
+                            <textarea type="text" name = "comment"  value="{{user_note.review_link}}" cols="150" rows="5" style="max-width:90%"></textarea>
+                            {%else%}
                             <textarea type="text" name = "comment"  placeholder="Express Yourself ;)" cols="150" rows="5" style="max-width:90%"></textarea>
+                            {%endif%}
                             <div class="col-lg-6">
                         
                         <!--script of star rating starts here-->                
