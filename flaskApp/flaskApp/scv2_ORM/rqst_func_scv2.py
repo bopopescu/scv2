@@ -343,7 +343,7 @@ def getAllNotations(session,UserClass,NotationClass,item):
 								NotationClass.item_id == item.item_id)).all()
 
 def getParticipantsOfThisItem(session, Participant, Participation, myitemID):
-	return session.query(Item.item_id, Item.title, Item.release_date, Item.item_id, Item.mean, Itemtype.type_name, Itemtype.item_type_id, Item.desc_link, Item.image_link, Item.video_link).join(Itemtype,Item.type_id == Itemtype.item_type_id).order_by(Item.title).all()
+	return session.query(Participant).join(Participation, Participant.participant_id == Participation.participant_id).filter(Participation.item_id == myitemID).all()
 
 
 #Get all itemtypes (for fixed borders!)
@@ -352,7 +352,7 @@ def getAllItemtypes(session, Itemtype):
 
 #Get all items (alphabetic) with ALL TYPES
 def getAllItems(session, Item, Itemtype):
-	return session.query(Item.item_id, Item.title, Item.release_date, Item.item_id, Item.mean, Itemtype.type_name, Itemtype.item_type_id).join(Itemtype,Item.type_id == Itemtype.item_type_id).order_by(Item.title).all()
+	return session.query(Item.item_id, Item.title, Item.release_date, Item.item_id, Item.mean, Itemtype.type_name, Itemtype.item_type_id, Item.desc_link, Item.image_link, Item.video_link).join(Itemtype,Item.type_id == Itemtype.item_type_id).order_by(Item.title).all()
 
 #Get all items (alphabetic) with ONE GIVEN TYPE mytypeID
 def getAllItemsOfThisIDType(session, Item, Itemtype, mytypeID):
