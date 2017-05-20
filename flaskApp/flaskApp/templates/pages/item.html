@@ -147,9 +147,8 @@
                         <!--script of star rating starts here-->                
                         <script>
                             function giveReviewClick() {
-                                
-                                $('#starvalue').val(document.getElementById("mystar").value.toString());
-                                $('#user_id').val({{current_user.id}}.toString());
+
+                            	document.getElementById("starvalue").value = document.getElementById("mystar").value;    
                             }
                         </script>
 
@@ -164,8 +163,8 @@
                         </div>
                         </div>
                         </form>
-                        	<form action="/sign-in" method="get">
-                        	<button type="submit">Log in to Share</button>
+                        	<form action="{{ url_for('user.login') }}" method="get">
+                        		<button type="submit">Log in to Share</button>
                         	</form>
                         {%endif%}
                         
