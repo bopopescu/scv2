@@ -126,6 +126,7 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
 
         u_id = request.form['user_id']
         add_res = dbAdd(db.session,Notation(item_id=i_id,user_id=u_id,note=note,review_link=review))
+        db.session.commit()
 
         print("\n\nGOTTEM? \n",request.form.to_dict())
 
