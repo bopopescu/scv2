@@ -342,7 +342,7 @@ def getAllNotations(session,UserClass,NotationClass,item):
 								NotationClass.user_id == UserClass.id,
 								NotationClass.item_id == item.item_id)).all()
 
-def getParticipantsOfThisItem(session, Participant, Participation, myitemID):
+def getParticipantsOfThisItem(session, Item,Participant, Participation, myitemID):
 	return session.query(Item.item_id, Item.title, Item.release_date, Item.item_id, Item.mean, Itemtype.type_name, Itemtype.item_type_id, Item.desc_link, Item.image_link, Item.video_link).join(Itemtype,Item.type_id == Itemtype.item_type_id).order_by(Item.title).all()
 
 
