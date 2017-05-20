@@ -69,8 +69,6 @@ app.config.from_object(__name__ + '.ConfigClass')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://scv2:scv2@localhost/scv2db'
 
-login_manager = LoginManager()
-login_manager.init_app(app)
 db.init_app(app)
 app.app_context().push()
 mail = Mail(app)  # Initialize Flask-Mail
@@ -150,7 +148,7 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
 
         if current_user.is_active:
             print(current_user)
-            q = db.session.query(Notation).filter(db.and_(Notation.item_id == myitemID,Notation.user_id == g.user.id))
+            q = db.session.query(Notation).filter(db.and_(Notation.item_id == myitemID,Notation.user_id == current_user.id))
 
             if q.count() > 0:
                 user_note = q.one()
