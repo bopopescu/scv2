@@ -52,9 +52,7 @@ class User(db.Model, UserMixin):
         self.comfirmed_at = comfirmed_at
     
     def __repr__(self):
-        return 'name: ' + self.first_name + ' ' + self.last_name + '| username: ' + self.username
-
-
+        return 'name: '+self.first_name+' '+self.last_name+' ; username: '+self.username
 
 
 class Item(db.Model):
@@ -67,6 +65,9 @@ class Item(db.Model):
     video_link = db.Column(db.String(100))
     desc_link = db.Column( db.String(100), nullable=False)
     mean = db.Column( db.Float)
+
+    item_type = db.relationship('Itemtype', backref=db.backref('item', lazy='dynamic'))
+
     __table_args__ = tuple(db.UniqueConstraint('title','type_id'))
 
     def __init__(self, title=None,release_date=None,type_id=None,image_link=None,video_link=None,desc_link=None,mean=None):
@@ -79,7 +80,8 @@ class Item(db.Model):
         self.mean=mean
 
     def __repr__(self):
-        return 'title: '+self.title+' >> date: '+str(self.release_date)+'| type_id: '+self.type_id.__repr__()
+        return 'title: '+self.title+' ; mean: '+str(self.mean)+' type(id): '+self.type_id.__repr__()
+
 
 class Itemtype(db.Model):
     __tablename__ = 'item_type'
@@ -102,6 +104,10 @@ class Notation(db.Model):
     review_date = db.Column( db.DateTime(timezone=True), default=db.func.now())
     upvotes = db.Column(db.Integer)
 
+    item = db.relationship('Item', backref=db.backref('notation', lazy='dynamic'))
+    user = db.relationship('User', backref=db.backref('notation', lazy='dynamic'))
+
+
     def __init__(self, item_id=None, user_id=None, note=None, review_link=None, review_date=None, upvotes=None):
         self.item_id = item_id
         self.user_id = user_id
@@ -111,7 +117,7 @@ class Notation(db.Model):
         self.upvotes = upvotes
 
     def __repr__(self):
-        return 'note id: '+self.note_id.__repr__()+' >> de user_id: '+self.user_id.__repr__()+' pour item_id: '+self.item_id.__repr__()+' note: '+self.note.__repr__()
+        return 'note id: '+self.note_id.__repr__()+' ; du user(id): '+self.user_id.__repr__()+' pour item(id): '+self.item_id.__repr__()+' note: '+self.note.__repr__()
 
 
 
@@ -120,6 +126,8 @@ class Tag(db.Model):
     tag_id = db.Column(db.Integer,primary_key=True, autoincrement=True)
     item_id = db.Column(db.Integer, db.ForeignKey("item.item_id"), nullable=False)
     tagname = db.Column(db.String(20), nullable=False, unique=True)
+
+    item = db.relationship('Item', backref=db.backref('tag', lazy='dynamic'))
 
     def __init__(self, item_id=None,tagname=None):
         self.item_id = item_id
@@ -134,12 +142,15 @@ class InterestTag(db.Model):
     tag_id = db.Column(db.Integer, db.ForeignKey("tag.tag_id"), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
+    user = db.relationship('User', backref=db.backref('interestTag', lazy='dynamic'))
+    tag = db.relationship('Tag', backref=db.backref('interestTag', lazy='dynamic'))
+
     def __init__(self, tag_id=None, user_id=None):
         self.tag_id = tag_id
         self.user_id = user_id
 
     def __repr__(self):
-        return 'id: '+self.interest_t_id.__repr__()+' >> user : '+self.user_id;__repr__()+'is interested by: '+self.tag_id.__repr__()
+        return 'id: '+self.interest_t_id.__repr__()+' ; user : '+self.user_id;__repr__()+' interested by (id): '+self.tag_id.__repr__()
 
 
 class InterestItem(db.Model):
@@ -148,13 +159,15 @@ class InterestItem(db.Model):
     item_id = db.Column(db.Integer, db.ForeignKey("item.item_id"), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
+    item = db.relationship('Item', backref=db.backref('interestItem', lazy='dynamic'))
+    user = db.relationship('User', backref=db.backref('interestItem', lazy='dynamic'))
+
     def __init__(self, item_id=None, user_id=None):
         self.item_id = item_id
         self.user_id = user_id
 
     def __repr__(self):
-        return 'id: '+self.interest_i_id.__repr__()+' >> user : '+self.user_id.__repr__()+'is interested by: '+self.item_id.__repr__()
-
+        return 'id: '+self.interest_i_id.__repr__()+' ; user : '+self.user_id.__repr__()+' interested by(id): '+self.item_id.__repr__()
 
 
 class Vote(db.Model):
@@ -162,6 +175,7 @@ class Vote(db.Model):
     vote_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     note_id = db.Column(db.Integer, db.ForeignKey("notation.note_id"), nullable=False)
+    comment = db.Column(db.String(100))
     good = db.Column(db.Boolean )
 
     __table_args__ = tuple(db.UniqueConstraint('user_id','note_id'))
@@ -172,7 +186,7 @@ class Vote(db.Model):
         self.good = good
 
     def __repr__(self):
-        return 'id: '+self.vote_id.__repr__()+' >> user: '+self.user_id.__repr__()+' voted: '+self.note_id.__repr__()+' value: '+self.good.__repr__()
+        return 'id: '+self.vote_id.__repr__()+' ; user(id): '+self.user_id.__repr__()+' voted(id): '+self.note_id.__repr__()+' value: '+self.good.__repr__()
 
 
 class Participant(db.Model):
@@ -196,7 +210,7 @@ class Participant(db.Model):
         self.bio_link=bio_link
 
     def __repr__(self):
-        return 'id: '+self.participant_id.__repr__()+' >> name: '+self.firstname+' '+self.lastname+' born: '+str(self.birthdate)
+        return 'id: '+self.participant_id.__repr__()+' ; name: '+self.firstname+self.lastname
 
 
 class Participation(db.Model):
@@ -206,6 +220,10 @@ class Participation(db.Model):
     participant_id = db.Column( db.Integer, db.ForeignKey("participant.participant_id"))
     role = db.Column( db.String(50), nullable=False)
 
+    item = db.relationship('Item', backref=db.backref('participation', lazy='dynamic'))
+    participant = db.relationship('Participant', backref=db.backref('participation', lazy='dynamic'))
+
+
     __table_args__ = tuple(db.UniqueConstraint('item_id','participant_id','role'))
 
     def __init__(self, item_id=None,participant_id=None,role=None):
@@ -214,15 +232,19 @@ class Participation(db.Model):
         self.role = role
 
     def __repr__(self):
-        return 'id: '+self.participation_id.__repr__() + ' >> participant id: '+self.participant_id.__repr__()+' role: '+self.role
+        return 'id: '+self.participation_id.__repr__() + ' ; participant: '+self.participant_id.__repr__()+' role: '+self.role
 
 
 class Distinction(db.Model):
     __tablename__ = 'distinction'
     distinction_id = db.Column( db.Integer, primary_key=True, autoincrement=True)
-    participation_id = db.Column(db.Integer, db.ForeignKey("participation.participation_id")),
+    participation_id = db.Column(db.Integer, db.ForeignKey("participation.participation_id"))
     event_id = db.Column( db.Integer, db.ForeignKey("event.event_id"))
     award = db.Column( db.String(30),nullable=False)
+
+    event = db.relationship('Event', backref=db.backref('distinction', lazy='dynamic'))
+    participation = db.relationship('Participation', backref=db.backref('distinction', lazy='dynamic'))
+
 
     __table_args__ = tuple(db.UniqueConstraint('event_id','participation_id'))
 
@@ -232,8 +254,7 @@ class Distinction(db.Model):
         self.award = award
 
     def __repr__(self):
-        return 'id: '+self.distinction_id.__repr__()+' >> award: '+self.award+' pour: ' + self.participation_id.__repr__() + ' reçu à: ' + self.event_id.__repr__()
-
+        return 'id: '+self.distinction_id.__repr__()+' ; award: '+self.award+' pour: ' + self.participation_id.__repr__() + ' reçu à: ' + self.event_id.__repr__()
 
 
 class Event(db.Model):
@@ -241,6 +262,7 @@ class Event(db.Model):
     event_id = db.Column( db.Integer, primary_key=True, autoincrement=True)
     event_date = db.Column( db.DateTime, nullable=False)
     event_name = db.Column( db.String(20), nullable=False)
+
     __table_args__ = tuple(db.UniqueConstraint('event_date','event_name'))
 
     def __init__(self, event_date=None,event_name=None):
@@ -248,6 +270,6 @@ class Event(db.Model):
         self.event_name = event_name
 
     def __repr__(self):
-        return 'id: '+self.event_id.__repr__()+' >> name: '+self.event_name+' date: '+str(self.event_date)
+        return 'id: '+self.event_id.__repr__()+' ; name: '+self.event_name+' date: '+str(self.event_date)
 
 

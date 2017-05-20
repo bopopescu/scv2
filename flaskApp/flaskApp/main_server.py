@@ -7,11 +7,29 @@ from scv2_ORM.base_model_scv2 import *
 
 from flask_user import login_required, UserManager, UserMixin, SQLAlchemyAdapter
 from flask_mail import Mail
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+
 import os
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
 from datetime import *
 import fnmatch
+
+# Useful list of class names, see flask_admin
+
+classes =   [   User,
+                Item,
+                Itemtype,
+                Notation,
+                InterestItem,
+                InterestTag,
+                Participant,
+                Participation,
+                Vote,
+                Distinction,
+                Event]
+
 
 #input("Press Enter to continue...")
 
@@ -50,8 +68,14 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://scv2:scv2@localh
 db.init_app(app)
 app.app_context().push()
 mail = Mail(app)  # Initialize Flask-Mail
-
 db.create_all()
+#set flask_admin !
+
+admin = Admin(app, name='inScale', template_mode='bootstrap3')
+
+for someClass in classes:
+    admin.add_view(ModelView(someClass, db.session))
+
 
 db_adapter = SQLAlchemyAdapter(db, User)  # Register the User model
 user_manager = UserManager(db_adapter, app)  # Initialize Flask-User
@@ -72,7 +96,7 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
 
 # To display one item
-@app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>/')
+@app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>',methods=['GET','POST'])
 def description_Item(itemtype_name, myitemID, myItemTitle):
     myItemObject = db.session.query(Item, Itemtype).join(Itemtype, Item.type_id == Itemtype.item_type_id).filter(Item.item_id == myitemID).one()
     myItemPartcipants = getParticipantsOfThisItem(db.session, Participant, Participation, myitemID)
@@ -91,9 +115,24 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
         
         if myfile=='0' :
             image_link="no"
-        
-    return render_template('pages/item.html',image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants)
- 
+
+    add_res = None
+
+    if request.method == 'POST':
+
+        note = request.form['starvalue']
+        i_id = myitemID
+        review = request.form['comment']
+
+        if request.form['user_id'] is not '':
+            u_id = request.form['user_id']
+
+            add_res = dbAdd(db.session,Notation(item_id=i_id,user_id=u_id,note=note,review_link=review))
+
+        print("\n\nGOTTEM? \n",request.form.to_dict())
+
+    return render_template('pages/item.html',image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants,add_res=add_res)
+         
 
 # To display one add picture item
 
