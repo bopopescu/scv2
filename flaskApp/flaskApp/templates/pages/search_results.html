@@ -34,6 +34,8 @@
 							<!--((details, item/participant),nbOfItems)-->
 							{%for ((item,typeFound),nb) in list_requested%}
 								<div class="col-sm-4">
+									<div class="panel panel-default">
+									
 										{%if typeFound == 'Participant'%} 
 											
 											<a href= "/Roles/{{item.participant_id}}/{{(item.firstname).replace(' ', '_')}}_{{(item.lastname).replace(' ', '_')}}"> <p align="center"> <strong> {{item.firstname}} {{item.lastname}} (Role) </strong> <br> </p> </a>
@@ -55,7 +57,7 @@
 											</p>
 											
 										{%endif%}
-									
+									</div>
 								</div>
 							{%endfor%}
 						</div>	

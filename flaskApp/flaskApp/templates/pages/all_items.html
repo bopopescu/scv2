@@ -28,15 +28,18 @@
 					<div class="panel-body">
 						{%if displayRoles == 'yes'%}
 							{%for myrole in all_items%}
-							<div class="col-sm-4">
-								<a href= "/Roles/{{myrole.replace(" ","_")}}"> <p align="center" > <strong> {{myrole}} </strong> <br> </p> </a>
-							</div>
+								<div class="col-sm-4">
+									<a href= "/Roles/{{myrole.replace(" ","_")}}"> <p align="center" > <strong> {{myrole}} </strong> <br> </p> </a>
+								</div>
 							{%endfor%}
+							
 						{%endif%}
 							
 						{%if displayRoles == 'no'%}
 								{%for item in all_items%}
+									
 									<div class="col-sm-4">
+									<div class="panel panel-default">
 										<a href= "/{{item.type_name}}/{{item.item_id}}/{{(item.title).replace(' ', '_')}}"> <p align="center" > <strong> {{item.title}} </strong> <br> </p> </a>
 										<p align="center"> <strong> Item type: </strong> {{item.type_name}} </p>
 										<p align="center"> <strong> Review: </strong> {{item.mean}} </p>
@@ -49,7 +52,7 @@
 												{%endif%}
 											</p>
 											
-										
+									</div>	
 									</div>
 								{%endfor%}
 						{%endif%}
