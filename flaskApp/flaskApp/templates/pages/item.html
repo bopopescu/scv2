@@ -187,17 +187,17 @@
 
                         {%else%}
                         </div>
-                        </div>
-                        <form action="/{{myitem[1].type_name}}/{{myitem[0].item_id}}/{{(myitem[0].title).replace(' ', '_')}}/reviews" method="get">	
-							<input type=submit value="See the item reviews">
-						</form>
-               
-              
+                        </div>      
                         </form>
                         	<form action="{{ url_for('user.login') }}" method="get">
                         		<button type="submit">Log in to Share</button>
                         	</form>
                         {%endif%}
+                        <span style="float:right;">
+                                                <form action="/{{myitem[1].type_name}}/{{myitem[0].item_id}}/{{(myitem[0].title).replace(' ', '_')}}/reviews" method="get">	
+													<input type=submit value="See the item reviews">
+												</form>
+						</span>
                         {% if add_res %}{{add_res}}{%endif%}
                         
                         </div>
