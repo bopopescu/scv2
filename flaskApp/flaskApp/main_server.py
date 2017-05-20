@@ -170,7 +170,7 @@ def uploaded_file(filename):
 @app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>', methods=['GET', 'POST'], strict_slashes=False)
 def description_Item(itemtype_name, myitemID,myItemTitle):
     myItemObject = db.session.query(Item, Itemtype).join(Itemtype, Item.type_id == Itemtype.item_type_id).filter(Item.item_id == myitemID).one()
-    myItemPartcipants = getParticipantsOfThisItem(db.session,Item, Participant, Participation, myitemID)
+    myItemPartcipants = getParticipantsOfThisItem(db.session,Item,Itemtype, Participant, Participation, myitemID)
     myfile = '0'
     if not os.path.exists('static/images/' + itemtype_name + '/'):
         image_link = "noo"
@@ -239,10 +239,9 @@ def allnotes_Item(itemtype_name, myitemID, myItemTitle):
 # To display one add picture item
 
 @app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>/add', methods=['GET', 'POST'], strict_slashes=False)
-
 @login_required
 def add_picture_Item(itemtype_name, myitemID,myItemTitle):
-    myItemPartcipants = getParticipantsOfThisItem(db.session,Item, Participant, Participation, myitemID)
+    myItemPartcipants = getParticipantsOfThisItem(db.session,Item,Itemtype, Participant, Participation, myitemID)
     myItemObject = db.session.query(Item, Itemtype).join(Itemtype, Item.type_id == Itemtype.item_type_id).filter(Item.item_id == myitemID).one()
     myItemTitle = myItemObject[0].title.replace(" ", "_")
     add_res = None
