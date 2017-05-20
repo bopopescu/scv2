@@ -119,7 +119,7 @@ def userPage(user_id):
         image_link = "no"
     else :
         for file in os.listdir('static/user/' + user_id + '/'):
-            if fnmatch.fnmatch(file, '*' +"_"+ myUserObject.id + '*.*'):
+            if fnmatch.fnmatch(file, '*' + "_" + myUserObject.id + '*.*'):
                 print ('\n\n\n' + file + '\n\n\n')
                 myfile = file
                 image_link = "/static/user/" + user_id + "/" + myfile 
@@ -127,7 +127,7 @@ def userPage(user_id):
         
         if myfile == '0' :
             image_link = "no"
-    return render_template('pages/user.html',image_link=image_link, user=myUserObject,typeslist=res_all_itemtypes)
+    return render_template('pages/user.html', image_link=image_link, user=myUserObject, typeslist=res_all_itemtypes)
 
 @app.route('/user/<user_id>/add', methods=['GET', 'POST'], strict_slashes=False)
 def add_picture_User(user_id):
@@ -150,7 +150,7 @@ def add_picture_User(user_id):
             # filename="cool"+file.filename.rsplit('.', 1)[1].lower()
             if not os.path.exists(app.config['UPLOAD_FOLDER_USER'] + user_id):
                 os.makedirs(app.config['UPLOAD_FOLDER_USER'] + user_id)
-            filename = myUserObject.username+"_"+user_id + "." + file.filename.split(".")[1]
+            filename = myUserObject.username + "_" + user_id + "." + file.filename.split(".")[1]
             if os.path.isfile(app.config['UPLOAD_FOLDER_USER'] + user_id + "/" + filename):
                 add = 0
                 image_link = "/" + app.config['UPLOAD_FOLDER_USER'] + user_id + "/" + filename 
@@ -160,7 +160,7 @@ def add_picture_User(user_id):
                 add = 1
                 # return redirect(url_for('success',fileAdd="yes it has been added??"))
                 image_link = "/" + app.config['UPLOAD_FOLDER_USER'] + user_id + "/" + filename 
-    return render_template('pages/user.html',image_link=image_link, user=myUserObject,typeslist=res_all_itemtypes)
+    return render_template('pages/user.html', image_link=image_link, user=myUserObject, typeslist=res_all_itemtypes)
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -195,10 +195,19 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
         i_id = myitemID
         review = request.form['comment']
 
-        u_id = request.form['user_id']
-        add_res = dbAdd(db.session, Notation(item_id=i_id, user_id=u_id, note=note, review_link=review))
-        db.session.commit()
+        q = db.session.query(Notation).filter(db.and_(Notation.item_id == myitemID, Notation.user_id == g.user.id))
 
+        if q.count() == 0:
+            u_id = request.form['user_id']
+            add_res = dbAdd(db.session, Notation(item_id=i_id, user_id=u_id, note=note, review_link=review))
+            db.session.commit()
+        else:
+            # got to update:
+            item_update = q.one()
+
+            item_update.note = note
+            item_update.review_link = review_link
+            db.session.commit()
         # On recalcule la moyenne
 
         current_item = db.session.query(Item).filter(Item.item_id == myitemID).one()
@@ -209,15 +218,14 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
 
         print("\n\nGOTTEM? \n", request.form.to_dict())
 
-    if request.method == 'GET':
 
-        if g.user.is_active:
-            print(g.user)
-            q = db.session.query(Notation).filter(db.and_(Notation.item_id == myitemID, Notation.user_id == g.user.id))
+    # On check si user connecté, si data dans DB..
 
-            if q.count() > 0:
-                user_note = q.one()
+    if g.user.is_active:
+        q = db.session.query(Notation).filter(db.and_(Notation.item_id == myitemID, Notation.user_id == g.user.id))
 
+        if q.count() > 0:
+            user_note = q.one()
 
     return render_template('pages/item.html', image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants, add_res=add_res, user_note=user_note)
          
@@ -443,6 +451,15 @@ def OneRole_ItemTypeName(mytypeName, myrole):
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('pages/error.html', typeslist=res_all_itemtypes)
+
+@app.errorhandler(403)
+def page_not_found(e):
+    return render_template('pages/error.html', typeslist=res_all_itemtypes)
+
+@app.errorhandler(400)
+def page_not_found(e):
+    return render_template('pages/error.html', typeslist=res_all_itemtypes)
+
 
 if __name__ == '__main__':
     app.config['SQLALCHEMY_ECHO'] = True
