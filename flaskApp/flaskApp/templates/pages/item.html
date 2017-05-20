@@ -151,8 +151,14 @@
 				  </div>
                                 <div class="col-lg-8 ">
                          {% if user_note != None %}
+                         <br>
                          <p> You already reviewed this item, did you change your mind ? </p>
                          <br>
+
+                         <span style="float:right;">
+                                 <form action="/{{myitem[1].type_name}}/{{myitem[0].item_id}}/{{(myitem[0].title).replace(' ', '_')}}/reviews" method="get">	
+										<input type=submit value="See the item reviews">
+								</form>
                         <input type="rating" value="{{user_note.note}}" id="mystar" class="rating" data-min="0" data-max="5" data-step="0.5" onchange="giveReviewClick()" />
                         {%else%}
                         <input type="rating" id="mystar" class="rating" data-min="0" data-max="5" data-step="0.5" onchange="giveReviewClick()" />
@@ -164,10 +170,7 @@
 
                         <div class="row">
                             <div class="col-lg-12 col-lg-offset-3 col-md-12 col-md-offset-3 col-xs-12 col-xs-offset-3">
-                            <span style="float:right;">
-                                                <form action="/{{myitem[1].type_name}}/{{myitem[0].item_id}}/{{(myitem[0].title).replace(' ', '_')}}/reviews" method="get">	
-													<input type=submit value="See the item reviews">
-												</form>
+
 							</span>
 
                             <br> <p>Comment: </p>
