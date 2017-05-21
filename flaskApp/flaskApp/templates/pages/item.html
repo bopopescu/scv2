@@ -67,9 +67,10 @@
 								{%if someone is not none and someone.firstname is not none and someone.lastname is not none%}
 									<a href="/Roles/{{someone.participant_id}}/{{(someone.firstname).replace(' ', '_')}}_{{(someone.lastname).replace(' ', '_')}}">
 									{{someone.firstname}} {{someone.lastname}} </a> ,
-								{%else if someone is none%} Unknown {%endif%}
+								{%else if someone is none%} Unknown
+								{%endif%}
 							{%endfor%} <br>
-
+						{%endif%}
 
 
 					</div>
