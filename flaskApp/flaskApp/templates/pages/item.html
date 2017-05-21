@@ -61,11 +61,14 @@
 						<b> Released: </b> {{ myitem[0].release_date.strftime('%Y-%m-%d')
 						}} <br> {%endif%} <span
 							class="glyphicon glyphicon-chevron-right" align="justify"></span>
-						<b> Participants: </b> {%if myparticipants is not none%} {% for
-						someone in myparticipants%} {%if someone is not none%} <a
-							href="/Roles/{{someone.participant_id}}/{{(someone.firstname).replace(' ', '_')}}_{{(someone.lastname).replace(' ', '_')}}">
-							{{someone.firstname}} {{someone.lastname}} </a> , {%endif%}
-						{%endfor%} {%else%} Unknown {%endif%} <br> <br>
+						<b> Participants: </b> 
+						{%if myparticipants is not none%}
+							{% for someone in myparticipants%}
+								{%if someone is not none and someone.firstname is not none and someone.lastname is not none%}
+									<a href="/Roles/{{someone.participant_id}}/{{(someone.firstname).replace(' ', '_')}}_{{(someone.lastname).replace(' ', '_')}}">
+									{{someone.firstname}} {{someone.lastname}} </a> ,
+								{%else if someone is none%} Unknown {%endif%}
+							{%endfor%} <br>
 
 
 

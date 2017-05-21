@@ -37,7 +37,7 @@
 									<div class="panel panel-default">
 									
 										{%if typeFound == 'Participant'%} 
-											{%if item is not none%}
+											{%if item is not none and item.firstname is not none and item.lastname is not none %}
 											<a href= "/Roles/{{item.participant_id}}/{{(item.firstname).replace(' ', '_')}}_{{(item.lastname).replace(' ', '_')}}"> <p align="center"> <strong> {{item.firstname}} {{item.lastname}} (Role) </strong> <br> </p> </a>
 											<p align="center"> <strong> Birthdate: </strong> {{item.birthdate}} </p>
 											<p align="center"> <strong> Participated to: </strong> {{nb}} items </p>
