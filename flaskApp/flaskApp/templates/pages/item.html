@@ -55,22 +55,31 @@
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<span class="glyphicon glyphicon-chevron-right" align="justify"></span>
-						<b> Item type: </b> <a href="/{{myitem[1].type_name}}">{{
-							myitem[1].type_name }}</a> <br> {%if myitem[0].release_date%} <span
+						<b> Item type: </b> <a href="/{{myitem[1].type_name}}">{{myitem[1].type_name }}</a> <br>
+						{%if myitem[0].release_date%} <span
 							class="glyphicon glyphicon-chevron-right" align="justify"></span>
-						<b> Released: </b> {{ myitem[0].release_date.strftime('%Y-%m-%d')
-						}} <br> {%endif%} <span
-							class="glyphicon glyphicon-chevron-right" align="justify"></span>
-						<b> Participants: </b> {%if myparticipants is not none%}
-						{%if someone is not none%}
+							<b> Released: </b> {{ myitem[0].release_date.strftime('%Y-%m-%d')}}
+							<br>
+						{%endif%}
+						
+						<span class="glyphicon glyphicon-chevron-right" align="justify"></span>
+						<b> Participants: </b>
+						{%if myparticipants is not none%} <a
 							{% for someone in myparticipants%}
-								<a href="/Roles/{{someone.participant_id}}/{{(someone.firstname).replace(' ', '_')}}_{{(someone.lastname).replace(' ', '_')}}">
-								{{someone.firstname}} {{someone.lastname}} </a> , {%endif%}
+								href="/Roles/{{someone.participant_id}}/
+								{%if someone.firstname is not none%}
+									{{(someone.firstname).replace(' ', '_')}}
+								{%endif%}
+								_
+								{%if someone.lastname is not none%}
+									{{(someone.lastname).replace(' ', '_')}}
+								{%endif%}"			     
+								>
+								{{someone.firstname}} {{someone.lastname}} </a> ,
 							{%endfor%}
 						{%else%}
 							Unknown
-						{%endif%} <br> <br>
-
+						{%endif%} <br>
 
 
 
