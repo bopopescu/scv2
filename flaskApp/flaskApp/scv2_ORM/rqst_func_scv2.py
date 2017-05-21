@@ -356,7 +356,7 @@ def getAllItems(session, Item, Itemtype):
 
 #Get all items (alphabetic) with ONE GIVEN TYPE mytypeID
 def getAllItemsOfThisIDType(session, Item, Itemtype, mytypeID):
-	return session.query(Item.item_id, Item.title, Item.release_date, Item.item_id, Item.mean, Itemtype.type_name, Itemtype.item_type_id).join(Itemtype,Item.type_id == Itemtype.item_type_id).filter(Item.type_id == mytypeID).order_by(Item.title).all()
+	return session.query(Item.item_id, Item.title, Item.release_date, Item.item_id, Item.mean, Item.image_link, Itemtype.type_name, Itemtype.item_type_id).join(Itemtype,Item.type_id == Itemtype.item_type_id).filter(Item.type_id == mytypeID).order_by(Item.title).all()
 	
 def countNotation(session, Notation, myitemID):
 	return session.query(Notation).filter(Notation.item_id == myitemID).count()
@@ -365,11 +365,11 @@ def countNotation(session, Notation, myitemID):
 #Order by 'myfilter' with ALL TYPES
 def getAllItems_WithFilter(session,Notation,Item,Itemtype, myfilter):
 	if myfilter == 'Best':
-		return session.query(Item.item_id, Item.title, Item.release_date, Item.item_id, Item.mean, Itemtype.type_name, Itemtype.item_type_id).join(Itemtype,Item.type_id == Itemtype.item_type_id).order_by(Item.mean.desc()).all()
+		return session.query(Item.item_id, Item.title, Item.release_date, Item.item_id, Item.mean, Item.image_link, Itemtype.type_name, Itemtype.item_type_id).join(Itemtype,Item.type_id == Itemtype.item_type_id).order_by(Item.mean.desc()).all()
 	if myfilter == 'Recent':
-		return session.query(Item.item_id, Item.title, Item.release_date, Item.item_id, Item.mean, Itemtype.type_name, Itemtype.item_type_id).join(Itemtype,Item.type_id == Itemtype.item_type_id).order_by(Item.release_date.desc()).all()
+		return session.query(Item.item_id, Item.title, Item.release_date, Item.item_id, Item.mean, Item.image_link, Itemtype.type_name, Itemtype.item_type_id).join(Itemtype,Item.type_id == Itemtype.item_type_id).order_by(Item.release_date.desc()).all()
 	if myfilter == 'Famous': #gotta change this!!!
-		return session.query(Item.item_id, Item.title, Item.release_date, Item.item_id, Item.mean, Itemtype.type_name, Itemtype.item_type_id).join(Itemtype,Item.type_id == Itemtype.item_type_id).order_by(Item.release_date.desc()).all()
+		return session.query(Item.item_id, Item.title, Item.release_date, Item.item_id, Item.mean, Item.image_link, Itemtype.type_name, Itemtype.item_type_id).join(Itemtype,Item.type_id == Itemtype.item_type_id).order_by(Item.release_date.desc()).all()
 	
 #Get all ROLES NAMES of ALL Types	
 def getAllRoles(session, Participation):
@@ -380,11 +380,11 @@ def getAllItemsOfThisIDType_WithFilter(session,Item,Itemtype, myfilter, mytypeID
 	if myfilter == 'All':
 		return getAllItemsOfThisIDType(session,Item,Itemtype,mytypeID)
 	if myfilter == 'Best':
-		return session.query(Item.item_id, Item.title, Item.release_date, Item.item_id, Item.mean, Itemtype.type_name, Itemtype.item_type_id).join(Itemtype,Item.type_id == Itemtype.item_type_id).filter(Item.type_id == mytypeID).order_by(Item.mean.desc()).all()
+		return session.query(Item.item_id, Item.title, Item.release_date, Item.item_id, Item.mean, Item.image_link, Itemtype.type_name, Itemtype.item_type_id).join(Itemtype,Item.type_id == Itemtype.item_type_id).filter(Item.type_id == mytypeID).order_by(Item.mean.desc()).all()
 	if myfilter == 'Recent':
-		return session.query(Item.item_id, Item.title, Item.release_date, Item.item_id, Item.mean, Itemtype.type_name, Itemtype.item_type_id).join(Itemtype,Item.type_id == Itemtype.item_type_id).filter(Item.type_id == mytypeID).order_by(Item.release_date.desc()).all()
+		return session.query(Item.item_id, Item.title, Item.release_date, Item.item_id, Item.mean, Item.image_link, Itemtype.type_name, Itemtype.item_type_id).join(Itemtype,Item.type_id == Itemtype.item_type_id).filter(Item.type_id == mytypeID).order_by(Item.release_date.desc()).all()
 	if myfilter == 'Famous': #gotta change this!!!
-		return session.query(Item.item_id, Item.title, Item.release_date, Item.item_id, Item.mean, Itemtype.type_name, Itemtype.item_type_id).join(Itemtype,Item.type_id == Itemtype.item_type_id).filter(Item.type_id == mytypeID).order_by(Item.release_date.desc()).all()
+		return session.query(Item.item_id, Item.title, Item.release_date, Item.item_id, Item.mean, Item.image_link, Itemtype.type_name, Itemtype.item_type_id).join(Itemtype,Item.type_id == Itemtype.item_type_id).filter(Item.type_id == mytypeID).order_by(Item.release_date.desc()).all()
 
 #Get the ID of a given itemtype_name
 def getIdOfItemtype(session,Itemtype,itemtype_name):
