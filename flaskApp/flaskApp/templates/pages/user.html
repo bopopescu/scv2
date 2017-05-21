@@ -8,6 +8,20 @@
 				<h1 class="page-header">Mon beau profil </h1>
 			</div>
 		</div>
+		
+		<script type="text/javascript">
+$(document).ready(function(){    
+    //Check if the current URL contains '#'
+    if(document.URL.indexOf("#")==-1){
+        // Set the URL to whatever it was plus "#".
+        url = document.URL+"#";
+        location = "#";
+
+        //Reload the page
+        location.reload(true);
+    }
+});
+</script>
 		<div class="row">
 			<div class="col-lg-2">
 				<div class="page-header" style="margin-top: 0%">
@@ -22,12 +36,9 @@
 				</form>
 				{% else %} 
 					<img src="{{image_link}}" width="200" height="300">
+       		
 				{%endif%} <br>
-		{% if add = 1 %}
-		       <script type="text/javascript">
-       				location.reload(); 
-       			</script>
-       	{% endif %}
+
        <script type="text/javascript">
             function changeAvatar() {
 
