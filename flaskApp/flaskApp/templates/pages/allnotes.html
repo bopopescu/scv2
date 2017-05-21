@@ -7,7 +7,7 @@
             
             <div class="row">
                 <div class="col-lg-12">
-					<h1 class="page-header">Reviews for item {{current_item.item_title}}</h1>
+					<h1 class="page-header">Reviews for item {{current_item.title}}</h1>
 				</div>
 			</div>
 		
@@ -21,7 +21,7 @@
 					<div class="panel panel-green">
 						<div class="panel-heading">
 							<label>
-								{{data[1].username}} said:
+								<a href="/user/{{data[1].id}}">{{data[1].username}}</a> said:
 								<br> at {{data[0].review_date}}.
 							</label>
 						</div>
