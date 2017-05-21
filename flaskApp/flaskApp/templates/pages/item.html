@@ -1,220 +1,220 @@
-{% extends "layout.html" %}
+{% extends "layout.html" %} {% block body %}
 
-{% block body %}
+<div id="wrapper">
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">{{myitem[0].title}}</h1>
+			</div>
+		</div>
 
-    <div id="wrapper">
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header" > {{myitem[0].title}}</h1>
-                </div>
-            </div>
-            
-                <div class="row page-header">
-					
-					<div class="col-lg-3" align="center">
+		<div class="row page-header">
 
-						<!--image of the item-->
-						 <div class="panel panel-default">
-                         <div class="panel-heading">
- 						{% if image_link == "noo" %}
-						<p> No image :( <br> Do you want to add the first image in this category ? </p>
+			<div class="col-lg-3" align="center">
+
+				<!--image of the item-->
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						{% if image_link == "noo" %}
+						<p>
+							No image :( <br> Do you want to add the first image in this
+							category ?
+						</p>
 						{% elif image_link == "no"%}
-  						<p> No image :( <br> Do you want to add one ? </p>
-  						<br>
-  						<form action="/{{myitem[1].type_name}}/{{myitem[0].item_id}}/{{(myitem[0].title).replace(' ', '_')}}/add" method=post enctype=multipart/form-data>					
-							<input type=file name=file> <input type=submit value=Upload>
+						<p>
+							No image :( <br> Do you want to add one ?
+						</p>
+						<br>
+						<form
+							action="/{{myitem[1].type_name}}/{{myitem[0].item_id}}/{{(myitem[0].title).replace(' ', '_')}}/add"
+							method=post enctype=multipart/form-data>
+							<input type=file name=file> <input type=submit
+								value=Upload>
 						</form>
-						{% else %}
-						<img src="{{image_link}}" width="200" height="300">
-						{%endif%}
-						<br>
-						 </div>
-                        			</div>
-						<!--star rating-->
-						<input type="rating" id="mean_star" class="rating" data-min="0" data-max="5" data-step="0.5" value="{% if myitem[0].mean != None %}{{myitem[0].mean}}{% else %}0{%endif%}" readonly /> 
-						<br>
-												
-						<!--star inserted-->
-						
-		
-					
+						{% else %} <img src="{{image_link}}" width="200" height="300">
+						{%endif%} <br>
 					</div>
-                    
-					
-					
-					
-					<!-- type, participants and date-->
-					<div class="col-lg-4" align="left"> 
-						<div class="panel panel-default">
-							<div class="panel-body">
-								<span class="glyphicon glyphicon-chevron-right" align="justify"></span>
-								<b> Item type: </b> <a href= "/{{myitem[1].type_name}}">{{ myitem[1].type_name }}</a>
-								<br> 
-								
-								{%if myitem[0].release_date%}
-									<span class="glyphicon glyphicon-chevron-right" align="justify"></span>
-									<b> Released: </b> {{ myitem[0].release_date.strftime('%Y-%m-%d') }}
-									<br> 
-								{%endif%}
-								
-								<span class="glyphicon glyphicon-chevron-right" align="justify"></span>
-								<b> Participants: </b>
-									
-								{%if myparticipants is not none%}
-									{% for someone in myparticipants%}
-										{%if someone is not none%}
-										<a href = "/Roles/{{someone.participant_id}}/{{(someone.firstname).replace(' ', '_')}}_{{(someone.lastname).replace(' ', '_')}}"> {{someone.firstname}} {{someone.lastname}} </a> ,
-										{%endif%}
-									{%endfor%}
+				</div>
+				<!--star rating-->
+				<input type="rating" id="mean_star" class="rating" data-min="0"
+					data-max="5" data-step="0.5"
+					value="{% if myitem[0].mean != None %}{{myitem[0].mean}}{% else %}0{%endif%}"
+					readonly /> <br>
+
+				<!--star inserted-->
+
+
+
+			</div>
+
+
+
+
+			<!-- type, participants and date-->
+			<div class="col-lg-4" align="left">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<span class="glyphicon glyphicon-chevron-right" align="justify"></span>
+						<b> Item type: </b> <a href="/{{myitem[1].type_name}}">{{
+							myitem[1].type_name }}</a> <br> {%if myitem[0].release_date%} <span
+							class="glyphicon glyphicon-chevron-right" align="justify"></span>
+						<b> Released: </b> {{ myitem[0].release_date.strftime('%Y-%m-%d')
+						}} <br> {%endif%} <span
+							class="glyphicon glyphicon-chevron-right" align="justify"></span>
+						<b> Participants: </b> {%if myparticipants is not none%} {% for
+						someone in myparticipants%} {%if someone is not none%} <a
+							href="/Roles/{{someone.participant_id}}/{{(someone.firstname).replace(' ', '_')}}_{{(someone.lastname).replace(' ', '_')}}">
+							{{someone.firstname}} {{someone.lastname}} </a> , {%endif%}
+						{%endfor%} {%else%} Unknown {%endif%} <br> <br>
+
+
+
+					</div>
+				</div>
+			</div>
+			<!-- title participants and date END-->
+
+
+
+			<!--description of the item-->
+			<div class="col-lg-5" align="center">
+				<div class="panel panel-green">
+					<div class="panel-heading">
+						<h1>Description</h1>
+					</div>
+					<div class="panel-body" align="justify">THIS WILL BE THE
+						DESCRIPTION OF THE ITEM THIS WILL BE THE DESCRIPTION OF THE ITEM
+						THIS WILL BE THE DESCRIPTION OF THE ITEM THIS WILL BE THE
+						DESCRIPTION OF THE ITEM THIS WILL BE THE DESCRIPTION OF THE ITEM
+						THIS WILL BE THE DESCRIPTION OF THE ITEM THIS WILL BE THE
+						DESCRIPTION OF THE ITEM</div>
+				</div>
+
+			</div>
+			<!--end of description-->
+
+
+			<!--end of page-header-->
+		</div>
+
+
+
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-green">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-lg-8">
+								<h1>{%if current_user.is_active %}{{ current_user.username
+									}}'s view :{%else%} Log in to note !{%endif%}</h1>
+								<br>Comments: NBCOMMENTS/VOTES/REVIEWS
+							</div>
+							<div class="col-lg-4">
+								<h1>
+									<i class="glyphicon glyphicon-heart-empty"> </i> Average score:
+									{%if myitem[0].mean%} {{myitem[0].mean}}/5.0 {%else%} Not
+									reviewed yet {%endif%}
+
+
+								</h1>
+
+
+
+
+							</div>
+						</div>
+					</div>
+
+
+					<!--COMMENTS-->
+					<!--star rating-->
+					<div class="row">
+						<div class="col-lg-12">
+							<h1></h1>
+						</div>
+					</div>
+					<form
+						action="/{{myitem[1].type_name}}/{{myitem[0].item_id}}/{{myitem[0].title.replace(' ','_')}}"
+						method="post">
+						<div class="row">
+							<div class="col-lg-2 col-lg-offset-1">
+								<h1>Your rating:</h1>
+							</div>
+							<div class="col-lg-8 ">
+								{% if user_note != None %} <br>
+								<p>You already reviewed this item, did you change your mind
+									?</p>
+								<br> <input type="rating" value="{{user_note.note}}"
+									id="mystar" class="rating" data-min="0" data-max="5"
+									data-step="0.5" onchange="giveReviewClick()" /> {%else%} <input
+									type="rating" id="mystar" class="rating" data-min="0"
+									data-max="5" data-step="0.5" onchange="giveReviewClick()" />
+								{%endif%} <input type="hidden" name="starvalue" id="starvalue"
+									value="" /> <input type="hidden" name="user_id" id="user_id"
+									value="{{current_user.id}}" />
+							</div>
+						</div>
+
+						<div class="row">
+							<div
+								class="col-lg-12 col-lg-offset-3 col-md-12 col-md-offset-3 col-xs-12 col-xs-offset-3">
+
+								</span> <br>
+								<p>Comment:</p>
+								{% if user_note != None %}
+								<textarea type="text" name="comment" cols="150" rows="5"
+									style="max-width: 50%">{{user_note.review_link}}</textarea>
 								{%else%}
-									Unknown
+								<textarea type="text" name="comment"
+									placeholder="Express Yourself ;)" cols="150" rows="5"
+									style="max-width: 50%"></textarea>
 								{%endif%}
-								<br>
-								<br>
-								
-								
-									
 							</div>
-						</div>
-					</div>
-					<!-- title participants and date END-->
-					
-					
-					
-					<!--description of the item-->
-					<div class="col-lg-5" align="center"> 
-						<div class="panel panel-green">
-							<div class="panel-heading">
-								<h1>Description</h1>
-							</div>
-							<div class="panel-body" align="justify">
-								THIS WILL BE THE DESCRIPTION OF THE ITEM THIS WILL BE THE DESCRIPTION OF THE ITEM THIS WILL BE THE DESCRIPTION OF THE ITEM THIS WILL BE THE DESCRIPTION OF THE ITEM THIS WILL BE THE DESCRIPTION OF THE ITEM THIS WILL BE THE DESCRIPTION OF THE ITEM THIS WILL BE THE DESCRIPTION OF THE ITEM 
-							</div>
-						</div>
-						
-					</div>
-					<!--end of description-->
-					
-					
-				<!--end of page-header-->
-				</div>
-                    
-				
-				
-				
-              <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-green">
-                                <div class="panel-heading">
-                                      <div class="row">   
-                                     <div class="col-lg-8">
-                                        <h1>
-                                            {%if current_user.is_active %}{{ current_user.username }}'s view :{%else%} Log in to note !{%endif%}
-                                        </h1> <br>Comments: NBCOMMENTS/VOTES/REVIEWS
-					      </div>
-					      <div class="col-lg-4">
-					<h1>
-                                            <i class="glyphicon glyphicon-heart-empty">
-                                            </i>
+							<div
+								class="col-lg-12 col-lg-offset-3 col-md-12 col-md-offset-1 col-xs-12 ">
 
-                                            Average score: 
-                                            {%if myitem[0].mean%}
-                                                {{myitem[0].mean}}/5.0
-                                                
-                                            {%else%}
-                                                Not reviewed yet
-                                            {%endif%}
-                                            
-                                            
-                                        </h1>
-                                            
-                                        
-                                        
-                                       
-                                </div>
-					</div>
-				</div>
-                                    
-                                
-                                <!--COMMENTS-->
-                                <!--star rating-->
-				 <div class="row">
-                          <div class="col-lg-12">
-                          <h1></h1>
-                          </div>
-                          </div>
-                   	<form action="/{{myitem[1].type_name}}/{{myitem[0].item_id}}/{{myitem[0].title.replace(' ','_')}}" method="post">
-                          <div class="row">
-                            <div class="col-lg-2 col-lg-offset-1">
-                            <h1>Your rating:</h1>
-				  </div>
-                                <div class="col-lg-8 ">
-                         {% if user_note != None %}
-                         <br>
-                         <p> You already reviewed this item, did you change your mind ? </p>
-                         <br>
-
-                         <span style="float:right;">
-                                 <form action="/{{myitem[1].type_name}}/{{myitem[0].item_id}}/{{(myitem[0].title).replace(' ', '_')}}/reviews" method="get">	
-										<input type=submit value="See the item reviews">
-								</form>
-                        <input type="rating" value="{{user_note.note}}" id="mystar" class="rating" data-min="0" data-max="5" data-step="0.5" onchange="giveReviewClick()" />
-                        {%else%}
-                        <input type="rating" id="mystar" class="rating" data-min="0" data-max="5" data-step="0.5" onchange="giveReviewClick()" />
-                        {%endif%}
-                        <input type="hidden" name="starvalue" id="starvalue" value="" />
-                        <input type="hidden" name="user_id" id="user_id" value="{{current_user.id}}" />
-				  </div>
-				</div>
-
-                        <div class="row">
-                            <div class="col-lg-12 col-lg-offset-3 col-md-12 col-md-offset-3 col-xs-12 col-xs-offset-3">
-
-							</span>
-
-                            <br> <p>Comment: </p>
-                            {% if user_note != None %}
-                            <textarea type="text" name = "comment" cols="150" rows="5" style="max-width:50%">{{user_note.review_link}}</textarea>
-                            {%else%}
-                            <textarea type="text" name = "comment"  placeholder="Express Yourself ;)" cols="150" rows="5" style="max-width:50%"></textarea>
-                            {%endif%}
-				</div>
-                            <div class="col-lg-12 col-lg-offset-3 col-md-12 col-md-offset-1 col-xs-12 ">
-                        
-                        <!--script of star rating starts here-->                
-                        <script>
+								<!--script of star rating starts here-->
+								<script>
                             function giveReviewClick() {
                             	document.getElementById("starvalue").value = document.getElementById("mystar").value;    
                             }
                         </script>
 
 
-                        {%if current_user.is_active %}
-                        <button type="submit" style="color:black; border-style:ridge; border-width:2px; border-color:blue;"> Share your thoughts !</button>
+								{%if current_user.is_active %}
+								<button type="submit"
+									style="color: black; border-style: ridge; border-width: 2px; border-color: blue;">
+									Share your thoughts !</button>
 
-                        {%else%}
-                        </div>
-                        </div>      
-                        </form>
-                        	<form action="{{ url_for('user.login') }}" method="get">
-                        		<button type="submit">Log in to Share</button>
-                        	</form>
-                        {%endif%}
-                        {% if add_res %}{{add_res}}{%endif%}
-                        
-                        </div>
-                        </div>
-					<!--script of star rating ends here-->		
-					
-
-									
+								{%else%}
+							</div>
 
 						</div>
-					</div>
+					</form>
+					<form action="{{ url_for('user.login') }}" method="get">
+						<button type="submit">Log in to Share</button>
+					</form>
+					{%endif%} {% if add_res %}{{add_res}}{%endif%}
+					<br>>br>
+					<form
+						
+						action="/{{myitem[1].type_name}}/{{myitem[0].item_id}}/{{(myitem[0].title).replace(' ', '_')}}/reviews"
+						method="get">
+						<input style="color: black; border-style: ridge; border-width: 2px; border-color: blue;" type=submit value="See the item reviews">
+					</form>
 				</div>
+			</div>
+			<!--script of star rating ends here-->
+
+
+
+
 		</div>
-    </div>
-    <!-- /#wrapper -->
+	</div>
+</div>
+</div>
+</div>
+<!-- /#wrapper -->
 
 {% endblock %}
