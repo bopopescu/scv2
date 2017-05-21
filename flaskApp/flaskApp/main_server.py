@@ -119,7 +119,7 @@ def userPage(user_id):
         image_link = "no"
     else :
         for file in os.listdir('static/user/' + user_id + '/'):
-            if fnmatch.fnmatch(file, "*" + "_" + str(myUserObject.id)+ "*.*"):
+            if fnmatch.fnmatch(file, "*" + "_" + str(myUserObject.id) + "*.*"):
                 print ('\n\n\n' + file + '\n\n\n')
                 myfile = file
                 image_link = "/static/user/" + user_id + "/" + myfile 
@@ -127,7 +127,7 @@ def userPage(user_id):
         
         if myfile == '0' :
             image_link = "no"
-    return render_template('pages/user.html',image_link=image_link, user=myUserObject, typeslist=res_all_itemtypes)
+    return render_template('pages/user.html', image_link=image_link, user=myUserObject, typeslist=res_all_itemtypes)
 
 @app.route('/user/<user_id>/add', methods=['GET', 'POST'], strict_slashes=False)
 def add_picture_User(user_id):
@@ -160,7 +160,7 @@ def add_picture_User(user_id):
             add = 1
             # return redirect(url_for('success',fileAdd="yes it has been added??"))
             image_link = "/" + app.config['UPLOAD_FOLDER_USER'] + user_id + "/" + filename 
-    return redirect(url_for('userPage',user_id=user_id))
+    return redirect(url_for('userPage', user_id=user_id))
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -168,7 +168,7 @@ def uploaded_file(filename):
 
 # To display one item
 @app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>', methods=['GET', 'POST'], strict_slashes=False)
-def description_Item(itemtype_name, myitemID,myItemTitle):
+def description_Item(itemtype_name, myitemID, myItemTitle):
     myItemObject = db.session.query(Item, Itemtype).join(Itemtype, Item.type_id == Itemtype.item_type_id).filter(Item.item_id == myitemID).one()
     myItemPartcipants = getParticipantsOfThisItem(db.session, Participant, Participation, myitemID)
     myfile = '0'
@@ -233,14 +233,14 @@ def allnotes_Item(itemtype_name, myitemID, myItemTitle):
 
     current_item = db.session.query(Item).filter(Item.item_id == myitemID).one()
     if current_item is not None:
-        return render_template('pages/allnotes.html',current_item=current_item,comment_list=getAllNotations(db.session,User,Notation,current_item),typeslist=res_all_itemtypes)
+        return render_template('pages/allnotes.html', current_item=current_item, comment_list=getAllNotations(db.session, User, Notation, current_item), typeslist=res_all_itemtypes)
     else:
         return 'zut :/'
 # To display one add picture item
 
 @app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>/add', methods=['GET', 'POST'], strict_slashes=False)
 @login_required
-def add_picture_Item(itemtype_name, myitemID,myItemTitle):
+def add_picture_Item(itemtype_name, myitemID, myItemTitle):
     myItemPartcipants = getParticipantsOfThisItem(db.session, Participant, Participation, myitemID)
     myItemObject = db.session.query(Item, Itemtype).join(Itemtype, Item.type_id == Itemtype.item_type_id).filter(Item.item_id == myitemID).one()
     myItemTitle = myItemObject[0].title.replace(" ", "_")
@@ -274,9 +274,9 @@ def add_picture_Item(itemtype_name, myitemID,myItemTitle):
                 add = 1
                 # return redirect(url_for('success',fileAdd="yes it has been added??"))
                 image_link = "/" + app.config['UPLOAD_FOLDER'] + itemtype_name + "/" + filename
-		myItemObject[0].image_link = image_link
-                db.session.commit()
-                return render_template('pages/item.html', add_res=add_res, user_note=user_note, add=add, image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants)
+            myItemObject[0].image_link = image_link
+            db.session.commit()
+            return render_template('pages/item.html', add_res=add_res, user_note=user_note, add=add, image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants)
     else:
         return redirect('/')
 
@@ -316,7 +316,7 @@ def members_page():
 
 @app.route('/All', strict_slashes=False)
 def itemlist_All_alphabetic():
-	#return str(getAllItems(db.session, Item, Itemtype))
+	# return str(getAllItems(db.session, Item, Itemtype))
 	return render_template('pages/all_items.html', typeslist=res_all_itemtypes, all_items=getAllItems(db.session, Item, Itemtype), filter_requested="Alphabetic order", displayRoles='no')
 	
 @app.route('/All/<myfilter>', strict_slashes=False)
