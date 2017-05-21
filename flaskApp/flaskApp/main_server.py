@@ -171,6 +171,7 @@ def uploaded_file(filename):
 def description_Item(itemtype_name, myitemID, myItemTitle):
     myItemObject = db.session.query(Item, Itemtype).join(Itemtype, Item.type_id == Itemtype.item_type_id).filter(Item.item_id == myitemID).one()
     myItemPartcipants = getParticipantsOfThisItem(db.session, Participant, Participation, myitemID)
+    myNbReviews = db.session.query(Notation).filter(Notation.item_id == myitemID).count()
     myfile = '0'
     if not os.path.exists('static/images/' + itemtype_name + '/'):
         image_link = "noo"
@@ -225,7 +226,7 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
 
         if q.count() > 0:
             user_note = q.one()
-    return render_template('pages/item.html', image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants, add_res=add_res, user_note=user_note)
+    return render_template('pages/item.html', image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants, add_res=add_res, user_note=user_note, myNbReviews=myNbReviews)
          
 
 @app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>/reviews', methods=['GET', 'POST'], strict_slashes=False)
@@ -235,15 +236,16 @@ def allnotes_Item(itemtype_name, myitemID, myItemTitle):
     if current_item is not None:
         return render_template('pages/allnotes.html', current_item=current_item, comment_list=getAllNotations(db.session, User, Notation, current_item), typeslist=res_all_itemtypes)
     else:
-        return 'zut :/'
+        return redirect(url_for("page_not_found"))
+        
 # To display one add picture item
-
 @app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>/add', methods=['GET', 'POST'], strict_slashes=False)
 @login_required
 def add_picture_Item(itemtype_name, myitemID, myItemTitle):
     myItemPartcipants = getParticipantsOfThisItem(db.session, Participant, Participation, myitemID)
     myItemObject = db.session.query(Item, Itemtype).join(Itemtype, Item.type_id == Itemtype.item_type_id).filter(Item.item_id == myitemID).one()
     myItemTitle = myItemObject[0].title.replace(" ", "_")
+    myNbReviews = db.session.query(Notation).filter(Notation.item_id == myitemID).count()
     add_res = None
     user_note = None
     if request.method == 'POST':
