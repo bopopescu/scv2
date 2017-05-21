@@ -241,7 +241,7 @@ def allnotes_Item(itemtype_name, myitemID, myItemTitle):
 @app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>/add', methods=['GET', 'POST'], strict_slashes=False)
 @login_required
 def add_picture_Item(itemtype_name, myitemID,myItemTitle):
-    myItemPartcipants = getParticipantsOfThisItem(db.session,Item,Itemtype, Participant, Participation, myitemID)
+    myItemPartcipants = getParticipantsOfThisItem(db.session, Participant, Participation, myitemID)
     myItemObject = db.session.query(Item, Itemtype).join(Itemtype, Item.type_id == Itemtype.item_type_id).filter(Item.item_id == myitemID).one()
     myItemTitle = myItemObject[0].title.replace(" ", "_")
     add_res = None
