@@ -127,7 +127,7 @@ def userPage(user_id):
         
         if myfile == '0' :
             image_link = "no"
-    return render_template('pages/user.html', image_link=image_link, user=myUserObject, typeslist=res_all_itemtypes)
+    return render_template('pages/user.html',image_link=image_link, user=myUserObject, typeslist=res_all_itemtypes)
 
 @app.route('/user/<user_id>/add', methods=['GET', 'POST'], strict_slashes=False)
 def add_picture_User(user_id):
@@ -152,15 +152,15 @@ def add_picture_User(user_id):
                 os.makedirs(app.config['UPLOAD_FOLDER_USER'] + user_id)
             filename = myUserObject.username + "_" + user_id + "." + file.filename.split(".")[1]
             if os.path.isfile(app.config['UPLOAD_FOLDER_USER'] + user_id + "/" + filename):
-                add = 0
-                image_link = "/" + app.config['UPLOAD_FOLDER_USER'] + user_id + "/" + filename 
+                add = 2
+                os.remove(app.config['UPLOAD_FOLDER_USER'] + user_id + "/" + filename)
                 # return redirect(url_for('failure'))
-            else :
-                file.save(os.path.join(app.config['UPLOAD_FOLDER_USER'] + user_id, filename))
-                add = 1
-                # return redirect(url_for('success',fileAdd="yes it has been added??"))
-                image_link = "/" + app.config['UPLOAD_FOLDER_USER'] + user_id + "/" + filename 
-    return render_template('pages/user.html', image_link=image_link, user=myUserObject, typeslist=res_all_itemtypes)
+            
+            file.save(os.path.join(app.config['UPLOAD_FOLDER_USER'] + user_id, filename))
+            add = 1
+            # return redirect(url_for('success',fileAdd="yes it has been added??"))
+            image_link = "/" + app.config['UPLOAD_FOLDER_USER'] + user_id + "/" + filename 
+    return redirect(url_for('userPage',user_id=user_id))
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
