@@ -15,14 +15,9 @@
 				<!--image of the item-->
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						{% if image_link == "noo" %}
+						{% if myitem[0].image_link|length<1 %}
 						<p>
-							No image :( <br> Do you want to add the first image in this
-							category ?
-						</p>
-						{% elif image_link == "no"%}
-						<p>
-							No image :( <br> Do you want to add one ?
+							No image  <br> Do you want to add one ?
 						</p>
 						<br>
 						<form
@@ -31,7 +26,7 @@
 							<input type=file name=file> <input type=submit
 								value=Upload>
 						</form>
-						{% else %} <img src="{{image_link}}" width="200" height="300">
+						{% else %} <img src="{{myitem[0].image_link}}" width="200" height="300">
 						{%endif%} <br>
 					</div>
 				</div>
