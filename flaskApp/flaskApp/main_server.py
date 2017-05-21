@@ -103,9 +103,9 @@ T = [ truc.name for truc in db.metadata.sorted_tables]  # Table names
 
 # launch phpmyadmin: systemctl restart httpd
 
-##########################  USEFUL FOR FIXED SIDEBARS
+###########################  USEFUL FOR FIXED SIDEBARS
 res_all_itemtypes = mainheader(db.session, Item, Itemtype, Participation)
-##########################   END FOR SIDEBARS
+###########################   END FOR SIDEBARS
 ####### NEVER FORGET TO PUT IN render_template: typeslist = res_all_itemtypes
 
 
