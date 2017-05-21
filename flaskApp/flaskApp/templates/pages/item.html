@@ -64,7 +64,7 @@
 						
 						<span class="glyphicon glyphicon-chevron-right" align="justify"></span>
 						<b> Participants: </b>
-						{%if myparticipants is not none%} 
+						{%if myparticipants|length > 0%} 
 							{% for someone in myparticipants%}
 								<a
 								href="/Roles/{{someone.participant_id}}/
@@ -76,12 +76,13 @@
 								{{(someone.lastname).replace(' ', '_')}}
 								{%endif%}"			     
 								>
-								{{someone.firstname}} {{someone.lastname}} </a> ,
+								{{someone.firstname}} {{someone.lastname}}</a>,
 							{%endfor%}
 						{%else%}
 							Unknown
-						{%endif%} <br>
-
+						{%endif%}
+						<br>
+						
 
 
 
