@@ -314,6 +314,7 @@ def members_page():
 
 @app.route('/All', strict_slashes=False)
 def itemlist_All_alphabetic():
+	#return str(getAllItems(db.session, Item, Itemtype))
 	return render_template('pages/all_items.html', typeslist=res_all_itemtypes, all_items=getAllItems(db.session, Item, Itemtype), filter_requested="Alphabetic order", displayRoles='no')
 	
 @app.route('/All/<myfilter>', strict_slashes=False)

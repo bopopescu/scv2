@@ -40,13 +40,16 @@
 									<div class="col-sm-4">
 									<div class="panel panel-default" >
 										<br>
-										<p align="center" >
+										
+										<p align="center">
+										<a  href= "/{{item.type_name}}/{{item.item_id}}/{{(item.title).replace(' ', '_')}}">
 										{%if item.image_link|length > 1 %}
-											<img src="{{item.image_link}}" width="100" height="150"  href="/{{item.type_name}}/{{item.item_id}}/{{(item.title).replace(' ', '_')}}"  align="center" >
+											<img src="{{item.image_link}}" width="100" height="150" align="center" >
 										{%else%}
 											<img src="/static/img/no_image_found.jpg" width="100" height="150" align="center" >
 										{%endif%}
 										</p>	
+										</a>
 										
 										<br>
 										<a href= "/{{item.type_name}}/{{item.item_id}}/{{(item.title).replace(' ', '_')}}"> <p align="center" > <strong> {{item.title}} </strong> <br> </p> </a>
