@@ -328,7 +328,7 @@ def itemlist_All_sorted(myfilter):
 		b = [ x[0] for x in a ]
 		return render_template('pages/all_items.html', typeslist=res_all_itemtypes, all_items=b, filter_requested=myfilter, displayRoles='yes')
 	else:
-		return render_template('pages/all_items.html', typeslist=res_all_itemtypes, all_items=getAllItems_WithFilter(db.session, Item, Itemtype, myfilter), filter_requested=myfilter, displayRoles='no')
+		return render_template('pages/all_items.html', typeslist=res_all_itemtypes, all_items=getAllItems_WithFilter(db.session, Notation, Item, Itemtype, myfilter), filter_requested=myfilter, displayRoles='no')
 
 # To display a requested list
 @app.route('/<itemtype_name>/<myfilter>', strict_slashes=False)
