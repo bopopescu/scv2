@@ -29,7 +29,7 @@
 							action="/{{myitem[1].type_name}}/{{myitem[0].item_id}}/{{(myitem[0].title).replace(' ', '_')}}/add"
 							method=post enctype=multipart/form-data>
 							<input type=file name=file> <input type=submit
-								value=Upload align="center">
+								value=Upload>
 						</form>
 						{% else %} <img src="{{image_link}}" width="200" height="300">
 						{%endif%} <br>
@@ -71,9 +71,9 @@
 								{%if someone.firstname is not none%}
 									{{(someone.firstname).replace(' ', '_')}}
 								{%endif%}
-								_
 								{%if someone.lastname is not none%}
-									{{(someone.lastname).replace(' ', '_')}}
+								_
+								{{(someone.lastname).replace(' ', '_')}}
 								{%endif%}"			     
 								>
 								{{someone.firstname}} {{someone.lastname}} </a> ,
