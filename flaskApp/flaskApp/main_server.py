@@ -273,7 +273,9 @@ def add_picture_Item(itemtype_name, myitemID,myItemTitle):
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'] + itemtype_name, filename))
                 add = 1
                 # return redirect(url_for('success',fileAdd="yes it has been added??"))
-                image_link = "/" + app.config['UPLOAD_FOLDER'] + itemtype_name + "/" + filename 
+                image_link = "/" + app.config['UPLOAD_FOLDER'] + itemtype_name + "/" + filename
+		myItemObject[0].image_link = image_link
+                db.session.commit()
                 return render_template('pages/item.html', add_res=add_res, user_note=user_note, add=add, image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants)
     else:
         return redirect('/')
