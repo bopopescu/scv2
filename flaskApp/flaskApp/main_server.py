@@ -334,7 +334,6 @@ def itemlist_All_sorted(myfilter):
 @app.route('/<itemtype_name>/<myfilter>', strict_slashes=False)
 def itemlist_Types(itemtype_name, myfilter):
 	mytypeID = getIdOfItemtype(db.session, Itemtype, itemtype_name)
-	
 	return render_template('pages/requested_list.html', typeslist=res_all_itemtypes, list_requested=getAllItemsOfThisIDType_WithFilter(db.session, Item, Itemtype, myfilter, mytypeID), filter_requested=myfilter, type_requested=itemtype_name.title())
 
 # #THIS IS DONE TWICE (IF URL /ITEMTYPE or /ITEMTYPE/)
@@ -370,7 +369,7 @@ def searchByKeywords():
 		
 		# x: list and y: true (Item) & false (Participant)
 		itemName = [db.session.query(Itemtype).filter(Itemtype.item_type_id == x.type_id).one().type_name if y else 'Participant' for (x, y) in temp ]
-		
+		 
 		# (details, item/participant)
 		res = list(zip(mylist, itemName))
 		
@@ -400,16 +399,16 @@ def redirToAllRoles():
 @app.route('/Roles/<nameofrole>', strict_slashes=False)
 def participantsOfThisROle(nameofrole): 
 	
-	participantsOfTheRole = db.session.query(Participant.participant_id, Participant.firstname, Participant.lastname).distinct(Participant.participant_id, Participation.participant_id).filter(and_(Participation.participant_id == Participant.participant_id, Participation.role == nameofrole)).all()
+	participantsOfTheRole = db.session.query(Participant.participant_id, Participant.firstname, Participant.lastname, Participant.picture_link).distinct(Participant.participant_id, Participation.participant_id).filter(and_(Participation.participant_id == Participant.participant_id, Participation.role == nameofrole)).all()
 	thefilter = "Here is the list of the " + nameofrole.lower() + "s you are searching for:"
 	res = []
 	finalres = []
 	
 	for each in participantsOfTheRole:
-		res = (each.participant_id, each.firstname, each.lastname, db.session.query(Itemtype.type_name, Participation.item_id, Item.title).distinct(Participation.participant_id).filter(Participation.participant_id == each.participant_id, Participation.item_id == Item.item_id, Item.type_id == Itemtype.item_type_id, Participation.role == nameofrole).all())
+		res = (each.participant_id, each.firstname, each.lastname, each.picture_link, db.session.query(Itemtype.type_name, Participation.item_id, Item.title).distinct(Participation.participant_id).filter(Participation.participant_id == each.participant_id, Participation.item_id == Item.item_id, Item.type_id == Itemtype.item_type_id, Participation.role == nameofrole).all())
 		finalres.append(res)
 	
-	# finalres structure: [participant_id, firstname, lastname, object]
+	# finalres structure: [participant_id, firstname, lastname, picture_link, object]
 	# and object = [ (typename1, item_id1, title1), (typename2, item_id2, title2), (typename3, item_id3, title3), ... ]
 	
 	# return str(finalres)

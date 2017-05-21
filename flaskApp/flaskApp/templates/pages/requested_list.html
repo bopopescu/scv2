@@ -28,8 +28,22 @@
 					<div class="panel-body">
 						<!--IF WE WANT ALL ROLES-->
 						{% if filter_requested|length > 15%} 
-							{%for (participant_id, firstname, lastname, object) in list_requested%}
-								<div class="col-sm-4">															
+							{%for (participant_id, firstname, lastname, picture_link, object) in list_requested%}
+								<div class="col-sm-4">
+								<div class="panel panel-default" >
+									<br>
+									
+									<p align="center">
+									<a  href= "/Roles/{{participant_id}}/{{firstname.replace(' ','_')}}_{{lastname.replace(' ','_')}}">
+									{%if picture_link|length > 1 %}
+										<img src="{{picture_link}}" width="100" height="150" align="center" >
+									{%else%}
+										<img src="/static/img/no_image_found.jpg" width="100" height="150" align="center" >
+									{%endif%}
+									</p>	
+									</a>
+										
+																								
 									<a href= "/Roles/{{participant_id}}/{{firstname.replace(' ','_')}}_{{lastname.replace(' ','_')}}"> <p align="center"> <strong> {{firstname}} {{lastname}} </strong> <br> </p> </a>
 									<p align="center" > <strong> As a {{type_requested.lower()}} in: </strong> 
 										{%for each in object%}
@@ -38,17 +52,29 @@
 									</p><br>
 										
 								</div>
-							
+								</div>
 							{%endfor%}
 						{%else%}
 						
-						<!--IF WE WANT A FILTERED ROLES-->
+						<!--IF WE WANT A FILTERED ITEM-->
 							{%if list_requested is not none%}
 								{%for item in list_requested%}
 									<div class="col-sm-4">
 										<div class="panel panel-default">
-									
-
+										<br>
+										
+										
+										<p align="center">
+										<a  href= "/{{item.type_name}}/{{item.item_id}}/{{(item.title).replace(' ', '_')}}">
+										{%if item.picture_link|length > 1 %}
+											<img src="{{item.picture_link}}" width="100" height="150" align="center" >
+										{%else%}
+											<img src="/static/img/no_image_found.jpg" width="100" height="150" align="center" >
+										{%endif%}
+										</p>	
+										</a>
+										
+										
 										<a href= "/{{item.type_name}}/{{item.item_id}}/{{(item.title).replace(' ', '_')}}"> <p align="center"> <strong> {{item.title}} </strong> <br> </p> </a>
 										<p align="center"> <strong> Review: </strong> {{item.mean}} </i> </p>
 										<p align="center"> <strong> Releasing date:</strong>
