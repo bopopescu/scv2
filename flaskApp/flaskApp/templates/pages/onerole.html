@@ -14,7 +14,11 @@
 			<div class="row page-header">
 				<!--image of the role-->
 				<div class="col-lg-3" align="center">
-					<img src="/static/images/role.jpg" width="200" height="300">
+						{%if mydetails.picture_link|length > 1%}
+					<img src={{mydetails.picture_link}} width="200" height="300">
+					{%else%}
+						<img src="/static/img/no_image_found.jpg" width="200" height="300">
+					{%endif%}
 				</div>
 				
 				
@@ -35,6 +39,14 @@
 							{%endif%}
 							<br> 
 							
+							<span class="glyphicon glyphicon-chevron-right" align="justify"></span>
+							<b> Death: </b>
+							{%if mydetails.deathdate%}									
+								{{ mydetails.deathdate.strftime('%Y-%m-%d') }}
+							{%else%}
+								Unknown
+							{%endif%}
+							<br> 
 							
 							<span class="glyphicon glyphicon-chevron-right" align="justify"></span>
 							<b> Main role(s): </b>
