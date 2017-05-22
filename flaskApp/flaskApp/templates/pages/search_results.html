@@ -40,7 +40,8 @@
 										{%if typeFound == 'Participant'%} 
 											{%if item is not none and item.firstname is not none and item.lastname is not none %}
 												<p align="center">
-												<a  href= "/Roles/{{item.participant_id}}/{{(item.firstname).replace(' ', '_')}}_{{(item.lastname).replace(' ', '_')}}"> <p align="center">
+												<a  href= "/Roles/{{item.participant_id}}/{{(item.firstname).replace(' ', '_')}}_{{(item.lastname).replace(' ', '_')}}">
+												<p align="center">
 												{%if item.picture_link|length > 1 %}
 													<img src="{{item.picture_link}}" width="100" height="150" align="center" >
 												{%else%}
@@ -48,6 +49,7 @@
 												{%endif%}
 												</p>
 												</a>
+												</p>
 												
 												
 												
