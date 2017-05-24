@@ -135,7 +135,7 @@ $(document).ready(function(){
    var dtn=DateNais; 
     var an=dtn.substr(0,4);
     var mois=dtn.substr(5,2)-1;
-    var day= dtn.substr(8,2)-14; 
+    var day= dtn.substr(8,2); 
     var age=td.getFullYear()-an; 
     
     var mMois=td.getMonth()-mois; 
@@ -148,7 +148,7 @@ $(document).ready(function(){
     {
         if(mMois == 0)
         {
-            var mDate=td.getDay()-day;
+            var mDate=td.getDate()-day;
             if(mDate < 0)
             {
                 age=age-1;
