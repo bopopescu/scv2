@@ -174,7 +174,7 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
     myNbReviews = db.session.query(Notation).filter(Notation.item_id == myitemID).count()
     myfile = '0'
     if not os.path.exists('static/images/' + itemtype_name + '/'):
-        image_link = "noo"
+        image_link = "no"
     else :
         for file in os.listdir('static/images/' + itemtype_name + '/'):
             if fnmatch.fnmatch(file, '*' + myItemTitle + '*.*'):
