@@ -26,8 +26,7 @@
 						<h1 style="font-weight: bold;">Finalités
 						</h1>
 						<p>
-						Dans le cadre de la formation en WEB à l’INSA de Lyon, nous avons conçu ce site afin de donner l’occasion d’élargir les systèmes de notation que l’on pourrait rencontrer sur d’autres plateformes tels que allociné, sens critique, etc. 
-L’objectif de ce site est de permettre la notation de tout type d’objet. Cela peut tout aussi bien être des films, des voitures, des smartphones, … Voire même les projets WEB que chaque groupe d’étudiants a pu mettre en place.  Nous avons souhaité rendre le site le plus adaptable possible. C’est justement de là que le nom d’INSCALE est issu, à partir de cette notion de “scalability”. Nous avions fait le choix de mettre tout le site en anglais, pour une plus grande aisance.
+						Dans le cadre de la formation en WEB à l’INSA de Lyon, nous avons conçu ce site afin de donner l’occasion d’élargir les systèmes de notation que l’on peut rencontrer sur d’autres plateformes tels que allociné, sens critique, etc. L’objectif de ce site est de permettre la notation de tout type d’objet. Cela peut tout aussi bien être des films, des voitures, des smartphones, … Voire même les projets WEB que chaque groupe d’étudiants a pu mettre en place.  Nous avons souhaité rendre le site le plus adaptable possible. C’est de là que le nom d’INSCALE est issu, justement à partir de cette notion de “scalability”. Nous avions fait le choix de mettre tout le site en anglais, pour une plus grande aisance.
 
 						
 						</p>
@@ -36,51 +35,61 @@ L’objectif de ce site est de permettre la notation de tout type d’objet. Cel
 						
 						<h2> Différentes tables</h2>
 						<p>L’énoncé qui va suivre va permettre d’expliquer d’une part l’intérêt du site WEB, et d’autre part d’énumérer les tables relationnelles mises en jeu au sein du projet (en souligné, italique).
-La conception de notre base de données s’est faite à partir du besoin même du user. Vous aimeriez attribuer des “reviews” sur un item donné? Il faut aller le chercher soit par la barre de recherche, soit la trouver dans la liste des itemtypes qui vous est fournie sur la barre latérale du site. Vous avez l’occasion de noter un item avec des étoiles, pouvant valoir de 0.5 à 5, avec accessoirement l’ajout d’un commentaire. Le but de ce site est surtout de partager son avis sur un item, donc pour identifier cette notation, on y attribue l’id de l’user qui l’a posté. Chaque user ne peut poster qu’un commentaire, mais a toutefois l’occasion de modifier son avis autant qu’il le veut. Si le user voudrait une liste de participants (un artiste, un acteur, un scénariste, une entreprise, …), il a également à disposition la section Roles dans la barre latérale du site. Cela permet à l’utilisateur d’accéder par recherche via mot-clés ou par suggestions sur la barre latérale, les participants d’un item donné. Un participant peut avoir participé au même item en ayant des rôles différents, ou avoir le même rôle (en tant qu’acteur, par exemple) dans plusieurs items différents. Tout ceci est géré grâce à la table intermédiaire participation, qui exige d’une part l’id de l’item concerné, et d’autre part l’id du participant.
 						</p>
+						
+						<p>	
+						La conception de notre base de données s’est faite à partir du besoin même du <u><i> user </i></u>. Vous aimeriez attribuer des “reviews” sur un <u><i> item  </i></u> donné? Il faut aller le chercher soit par la barre de recherche, soit la trouver dans la liste des <u><i> itemtypes </i></u> qui vous est fournie sur la barre latérale du site. Vous avez l’occasion de noter un item avec des étoiles, pouvant valoir de 0.5 à 5, avec accessoirement l’ajout d’un commentaire. Le but de ce site est surtout de partager son avis sur un item, donc pour identifier cette <u><i> notation </i></u>, on y attribue l’id de l’user qui l’a posté. Chaque user ne peut poster qu’un commentaire, mais a toutefois l’occasion de modifier son avis autant qu’il le veut. Si le user voudrait une liste de participants (un artiste, un acteur, un scénariste, une entreprise, …), il a également à disposition la section All Roles, dans la catégorie All Types, au sein de la barre latérale du site. Cela permet à l’utilisateur d’accéder à la liste des participants d’un item donné, ou des rôles possibles au sein du site. Il peut par exemple taper dans la barre de recherche “scriptwriter”, et il  aura à sa disposition une liste de personnes qui ont déjà eu ce rôle dans un item donné (de type film par exemple). Un <u><i> participant </i></u> peut avoir participé au même item en ayant des rôles différents, ou avoir le même rôle (en tant qu’acteur, par exemple) dans plusieurs items différents. Tout ceci est géré grâce à la table intermédiaire <u><i> participation</i></u>, qui exige d’une part l’id de l’item concerné, et d’autre part l’id du participant.
+						</p>
+						
 						<p>
-							Nous avons ci-dessous la liste des tables utilisées pour la version actuelle. Certaines tables sont encore inexploitées, étant données que de nouvelles versions pourraient venir prochainement. <br />
-  					      <img src="static/images/database.png" alt="Database" style="max-width:100%"/>
+						Nous avons ci-dessous la liste des tables utilisées pour la version actuelle. Certaines tables sont encore inexploitées, étant données que de nouvelles versions pourraient venir prochainement. 
+						<br>	
+  					      	<img src="static/images/database.png" alt="Database" style="max-width:100%"/>
 						</p>
 						
 						<h2> Formes Normales</h2>
-						<p>Pour pouvoir mieux comprendre le fonctionnement réel du site, référons nous au schéma relationnel ci-dessus.
-Considérons la table item, située finalement au centre de ce projet. Elle possède un champ id en guise de clé principale: nombre en incrémentation automatique. Elle appartient à une catégorie d’itemtype, elle-même constituant une autre table et possédant une clé. Elle respecte la FNBC, puisqu’il n’existe pas de sous-liste au sein de la table en elle-même, et seule la clé de la table permet d’identifier un item. Elle a pour clé étrangère celle de la table itemtype, qui par ailleurs fournit le nom en string de la catégorie.
+						<p>
+						Pour pouvoir mieux comprendre le fonctionnement réel du site, référons nous au schéma relationnel ci-dessus.
+						Considérons la table <strong> item </strong>, située finalement au centre de ce projet. Elle possède un champ id en guise de clé principale: c’est un nombre en incrémentation automatique. Elle appartient à une catégorie d’<strong> itemtype</strong>, elle-même constituant une autre table et possédant une clé qui est étrangère à la table d’item. Il n’existe pas de sous-liste au sein des tables citées précédemment, et seule la clé de la table en question permet d’identifier un item. Le nom en string de la catégorie est donnée en tant que champ de la table itemtype, afin d’éviter que toute faute d’orthographe crée de nouvelles catégories dans la table item. Ces deux tables respectent la FNBC.
 						</p>
-						<p>Pour ce qui concerne la table user, on aurait pu considérer le username en tant que clé de la table, mais il a été également préférable de faire le choix des nombres automatiquement incrémentés. Toutes les informations du user sont dans des champs non-clés de la table, ne constituant aucunement un liste: c’est également une FNBC. Il est également à noter que le champ qui correspond au mot de passe de l’utilisateur est hashé, afin de lui assurer une sécurité maximale sur le site, (à part la mention https). Un système de cryptage a été disponible par le module flask que l’on a choisi, et qui permettait également l’envoi automatique à l’adresse mail fourni, pour la confirmation du compte.
-
+						
+						<p>
+						Pour ce qui concerne la table <strong> user</strong>, on aurait pu considérer le username en tant que clé de la table, mais nous avons une fois de plus fait le choix des nombres automatiquement incrémentés. Toutes les informations du user sont dans des champs non-clés de la table, ne constituant aucunement une liste, et toutes les dépendances fonctionnelles sont élémentaires: c’est également une FNBC. Il est également à noter que le champ qui correspond au mot de passe de l’utilisateur est hashé, afin de lui assurer une sécurité maximale sur le site (à part la mention https).
+						</p>	
+						
+						<p>Entre l’utilisateur et l’objet, il y a la <strong>notation</strong>. Elle permet à tout utilisateur loggé et confirmé de laisser son avis sur l’objet. Cette table permet de notamment retrouver la liste des items que l’utilisateur a noté, ou de la liste des notations effectuées sur un même item. Chaque couple de clés étrangères (clé user, clé notation) est identifié par la clé principale de la table, toujours en incrémentation automatique. Un enregistrement de cette table est donc unique de l’utilisateur et de l’item noté. Cela permet justement d’éviter qu’une même personne ne donne son avis deux fois, mais qu’éventuellement il puisse apporter des modifications à son review s’il le souhaite.
+						Pour rendre un avis authentique, nous avons également pensé à mettre un système de vote sur les avis d’un objet, afin que celui qui se retrouve sur la page de reviews pour avoir une référence “démocratique” sur l’objet en question.
 						</p>
-						<p>Entre l’utilisateur et l’objet, il y a la notation. Elle permet à tout utilisateur loggé et confirmé de laisser son avis sur l’objet. Cette table permet de notamment retrouver la liste des items que l’utilisateur a noté, ou de la liste des notations effectuées sur un même item. Chaque couple de clés étrangères (clé user, clé notation) est identifié par la clé principale de la table, toujours en incrémentation automatique. Un enregistrement de cette table est donc unique de l’utilisateur et de l’item noté. Cela permet justement d’éviter qu’une même personne ne donne son avis deux fois, mais qu’éventuellement il puisse apporter des modifications à son review s’il le souhaite.
-Pour rendre un avis authentique, nous avions également pensé à mettre un système de vote sur les avis d’un objet, afin que celui qui se retrouve sur la page de reviews pour avoir une référence “démocratique” sur l’objet en question.
+						
+						<p>Enfin, pour ce qui concerne la table <strong>participant</strong>, la conception est assez analogue à la relation entre l’utilisateur et l’item, puisqu’il existe la table intermédiaire <strong>participation</strong> qui permet de lier item et participant. Chaque tuple (item, participant, role) Le participant est lié à un ou plusieurs items, et possède un ou plusieurs rôles au sein d’un même item.
+						Pour les améliorations futures, nous avions déjà mis en place une structure qui permettrait à l’utilisateur d’identifier les items qui lui seraient potentiellement intéressants, notamment par le biais des tables <strong>tag</strong> et <strong>interest</strong>. Nous avions pensé qu’un utilisateur puisse posséder comme intérêt personnel: un tag (donc un mot clé lié à un item), ou directement un item donné. Cela permettrait plus tard de fournir des suggestions d’items à l’utilisateur qui possède à un pourcentage près, les mêmes intérêts qu’un autre utilisateur.
 						</p>
-						<p>Enfin, pour ce qui concerne la table participant, la conception est assez analogue à la relation entre l’utilisateur et l’item, puisqu’il existe la table intermédiaire participation qui lui permet d’être lié à l’item auquel il a participé. Le participant est lié à un ou plusieurs items, et possède un ou plusieurs rôles au sein d’un même item.
-Pour les améliorations futures, nous avions déjà mis en place une structure qui permettrait à l’utilisateur d’identifier les items qui lui seraient potentiellement intéressants, notamment par le biais des tables tag et interest. 
-						</p>
+						
 						<h2> ORM</h2>
-						<p>Afin de réduire les contraintes associées au développement, garder une certaine flexibilité dans celui-ci, et plus particulièrement de garantir la simplicité et la compacité du code, nous avons opté pour SQLAlchemy.   ainsi que pour adapter la manipulation de notre modèle compatible avec certaines extensions du framework Flask
+						<p>Afin de réduire les contraintes associées au développement, garder une certaine flexibilité dans celui-ci, et plus particulièrement de garantir la simplicité et la compacité du code, nous avons opté pour SQLAlchemy. Pour adapter la manipulation de notre modèle compatible, nous avons fait recours à certaines extensions du framework Flask, afin que les requêtes effectuées nous renvoient des objets itérables python dont les champs sont ceux sélectionnés dans la base.
 						</p>
 						
 						<h2> Stockage de photos</h2>
-						<p>Nous donnons la possibilité à l’utilisateur de gérer sa photo de profil. Il suffit d’aller sur sa page de profil en étant connecté. Si aucune photo n’est présente, un bouton Parcourir est affiché afin de rechercher une photo dans ses dossiers personnels. Une fois celle-ci sélectionnée et envoyée dans la base de donnée, elle sera affichée sur la page de profil, et il sera possible de la modifier si besoin. 
-Cela est possible grâce à des instructions python dans le back-end. C’est Python qui crée l'arborescence des fichiers dans le disque dur.   
+						<p>Nous donnons la possibilité à l’utilisateur de gérer sa photo de profil. Il suffit d’aller sur sa page de profil en étant connecté. Si aucune photo n’est présente, un bouton Parcourir est affiché afin de rechercher une photo dans ses dossiers personnels. Une fois celle-ci sélectionnée et envoyée dans la base de données, elle sera affichée sur la page de profil, et il sera possible de la modifier si besoin. 
+						Le système de fichiers est possible grâce à des instructions python situé dans le back-end. C’est Python qui crée automatiquement l'arborescence des fichiers dans le disque dur.
+
 						</p>
 						<br>
 						
 						<h1 style="font-weight: bold;"> Controller : Flask</h1>
 						<h2>URL Mapping</h2>
 						<p>
-							Notre site se veut REST. À ce titre les URLs doivent être explicites et refléter notre gestion des données. 
-
+							Notre site se veut REST. À ce titre, les URLs doivent être explicites et refléter notre gestion des données. 
+ 
+							Le lien d’une page d’un item est défini avec des variables dans Flask : <i> /itemtype_name/int:myitemID/myItemTitle </i>
+							Où itemtype_name est le type de l’item (Movies, Books..), myitemID est  l’ID identifiant un item et myItemTitle le titre de l’item.
 						</p>
-						<p>
-							Le lien d’une page d’un item est défini avec des variables dans Flask :
-						/<itemtype_name>/<int:myitemID>/<myItemTitle>/
-Où itemtype_name est le type de l’item (Movies, Books..), myitemID est  l’ID identifiant un item et myItemTitle le titre de l’item. 
-						</p>
+						
+						
 						<p>
 							Par exemple cela peut donner : 
-/Books/24/Bengal_Nights
-Ici nous somme sur la page du  livre “Bengal Nights”. Nous mettons l’ID dans l’URL car le nom de l’item n’est pas clé de la relation. IL est alors envisageable que 2 items différents partagent le même titre.  De cette façon l’utilisateur sait facilement ou il se trouve dans le site Web.
+							<i> /Books/24/Bengal_Nights </i>
+							Ici nous somme sur la page du  livre “Bengal Nights”. Nous mettons l’ID dans l’URL car le nom de l’item n’est pas clé de la relation. IL est alors envisageable que 2 items différents partagent le même titre.  De cette façon l’utilisateur sait facilement ou il se trouve dans le site Web.
 						</p>
 						<p>
 							Nous gérons également les erreurs http 404, 403 et 400. L’utilisateur est automatiquement transféré sur une page d’item. 
@@ -98,7 +107,12 @@ Jinja utilise une syntaxe simple et peut communiquer avec notre application Flas
 						</p>
 						<p>Certaines actions sont limités en droits. Si un utilisateur souhaite ajouter un commentaire ou une image de présentation pour un item il doit être loggé. S’il ne l’est pas il sera redirigé vers une page de connexion.
 						</p>
+						
+						<h2>Mise à jour de la base de données</h2>
+						<p>L’ajout des enregistrements au sein de chaque table de la base de donné a été amplement simplifié par phpmyadmin et la plateforme github. De ce fait, toutes les ressources dont le site a besoin est rechargé depuis notre répertoire de travail github, à une fréquence plutôt élevée. 
+						</p>
 						<br>
+						
 						<h1 style="font-weight: bold;">View</h1>
 						<p>Notre interface graphique utilise le framework Bootstrap. Nous avons décidé d’utiliser Bootstrap pour simplifier le front-end. Nous avons choisi un template Bootstrap gratuit pour nous servir de base, puis nous l’avons modifié visuellement pour nos besoin. Bootstrap fut aussi un choix important car il gère nativement l’adaptation des pages en fonctions des écrans. Le fait que l’application soit responsive était une priorité pour notre site. 
 						</p>
