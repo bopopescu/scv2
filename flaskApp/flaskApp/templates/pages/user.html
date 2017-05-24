@@ -5,27 +5,28 @@
 	<div id="page-wrapper">
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Mon beau profil</h1>
+				<h1 class="page-header">Userpage</h1>
 			</div>
 		</div>
 
 		<script type="text/javascript">
-$(document).ready(function(){    
-    //Check if the current URL contains '#'
-    if(document.URL.indexOf("#")==-1){
-        // Set the URL to whatever it was plus "#".
-        url = document.URL+"#";
-        location = "#";
+			$(document).ready(function() {
+				//Check if the current URL contains '#'
+				if (document.URL.indexOf("#") == -1) {
+					// Set the URL to whatever it was plus "#".
+					url = document.URL + "#";
+					location = "#";
 
-        //Reload the page
-        location.reload(true);
-    }
-});
-</script>
+					//Reload the page
+					location.reload(true);
+				}
+			});
+		</script>
 		<div class="row">
 			<div class="col-lg-2">
 				<div class="page-header" style="margin-top: 0%">
-					{% if image_link == "no" %} {% if current_user.id|string() == page_user_id|string() %}
+					{% if image_link == "no" %} {% if current_user.id|string() ==
+					page_user_id|string() %}
 					<p>
 
 						No avatar:( <br> Do you want to add one ?
@@ -42,15 +43,16 @@ $(document).ready(function(){
 							src="{{image_link}}" width="200" height="300"> {% if
 						current_user.id == page_user_id %}
 						<script type="text/javascript">
-            function changeAvatar() {
+							function changeAvatar() {
 
-                var b1 = document.getElementById('b1');
+								var b1 = document.getElementById('b1');
 
-                if(b1.onclick="changeText();") {
-                    document.getElementById('form_change_avatar').innerHTML = " <form action='/user/{{user.id}}/add' method=post enctype=multipart/form-data> <input type=file name=file> <input type=submit value=Upload></form> ";
-                }
-            }
-            </script>
+								if (b1.onclick = "changeText();") {
+									document
+											.getElementById('form_change_avatar').innerHTML = " <form action='/user/{{user.id}}/add' method=post enctype=multipart/form-data> <input type=file name=file> <input type=submit value=Upload></form> ";
+								}
+							}
+						</script>
 						<input type="button" value="Change my avatar" id="b1"
 							onclick="changeAvatar();" />
 					<p id="form_change_avatar"></p>
@@ -61,10 +63,10 @@ $(document).ready(function(){
 
 			</div>
 			<div class="col-lg-6">
-				<h1>
-					{% if user.username %} {{user.username}} , <span id="Age"></span>
-					ans {% else %} WTF : Tu n'as pas de username {% endif %}
-				</h1>
+				<h2>
+					{% if user.username %} {{user.username}} <span id="Age"></span>
+					{%else %} WTF : Tu n'as pas de username {% endif %}
+				</h2>
 				<p>@ : {{user.email}}</p>
 
 			</div>
@@ -126,35 +128,30 @@ $(document).ready(function(){
 </div>
 </div>
 <SCRIPT LANGUAGE="JavaScript">
-  
-    var td=new Date();
-     //DateNais=document.getElementById("DateNais").innerHTML;    
-     DateNais="{{user.birthdate}}"
-   var dtn=DateNais; 
-    var an=dtn.substr(0,4);
-    var mois=dtn.substr(5,2)-1;
-    var day= dtn.substr(8,2); 
-    var age=td.getFullYear()-an; 
-    
-    var mMois=td.getMonth()-mois; 
-     
-    if(mMois < 0)
-    {
-        age=age-1; 
-    }  
-    else
-    {
-        if(mMois == 0)
-        {
-            var mDate=td.getDate()-day;
-            if(mDate < 0)
-            {
-                age=age-1;
-            }
-             
-        }
-    }
- 
-    document.getElementById("Age").innerHTML=age; 
-        </script>
+	var td = new Date();
+	//DateNais=document.getElementById("DateNais").innerHTML;    
+	DateNais = "{{user.birthdate}}";
+		var dtn = DateNais;
+		var an = dtn.substr(0, 4);
+		var mois = dtn.substr(5, 2) - 1;
+		var day = dtn.substr(8, 2);
+		var age = td.getFullYear() - an;
+
+		var mMois = td.getMonth() - mois;
+
+		if (mMois < 0) {
+			age = age - 1;
+		} else {
+			if (mMois == 0) {
+				var mDate = td.getDate() - day;
+				if (mDate < 0) {
+					age = age - 1;
+				}
+
+			}
+		}
+		if (mois>0) {
+		document.getElementById("Age").innerHTML =" : "+age+" ans";
+		}
+</script>
 {% endblock %}
