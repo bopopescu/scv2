@@ -25,8 +25,7 @@ $(document).ready(function(){
 		<div class="row">
 			<div class="col-lg-2">
 				<div class="page-header" style="margin-top: 0%">
-					{% if image_link == "no" %} {% if current_user.id == page_user_id
-					%}
+					{% if image_link == "no" %} {% if current_user.id|string() == page_user_id|string() %}
 					<p>
 
 						No avatar:( <br> Do you want to add one ?
@@ -41,8 +40,7 @@ $(document).ready(function(){
 						This user has no image, do you want to tell him ? <br> @ : <strong>
 							{{current_user.email}} </strong> {% endif %} {% else %} <img
 							src="{{image_link}}" width="200" height="300"> {% if
-						current_user.id == page_user_id %} <img src="{{image_link}}"
-							width="200" height="300">
+						current_user.id == page_user_id %}
 						<script type="text/javascript">
             function changeAvatar() {
 
