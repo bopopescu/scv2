@@ -26,44 +26,22 @@
 						<h1 style="font-weight: bold;">Finalités
 						</h1>
 						<p>
-						Dans le cadre de la formation en WEB à l’INSA de Lyon nous avons conçu ce site. 
-L’objectif de ce site est de permettre la notation de tout type d’objet. Cela peut tout aussi bien être des films que des voitures.  Nous avons souhaité rendre le site le plus adaptable possible. Le nom INSCALE est issu justement de cette notion de “scalability”. 
+						Dans le cadre de la formation en WEB à l’INSA de Lyon, nous avons conçu ce site afin de donner l’occasion d’élargir les systèmes de notation que l’on pourrait rencontrer sur d’autres plateformes tels que allociné, sens critique, etc. 
+L’objectif de ce site est de permettre la notation de tout type d’objet. Cela peut tout aussi bien être des films, des voitures, des smartphones, … Voire même les projets WEB que chaque groupe d’étudiants a pu mettre en place.  Nous avons souhaité rendre le site le plus adaptable possible. C’est justement de là que le nom d’INSCALE est issu, à partir de cette notion de “scalability”. Nous avions fait le choix de mettre tout le site en anglais, pour une plus grande aisance.
+
 						
 						</p>
 						
 						<h1 style="font-weight: bold;"> Structure de données</h1>
+						
+						<h2> Différentes tables</h2>
+						<p>L’énoncé qui va suivre va permettre d’expliquer d’une part l’intérêt du site WEB, et d’autre part d’énumérer les tables relationnelles mises en jeu au sein du projet (en souligné, italique).
+La conception de notre base de données s’est faite à partir du besoin même du user. Vous aimeriez attribuer des “reviews” sur un item donné? Il faut aller le chercher soit par la barre de recherche, soit la trouver dans la liste des itemtypes qui vous est fournie sur la barre latérale du site. Vous avez l’occasion de noter un item avec des étoiles, pouvant valoir de 0.5 à 5, avec accessoirement l’ajout d’un commentaire. Le but de ce site est surtout de partager son avis sur un item, donc pour identifier cette notation, on y attribue l’id de l’user qui l’a posté. Chaque user ne peut poster qu’un commentaire, mais a toutefois l’occasion de modifier son avis autant qu’il le veut.  Nous avons ci-dessous la liste des tables utilisées pour la version actuelle. Certaines tables sont encore inexploitées, étant données que de nouvelles versions pourraient venir prochainement. 
+						</p>
 						<p>
 							Voici la stucture de la base de données:<br />
   					      <img src="static/images/database.png" alt="Database" />
 						</p>
-						<h2> Différentes tables</h2>
-						<p>L’énoncé qui va suivre va permettre d’expliquer d’une part l’intérêt du site WEB, et d’autre part d’énumérer les tables relationnelles mises en jeu au sein du projet (en souligné, italique).
-La conception de notre base de données s’est faite à partir du besoin même de l’utilisateur. Vous aimeriez attribuer des “reviews” sur un item donné? Il faut aller le chercher soit par la barre de recherche, soit la trouver dans la liste des itemtypes qui vous est fournie sur la barre latérale du site. Vous avez l’occasion de noter un item avec des étoiles, pouvant valoir entre 0.5 à 5, avec accessoirement l’ajout d’un commentaire. Le but de ce site est surtout de partager son avis sur un item, donc pour identifier une notation, on y attribue l’id du user qui l’a posté, celui Vous aimeriez ajouter des informations sur votre propos?
-						</p>
-						<ul>
-
-  						  <li>Utilisateur : </li>
-						  <li>Item : </li>
- 						  <li>ItemType : </li>
-						  <li>Notation : </li>
-  						  <li>Participants : </li>
-						  <li>Participation : </li>
-						
-
-						</ul>
-						<p>Celles pour les améliorations futures:</p>
-						<ul>
-
-  						  <li>Voting : </li>
-						  <li>Tags : </li>
- 						  <li>Intérêts : </li>
-						  <li>Distinctions : </li>	
-
-						</ul>
-						
-						
-   					
-
 						
 						<h2> Formes Normales</h2>
 						
