@@ -1,0 +1,69 @@
+
+{% extends "layout.html" %}
+{% block body %}
+    <div id="wrapper">
+ 
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">ERROR 404</h1>
+			</div>
+			<!-- /.col-lg-12 -->
+		</div>
+		
+		
+		
+		<div class="row">
+			<div class="col-lg-12">
+				<!-- /.panel -->
+				<!-- /.panel -->
+				<div class="panel panel-green">
+					<div class="panel-heading">
+						<label>
+							Oops! You're not supposed to be here...
+						</label>
+					</div>
+					<!-- /.panel-heading -->
+					
+					
+					<div class="panel-body">
+					                <figure>
+                    <img id="img_link" src="/static/error/404.png" alt="an image of dead Link" style="opacity: 0; max-width: 100%;" height="120" width="265">
+                    <figcaption>You found a dead Link!</figcaption>
+                </figure>
+                <br>
+						It seems that the page you are looking for is not available.<br>
+						<a href="/"> Go back to home.</a>
+					</div>
+					<!-- /.panel-body -->
+					
+					
+				</div>
+				<!-- /.panel -->
+			</div>
+			<!-- /.col-lg-12 -->
+			
+		</div>
+		<!-- /.row -->
+	</div>
+	<!-- /#page-wrapper -->
+        </div>
+    </div>
+    <!-- /#wrapper -->
+<script>
+var myImg = document.getElementById('img_link');
+
+function anim() {
+
+    var s = myImg.style,
+        result = s.opacity = parseFloat(s.opacity) + 0.01; 
+ 
+    if (result < 1) {
+        setTimeout(anim, 30); 
+    }
+
+}
+
+anim();
+</script>
+{% endblock %}

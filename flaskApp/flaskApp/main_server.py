@@ -127,7 +127,7 @@ def userPage(user_id):
         
         if myfile == '0' :
             image_link = "no"
-    return render_template('pages/user.html', image_link=image_link, user=myUserObject, typeslist=res_all_itemtypes)
+    return render_template('pages/user.html', image_link=image_link, user=myUserObject, typeslist=res_all_itemtypes,page_user_id=user_id)
 
 @app.route('/user/<user_id>/add', methods=['GET', 'POST'], strict_slashes=False)
 def add_picture_User(user_id):
@@ -228,6 +228,9 @@ def description_Item(itemtype_name, myitemID, myItemTitle):
             user_note = q.one()
     return render_template('pages/item.html', image_link=image_link, typeslist=res_all_itemtypes, myitem=myItemObject, myparticipants=myItemPartcipants, add_res=add_res, user_note=user_note, myNbReviews=myNbReviews)
          
+@app.route('/doc/', strict_slashes=False)
+def doc():
+    return render_template('pages/doc.html')
 
 @app.route('/<itemtype_name>/<int:myitemID>/<myItemTitle>/reviews', methods=['GET', 'POST'], strict_slashes=False)
 def allnotes_Item(itemtype_name, myitemID, myItemTitle):
@@ -464,11 +467,11 @@ def OneRole_ItemTypeName(mytypeName, myrole):
 # Handling error
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('pages/error.html', typeslist=res_all_itemtypes)
+    return render_template('pages/error404.html', typeslist=res_all_itemtypes)
 
 @app.errorhandler(403)
 def page_not_found(e):
-    return render_template('pages/error.html', typeslist=res_all_itemtypes)
+    return render_template('pages/error403.html', typeslist=res_all_itemtypes)
 
 @app.errorhandler(400)
 def page_not_found(e):
