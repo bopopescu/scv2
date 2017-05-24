@@ -31,6 +31,84 @@ L’objectif de ce site est de permettre la notation de tout type d’objet. Cel
 						
 						</p>
 						
+						<h1> Structure de données</h1>
+						<h2> Différentes tables</h2>
+						
+						<h2> Formes Normales</h2>
+						
+						<h2> ORM</h2>
+						<p>Afin de réduire les contraintes associées au développement, garder une certaine flexibilité dans celui-ci, et plus particulièrement de garantir la simplicité et la compacité du code, nous avons opté pour SQLAlchemy.   ainsi que pour adapter la manipulation de notre modèle compatible avec certaines extensions du framework Flask
+						</p>
+						
+						<h2> Stockage de photos</h2>
+						<p>Nous donnons la possibilité à l’utilisateur de gérer sa photo de profil. Il suffit d’aller sur sa page de profil en étant connecté. Si aucune photo n’est présente, un bouton Parcourir est affiché afin de rechercher une photo dans ses dossiers personnels. Une fois celle-ci sélectionnée et envoyée dans la base de donnée, elle sera affichée sur la page de profil, et il sera possible de la modifier si besoin. 
+Cela est possible grâce à des instructions python dans le back-end. C’est Python qui crée l'arborescence des fichiers dans le disque dur.   
+						</p>
+						<br>
+						
+						<h1> Controller : Flask</h1>
+						<h2>URL Mapping</h2>
+						<p>
+							Notre sit se veut REST. À ce titre les URLs doivent être explicites et refléter notre gestion des données. 
+
+						</p>
+						<p>
+							Le lien d’une page d’un item est défini avec des variables dans Flask :
+						/<itemtype_name>/<int:myitemID>/<myItemTitle>/
+Où itemtype_name est le type de l’item (Movies, Books..), myitemID est  l’ID identifiant un item et myItemTitle le titre de l’item. 
+						</p>
+						<p>
+							Par exemple cela peut donner : 
+/Books/24/Bengal_Nights
+Ici nous somme sur la page du  livre “Bengal Nights”. Nous mettons l’ID dans l’URL car le nom de l’item n’est pas clé de la relation. IL est alors envisageable que 2 items différents partagent le même titre.  De cette façon l’utilisateur sait facilement ou il se trouve dans le site Web.
+						</p>
+						<p>
+							Nous gérons également les erreurs http 404, 403 et 400. L’utilisateur est automatiquement transféré sur une page d’item. 
+						</p>
+							
+						<h2>Jinja</h2>
+						<p>Nous utilisons le moteur de templates Jinja pour générer des pages du côté serveur. 
+Jinja utilise une syntaxe simple et peut communiquer avec notre application Flask. Il est possible de donner des objets Flask pour les variables Jinja. 
+						</p>
+							
+						<h2>Gestion de l'utilisateur</h2>
+						<p>La gestion de l’utilisateur est un aspect central. En effet le site tire toute son utilité de par les notes que les utilisateurs donnent aux différents items. 
+						</p>
+						<p>Nous avons utilisé l’extension flask “flask_user”. Cette extension utilise entre autres les extensions “flask_login” et “flask_mail”. Grâce à cette extension nous pouvons gérer les utilisateurs de manière très sécurisée et complète. Ils peuvent changer de mot de passe, changer de nom d’utilisateur et recevoir un mail s’ils ont oublié leurs identifiants.  Les mots de passes sont par défaut hachés dans la base de donnée et l'utilisateur doit répondre à un mail de confirmation. Nous avons paramétré un compte gmail pour qu’il envoie ces mails. 
+						</p>
+						<p>Certaines actions sont limités en droits. Si un utilisateur souhaite ajouter un commentaire ou une image de présentation pour un item il doit être loggé. S’il ne l’est pas il sera redirigé vers une page de connexion.
+						</p>
+						<h2>Mise à jour de la base de données</h2>
+						<p>
+						</p>
+						<br>
+						<h1>View</h1>
+						<p>Notre interface graphique utilise le framework Bootstrap. Nous avons décidé d’utiliser Bootstrap pour simplifier le front-end. Nous avons choisi un template Bootstrap gratuit pour nous servir de base, puis nous l’avons modifié visuellement pour nos besoin. Bootstrap fut aussi un choix important car il gère nativement l’adaptation des pages en fonctions des écrans. Le fait que l’application soit responsive était une priorité pour notre site. 
+						</p>
+						<h2>Aspect responsive</h2>
+						<p>Aujourd’hui, il est important qu’un site soit responsive. En effet les utilisateurs ont l’habitude d’utiliser leur smartphones ou leur tablettes, et non plus seulement leur ordinateur. Le site doit donc s’adapter à la taille de l’écran. Notre site Web est entièrement responsive, le menu et la disposition des éléments sont modifiés, qu’on soit sur un ordinateur ou sur un téléphone portable. C’est bootstrap qui gère ce côté-ci du moment qu’on respecte sa forme pour coder le html, quelques modifications ont dû être apportées tout de même car nous avons beaucoup modifié le bootstrap pour qu’il réponde à nos attentes. 
+						</p>
+						<h2>Identité Visuelle</h2>
+						<p>L’identité visuelle est une notion que nous avons voulue respectée. Que ce soit les pages user, les pages participants ou celle de login, toutes respectent la même identité visuelle.
+						</p>
+						<p>Cette dernière se caractérise par sa sobriété, et par l’utilisation quasi exclusive de teintes de bleu. Nous avons par ailleurs utilisé beaucoup de cadres pour différencier les items et pour rendre le site plus ordonné. 
+						</p>
+						<h2>Notation par étoiles</h2>
+						<p>Comme sur de nombreux sites, nous avons décidés d’adopter une notation par étoile ce qui est plus intuitif et simple. Les étoiles sont faites en jQuery couplé au css, elles permettent de récupérer la notation envoyée depuis le client sur le serveur dans la base de donnée. Toute les notes sont regroupées par item et une moyenne est faite. Celle-ci est affiché sur la page de l’item et est actualisée à chaque nouvelle note d’un utilisateur.
+						</p>
+						<h2>Logo<h2>
+						<p>Le logo est à la fois un jeu de mot avec “scale” qui veut dire échelle en anglais et une référence à notre école avec l’utilisation de la même typographie. 
+						</p>
+						<br>
+						<h1>Gestion du serveur</h1>
+						<h2>Serveur Flask</h2>
+						<p>L’application tourne sur le serveur en tant qu’application Flask. Le serveur Flask est disponible sur le port 5000 de la machine. Le serveur Flask a certaines limites et n’est pas adapté à un déploiement du site. Il a du mal à gérer de nombreuses requêtes simultanées et le SSL. 
+						</p>
+						<h2>Serveur Apache</h2>
+						<p>Pour combler ces limitations nous avons utilisé Apache2. C’est Apache qui s’occupe de gérer les demandes de connexion sur le port 80(HTTP) et 443(HTTPS). Une fois que la connexion est acceptée, Apache fonctionne comme un proxy et redirige la requête sur le port 5000 de notre machine. 
+						</p>	
+							
+						
 					</div>
 					<!-- /.panel-body -->
 					
